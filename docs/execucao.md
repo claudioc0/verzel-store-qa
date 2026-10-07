@@ -14,10 +14,10 @@
 | Frete | 8 | 5 | 3 | 0 | 0 |
 | Quantidade | 7 | 5 | 1 | 0 | 1 |
 | Arredondamento | 2 | 2* | 0 | 0 | 0 |
-| Checkout | 8 | 7 | 1 | 0 | 0 |
-| API | 30 | 20 | 7 | 3 | 0 |
+| Checkout | 10 | 9 | 1 | 0 | 0 |
+| API | 31 | 20 | 7 | 4 | 0 |
 | Exploratório | 7 | 6 | 0 | 1 | 0 |
-| **Total** | **73** | **56** | **12** | **4** | **1** |
+| **Total** | **76** | **58** | **12** | **5** | **1** |
 
 Os 12 cenários com falha correspondem a **4 bugs** ([bugs.md](bugs.md)).
 \* CA11 verificado só parcialmente: a massa disponível não gera terceira casa decimal ([A9](ambiguidades.md#a9)).
@@ -81,7 +81,9 @@ Os 12 cenários com falha correspondem a **4 bugs** ([bugs.md](bugs.md)).
 | CT-CHK-05 | `/pedido-confirmado` sem pedido | ✅ | "Nenhum pedido recente" | [print](../evidencias/ui/CT-CHK-05.png) |
 | CT-CHK-06 | Pedido de R$ 200,00 + cupom | ❌ [BUG-01](bugs.md#bug-01) | Confirmado com frete R$ 19,90 e total R$ 199,90 (esperado R$ 180,00) | [checkout](../evidencias/ui/CT-CHK-06-checkout.png) [confirmado](../evidencias/ui/CT-CHK-06-confirmado.png) |
 | CT-CHK-07 | Dados válidos nas bordas (3 casos) | ✅ | Acentos e apóstrofo, hífen com 3+ nomes, `+` e subdomínio, espaços nas pontas: todos confirmados | [1](../evidencias/ui/CT-CHK-07-1.png) [2](../evidencias/ui/CT-CHK-07-2.png) [3](../evidencias/ui/CT-CHK-07-3.png) |
-| CT-CHK-08 | Clique duplo em "Confirmar pedido" | ✅ | Só 1 `POST /api/pedidos` enviado | [print](../evidencias/ui/CT-CHK-08.png) |
+| CT-CHK-08 | Clique duplo em "Confirmar pedido" | ✅ | Só 1 `POST /api/pedidos` enviado (contagem das requisições: `"envios": 1`) | [resultados.json](../evidencias/ui/resultados.json) (chave `CT-CHK-08`) · [print](../evidencias/ui/CT-CHK-08.png) |
+| CT-CHK-09 | Erro 422 da API exibido no formulário (cupom VERAO2026 / XYZ123 no armazenamento da aba) | ✅ | 422 CUPOM_EXPIRADO / CUPOM_INVALIDO; mensagem "Cupom expirado." / "Cupom inválido." com `role="alert"`; continua no checkout com o botão habilitado. Para seguir, o cliente precisa voltar ao carrinho e remover o cupom, porque o checkout não oferece essa opção | [VERAO2026](../evidencias/ui/CT-CHK-09-a.png) [XYZ123](../evidencias/ui/CT-CHK-09-b.png) |
+| CT-CHK-10 | Falha sem resposta da API (HTTP 500 sem corpo / conexão interrompida) | ✅ | "Não foi possível confirmar o pedido. Tente novamente."; campos preservados; botão habilitado; nova tentativa confirma o pedido | [500](../evidencias/ui/CT-CHK-10-a-erro.png) [500 → nova tentativa](../evidencias/ui/CT-CHK-10-a-nova-tentativa.png) [conexão](../evidencias/ui/CT-CHK-10-b-erro.png) [conexão → nova tentativa](../evidencias/ui/CT-CHK-10-b-nova-tentativa.png) |
 
 Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo."; "Maria" e "Maria S" → "Informe nome e sobrenome."; e-mail vazio → "Informe o e-mail."; e-mail mal formado → "Informe um e-mail válido."; CEP vazio → "Informe o CEP."; CEP com dígitos a mais ou a menos, ou com letras → "Informe um CEP com 8 dígitos.".
 
@@ -119,6 +121,7 @@ Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo.
 | CT-API-29 | Validação da lista de itens em `/api/pedidos` (7 casos) | ✅ | ITEM_DUPLICADO, ITENS_OBRIGATORIOS (vazia e ausente), ITEM_INVALIDO, PRODUTO_NAO_ENCONTRADO, QUANTIDADE_INVALIDA e JSON_INVALIDO, iguais a `/calcular` | [a](../evidencias/api/CT-API-29-a.json) [b](../evidencias/api/CT-API-29-b.json) [c](../evidencias/api/CT-API-29-c.json) [d](../evidencias/api/CT-API-29-d.json) [e](../evidencias/api/CT-API-29-e.json) [f](../evidencias/api/CT-API-29-f.json) [g](../evidencias/api/CT-API-29-g.json) |
 | CT-API-30 | Quantidade 1.000.000 | ❌ [BUG-02](bugs.md#bug-02) | Aceita nos dois endpoints; pedido VZ-972373 com total R$ 59.900.000,00 | [calcular](../evidencias/api/CT-API-30-a.json) [pedido](../evidencias/api/CT-API-30-b.json) |
 | CT-API-26 | Nome "Maria S" | ⚠️ | 422 "Informe nome e sobrenome.": dúvida para o PO ([A3](ambiguidades.md#a3)) | [json](../evidencias/api/CT-API-26.json) |
+| CT-API-31 | Nome com parte curta, dígitos ou pontuação | ⚠️ | "Maria S Silva", "Maria 12" e "Ma .." aceitos (201): a regra aceita qualquer 2 partes com 2+ caracteres ([A3](ambiguidades.md#a3)) | [a](../evidencias/api/CT-API-31-a.json) [b](../evidencias/api/CT-API-31-b.json) [c](../evidencias/api/CT-API-31-c.json) |
 
 ## Testes exploratórios
 

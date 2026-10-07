@@ -410,5 +410,44 @@ await cenario('EXP-07-teclado', async (p) => {
   };
 });
 
+
+// ---------- Caminhos de erro do checkout ----------
+for (const [sufixo, cupom] of [['a', 'VERAO2026'], ['b', 'XYZ123']]) {
+  await cenario(`CT-CHK-09-${sufixo}`, async (p) => {
+    // Cupom gravado direto no sessionStorage: a interface envia o pedido e a API deve recusar com 422.
+    await adicionar(p, 'Camiseta Essencial');
+    await p.evaluate((c) => sessionStorage.setItem('verzel-store:cupom', JSON.stringify(c)), cupom);
+    await p.goto(BASE + '/checkout');
+    await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+    const resposta = p.waitForResponse((r) => r.url().endsWith('/api/pedidos'));
+    await p.getByRole('button', { name: 'Confirmar pedido' }).click();
+    const r = await resposta;
+    await p.waitForTimeout(800); await print(p, `CT-CHK-09-${sufixo}`);
+    return { status: r.status(), erroApi: (await r.json()).erro, url: p.url(),
+      alertas: await p.locator('[role="alert"]').allInnerTexts(),
+      botaoHabilitado: await p.getByRole('button', { name: 'Confirmar pedido' }).isEnabled() };
+  });
+}
+for (const [sufixo, falha] of [['a', 'HTTP 500 sem corpo'], ['b', 'conexão interrompida']]) {
+  await cenario(`CT-CHK-10-${sufixo}`, async (p) => {
+    await adicionar(p, 'Camiseta Essencial');
+    await p.route('**/api/pedidos', (route) => (sufixo === 'a' ? route.fulfill({ status: 500, body: '' }) : route.abort('failed')));
+    await p.goto(BASE + '/checkout');
+    await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+    const botao = p.getByRole('button', { name: 'Confirmar pedido' });
+    await botao.click();
+    await p.locator('[role="alert"]').first().waitFor();
+    await print(p, `CT-CHK-10-${sufixo}-erro`);
+    const erro = { falhaSimulada: falha, url: p.url(), alertas: await p.locator('[role="alert"]').allInnerTexts(),
+      botaoHabilitado: await botao.isEnabled(), camposPreservados: await p.getByLabel(/nome/i).inputValue() };
+    // Nova tentativa com a API normal: o pedido deve ser confirmado.
+    await p.unroute('**/api/pedidos');
+    await botao.click();
+    await p.waitForURL('**/pedido-confirmado', { timeout: 10000 }).catch(() => {});
+    await print(p, `CT-CHK-10-${sufixo}-nova-tentativa`);
+    return { ...erro, urlAposNovaTentativa: p.url() };
+  });
+}
+
 writeFileSync(ARQUIVO, JSON.stringify(resultados, null, 2) + '\n');
 await browser.close();

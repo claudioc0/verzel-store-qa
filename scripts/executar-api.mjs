@@ -86,6 +86,10 @@ const casos = [
   ['CT-API-29-g', 'POST', '/api/pedidos', 'texto que não é JSON'],
   // Impacto do BUG-02: não existe teto de quantidade
   ['CT-API-30-a', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1000000)] }],
+  // Regra real do nome: pelo menos 2 partes com 2+ caracteres quaisquer; partes curtas são ignoradas
+  ['CT-API-31-a', 'POST', '/api/pedidos', { cliente: { ...cliente, nome: 'Maria S Silva' }, itens: [item('P001', 1)] }],
+  ['CT-API-31-b', 'POST', '/api/pedidos', { cliente: { ...cliente, nome: 'Maria 12' }, itens: [item('P001', 1)] }],
+  ['CT-API-31-c', 'POST', '/api/pedidos', { cliente: { ...cliente, nome: 'Ma ..' }, itens: [item('P001', 1)] }],
   ['CT-API-30-b', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 1000000)] }],
 ];
 

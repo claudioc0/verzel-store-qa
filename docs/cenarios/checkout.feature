@@ -84,3 +84,34 @@ Funcionalidade: Checkout e confirmação do pedido
     E dou um clique duplo em "Confirmar pedido"
     Então apenas uma requisição de pedido é enviada
     E sou levado para a página de pedido confirmado
+
+  @CT-CHK-09 @CA03 @CA04
+  Esquema do Cenário: Erro da API ao confirmar o pedido é exibido no formulário
+    Dado que meu carrinho tem o cupom "<cupom>" gravado no armazenamento da aba
+    # Simulado alterando "verzel-store:cupom" no sessionStorage, para forçar o envio do pedido com esse cupom
+    Quando confirmo o pedido com dados válidos
+    Então a API responde 422 com o código "<codigo>"
+    E vejo a mensagem "<mensagem>" no formulário
+    E continuo no checkout com o botão "Confirmar pedido" habilitado
+
+    Exemplos:
+      | cupom     | codigo         | mensagem        |
+      | VERAO2026 | CUPOM_EXPIRADO | Cupom expirado. |
+      | XYZ123    | CUPOM_INVALIDO | Cupom inválido. |
+
+  @CT-CHK-10
+  Esquema do Cenário: Falha sem resposta da API ao confirmar o pedido
+    Dado que a chamada a "/api/pedidos" vai falhar com <falha>
+    # Simulado interceptando a requisição no navegador (page.route)
+    Quando confirmo o pedido com dados válidos
+    Então vejo a mensagem "Não foi possível confirmar o pedido. Tente novamente."
+    E os dados preenchidos continuam no formulário
+    E o botão "Confirmar pedido" volta a ficar habilitado
+    Quando a API volta ao normal e clico em "Confirmar pedido" de novo
+    Então o pedido é confirmado
+
+    Exemplos:
+      | falha                |
+      | HTTP 500 sem corpo   |
+      | conexão interrompida |
+

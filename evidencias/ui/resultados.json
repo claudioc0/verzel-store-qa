@@ -799,5 +799,51 @@
     "mensagem": "Cupom inválido.",
     "roleMensagem": "alert",
     "ariaInvalid": "true"
+  },
+  "CT-CHK-09-a": {
+    "status": 422,
+    "erroApi": {
+      "codigo": "CUPOM_EXPIRADO",
+      "mensagem": "Cupom expirado.",
+      "campo": "cupom"
+    },
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+    "alertas": [
+      "Cupom expirado."
+    ],
+    "botaoHabilitado": true
+  },
+  "CT-CHK-09-b": {
+    "status": 422,
+    "erroApi": {
+      "codigo": "CUPOM_INVALIDO",
+      "mensagem": "Cupom inválido.",
+      "campo": "cupom"
+    },
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+    "alertas": [
+      "Cupom inválido."
+    ],
+    "botaoHabilitado": true
+  },
+  "CT-CHK-10-a": {
+    "falhaSimulada": "HTTP 500 sem corpo",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+    "alertas": [
+      "Não foi possível confirmar o pedido. Tente novamente."
+    ],
+    "botaoHabilitado": true,
+    "camposPreservados": "Maria Silva",
+    "urlAposNovaTentativa": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado"
+  },
+  "CT-CHK-10-b": {
+    "falhaSimulada": "conexão interrompida",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+    "alertas": [
+      "Não foi possível confirmar o pedido. Tente novamente."
+    ],
+    "botaoHabilitado": true,
+    "camposPreservados": "Maria Silva",
+    "urlAposNovaTentativa": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado"
   }
 }

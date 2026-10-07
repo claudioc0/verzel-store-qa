@@ -258,3 +258,15 @@ Funcionalidade: API da Verzel Store
   Cenário: Quantidade muito acima do limite
     Quando faço POST em "/api/carrinho/calcular" e em "/api/pedidos" com 1000000 "P001"
     Então a resposta tem status 422 e código "QUANTIDADE_MAXIMA_EXCEDIDA"
+
+  @CT-API-31
+  Esquema do Cenário: Regra do nome com partes curtas, dígitos e pontuação
+    Quando faço POST em "/api/pedidos" com o nome "<nome>"
+    Então registro o resultado para comparação com a regra "nome e sobrenome" (ver ambiguidades A3)
+
+    Exemplos:
+      | nome          |
+      | Maria S Silva |
+      | Maria 12      |
+      | Ma ..         |
+

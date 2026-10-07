@@ -65,7 +65,7 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 
 **Resultado esperado**
 - API: `422` com `{"erro":{"codigo":"QUANTIDADE_MAXIMA_EXCEDIDA", ...}}`.
-- Interface: impedir o checkout (ou ajustar a quantidade para 5) e, se o pedido for enviado, exibir o erro da API.
+- Interface: impedir o checkout (ou ajustar a quantidade para 5) e, se o pedido for enviado, exibir o erro da API. A interface já exibe a mensagem dos erros 422 da API no formulário (verificado em CT-CHK-09 com cupom expirado e inválido), então uma correção só na API já seria refletida na tela.
 
 **Resultado obtido**
 - API: `201`, pedido `VZ-637006` criado com 6 unidades (subtotal R$ 359,40). No cálculo do carrinho, `200` com os valores de 6 unidades.

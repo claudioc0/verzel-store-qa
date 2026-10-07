@@ -11,8 +11,19 @@ A documentação diz que "A API fica no mesmo endereço da loja, no caminho `/ap
 CA08 ("considera o subtotal antes do desconto") e a fórmula das Regras de cálculo ("R$ 0,00 quando o subtotal é igual ou maior que R$ 200,00", em que o subtotal é a soma dos produtos) resolvem o caso explicitamente: 2 × R$ 100,00 com BEMVINDO10 deve ter frete grátis. Este item fica registrado só como referência para o [BUG-01](bugs.md#bug-01).
 
 ## A3
-**Nome "Maria S" é rejeitado: dúvida para o PO.**
-A documentação diz apenas que "o nome do cliente precisa ter nome e sobrenome", e isso é uma regra que "já existia antes desta entrega". A implementação exige pelo menos 2 letras em cada parte, tanto na interface quanto na API (CT-CHK-03, CT-API-26). "Maria S" tem nome e sobrenome abreviado e é recusado com "Informe nome e sobrenome.". **Interpretação:** a regra é mais restritiva que a documentação. Como não faz parte desta entrega, não registrei como bug, mas também não considerei o comportamento correto por padrão. Fica como pergunta ao PO.
+**Regra de validação do nome: dúvida para o PO.**
+A documentação diz apenas que "o nome do cliente precisa ter nome e sobrenome", e isso é uma regra que "já existia antes desta entrega". A regra implementada, lida no código da página (`nome.trim().split(/\s+/).filter(p => p.length >= 2).length < 2`), é: **o nome precisa ter pelo menos duas partes com 2 ou mais caracteres quaisquer**. Partes mais curtas são ignoradas. A API se comporta da mesma forma.
+
+Na comparação com "nome e sobrenome", a regra erra para os dois lados:
+
+| Lado | Entrada | Resultado | Evidência |
+|---|---|---|---|
+| Mais restritiva | "Maria S" (sobrenome abreviado) | Recusado: "Informe nome e sobrenome." | CT-CHK-03, CT-API-26 |
+| Mais permissiva | "Maria 12" (número como sobrenome) | Aceito: pedido criado | CT-API-31-b |
+| Mais permissiva | "Ma .." (pontuação como sobrenome) | Aceito: pedido criado | CT-API-31-c |
+| Coerente | "Maria S Silva" (parte curta no meio) | Aceito: a parte "S" é ignorada | CT-API-31-a |
+
+**Interpretação:** como a regra é anterior a esta entrega e a documentação não detalha o que conta como sobrenome, nenhum dos casos foi registrado como bug. Ficam como pergunta ao PO: abreviações devem ser aceitas? Dígitos e pontuação devem ser recusados?
 
 Comportamentos de borda confirmados como **aceitos** (CT-CHK-07, CT-API-25): acentos e apóstrofo ("José D'Ávila"), hífen e 3 ou mais nomes ("Ana-Clara de Souza Lima"), e-mail com `+` e subdomínio, espaços nas pontas dos campos e CEP com ou sem hífen (normalizado para `01310100`).
 
