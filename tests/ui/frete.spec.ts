@@ -24,10 +24,12 @@ test.describe('Frete grátis', () => {
 
   test('CT-FRE-06 @CA08 frete grátis usa o subtotal antes do desconto', async ({ page }) => {
     const carrinho = new CarrinhoPage(page);
-    await carrinho.adicionar('Jaqueta Corta-Vento');
+    // Subtotal R$ 219,80 fica em R$ 197,82 após o desconto: só passa se a regra usar o subtotal antes do desconto.
+    await carrinho.adicionar('Tênis Casual Urbano');
+    await carrinho.adicionar('Kit 3 Pares de Meias');
     await carrinho.abrir();
     await carrinho.aplicarCupom('BEMVINDO10');
 
-    await carrinho.esperarResumo({ subtotal: 'R$ 229,90', desconto: '- R$ 22,99', frete: 'Grátis', total: 'R$ 206,91' });
+    await carrinho.esperarResumo({ subtotal: 'R$ 219,80', desconto: '- R$ 21,98', frete: 'Grátis', total: 'R$ 197,82' });
   });
 });

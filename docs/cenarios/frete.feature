@@ -51,13 +51,16 @@ Funcionalidade: Frete grátis
     E o frete exibido é "Grátis"
     E o total exibido é de "R$ 180,00"
 
+  # Para distinguir "subtotal antes do desconto" de "valor depois do desconto", o subtotal precisa
+  # ficar entre R$ 200,00 e R$ 222,21: acima do limite antes dos 10% e abaixo dele depois.
   @CT-FRE-06 @CA08
   Cenário: Subtotal acima do limite que fica abaixo de R$ 200,00 após o desconto continua com frete grátis
-    Dado que meu carrinho tem 1 unidade de "Jaqueta Corta-Vento" (R$ 229,90)
+    Dado que meu carrinho tem 1 "Tênis Casual Urbano" (R$ 189,90) e 1 "Kit 3 Pares de Meias" (R$ 29,90)
     Quando aplico o cupom "BEMVINDO10"
-    Então o desconto exibido é de "R$ 22,99"
+    Então o subtotal exibido é de "R$ 219,80"
+    E o desconto exibido é de "R$ 21,98" (valor dos produtos após o desconto: R$ 197,82)
     E o frete exibido é "Grátis"
-    E o total exibido é de "R$ 206,91"
+    E o total exibido é de "R$ 197,82"
 
   @CT-FRE-07 @CA09
   Cenário: Desconto do cupom não incide sobre o frete

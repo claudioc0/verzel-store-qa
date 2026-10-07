@@ -47,7 +47,7 @@ Classificação conforme o [plano de testes §7](plano-de-testes.md#7-classifica
 - Com cupom: frete R$ 19,90, total **R$ 199,90**. O mesmo valor vai para o pedido confirmado.
 - A API tem o mesmo comportamento: `subtotal: 200`, `freteGratis: false`, `frete: 19.9`, `valorFaltanteFreteGratis: 0`.
 
-**Análise (hipótese, sem acesso ao código):** a comparação parece usar `subtotal > 200` em vez de `subtotal >= 200`. R$ 199,80 cobra frete (correto) e R$ 229,90 ganha frete grátis (correto); só o valor exato de R$ 200,00 falha. CA08 (subtotal antes do desconto) está correto: R$ 229,90 com cupom fica em R$ 206,91 e mantém o frete grátis.
+**Análise (hipótese, sem acesso ao código):** a comparação parece usar `subtotal > 200` em vez de `subtotal >= 200`. R$ 199,80 cobra frete (correto) e R$ 229,90 ganha frete grátis (correto); só o valor exato de R$ 200,00 falha. CA08 (subtotal antes do desconto) está correto: R$ 219,80 com cupom fica em R$ 197,82 e mantém o frete grátis (CT-FRE-06). Portanto o defeito está só na comparação com o limite, e não na escolha do valor comparado.
 
 **Evidências:** [CT-FRE-03.png](../evidencias/ui/CT-FRE-03.png), [CT-FRE-05.png](../evidencias/ui/CT-FRE-05.png), [CT-FRE-08-2un.png](../evidencias/ui/CT-FRE-08-2un.png), [CT-CHK-06-confirmado.png](../evidencias/ui/CT-CHK-06-confirmado.png), [CT-API-08-b.json](../evidencias/api/CT-API-08-b.json), [CT-API-08-c.json](../evidencias/api/CT-API-08-c.json), [CT-API-18.json](../evidencias/api/CT-API-18.json)
 

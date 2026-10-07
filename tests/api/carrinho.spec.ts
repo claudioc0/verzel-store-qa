@@ -29,6 +29,12 @@ test.describe('POST /api/carrinho/calcular', () => {
     expect(await res.json()).toMatchObject({ subtotal: 200, desconto: 20, frete: 0, freteGratis: true, total: 180 });
   });
 
+  test('CT-API-08 @CA08 subtotal de R$ 219,80 que fica em R$ 197,82 após o desconto mantém o frete grátis', async ({ request }) => {
+    const res = await calcular(request, [{ produtoId: 'P003', quantidade: 1 }, { produtoId: 'P006', quantidade: 1 }], 'BEMVINDO10');
+
+    expect(await res.json()).toMatchObject({ subtotal: 219.8, desconto: 21.98, frete: 0, freteGratis: true, total: 197.82 });
+  });
+
   test('CT-API-22 @CA06 valor faltante para frete grátis nunca é negativo', async ({ request }) => {
     const res = await calcular(request, [{ produtoId: 'P007', quantidade: 2 }]);
 

@@ -72,6 +72,12 @@ Funcionalidade: API da Verzel Store
       | 2   |            | 0     | true   | 200   |
       | 2   | BEMVINDO10 | 0     | true   | 180   |
 
+  # Caso que distingue as duas leituras do CA08: subtotal acima de R$ 200,00, valor após o desconto abaixo
+  @CT-API-08 @CA08
+  Cenário: Subtotal de R$ 219,80 que fica em R$ 197,82 após o desconto mantém o frete grátis
+    Quando faço POST em "/api/carrinho/calcular" com 1 "P003", 1 "P006" e cupom "BEMVINDO10"
+    Então subtotal = 219.8, desconto = 21.98, frete = 0, freteGratis = true e total = 197.82
+
   @CT-API-09 @CA03 @CA04
   Esquema do Cenário: Cupom inválido ou expirado no cálculo não gera erro
     Quando faço POST em "/api/carrinho/calcular" com 1 "P001" e cupom "<cupom>"

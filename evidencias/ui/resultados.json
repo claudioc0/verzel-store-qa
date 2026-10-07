@@ -273,10 +273,10 @@
     "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
   },
   "CT-FRE-06": {
-    "subtotal": "R$ 229,90",
-    "desconto": "- R$ 22,99",
+    "subtotal": "R$ 219,80",
+    "desconto": "- R$ 21,98",
     "frete": "Grátis",
-    "total": "R$ 206,91",
+    "total": "R$ 197,82",
     "rotuloDesconto": "Desconto (BEMVINDO10)",
     "avisoFrete": null,
     "mensagemCupom": null,

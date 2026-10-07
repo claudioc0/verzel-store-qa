@@ -48,7 +48,7 @@ Os 13 cenários com falha correspondem a 4 registros: **3 bugs** (BUG-01, BUG-02
 | CT-FRE-03 | Limite exato R$ 200,00 | CA06 | ❌ [BUG-01](bugs.md#bug-01) | Frete R$ 19,90, total R$ 219,90, "Faltam R$ 0,00 para o frete grátis." | [print](../evidencias/ui/CT-FRE-03.png) |
 | CT-FRE-04 | Acima de R$ 200,00 | CA06 | ✅ | Frete "Grátis", total R$ 229,90 | [print](../evidencias/ui/CT-FRE-04.png) |
 | CT-FRE-05 | R$ 200,00 + cupom | CA08 | ❌ [BUG-01](bugs.md#bug-01) | Frete R$ 19,90, total R$ 199,90 (esperado R$ 180,00) | [print](../evidencias/ui/CT-FRE-05.png) |
-| CT-FRE-06 | R$ 229,90 + cupom (fica abaixo de 200 após desconto) | CA08 | ✅ | Desconto R$ 22,99, frete "Grátis", total R$ 206,91 | [print](../evidencias/ui/CT-FRE-06.png) |
+| CT-FRE-06 | R$ 219,80 + cupom (Tênis + Meias: acima de 200 antes do desconto, R$ 197,82 depois) | CA08 | ✅ | Desconto R$ 21,98, frete "Grátis", total R$ 197,82: a regra usa o subtotal antes do desconto | [print](../evidencias/ui/CT-FRE-06.png) |
 | CT-FRE-07 | Desconto não incide no frete | CA09 | ✅ | Desconto R$ 19,98, frete R$ 19,90, total R$ 199,72 | [print](../evidencias/ui/CT-FRE-07.png) |
 | CT-FRE-08 | Aviso atualizado ao mudar o carrinho | CA07 | ❌ [BUG-01](bugs.md#bug-01) | Com 2 unidades (R$ 200,00) o frete continua R$ 19,90 | [1 un](../evidencias/ui/CT-FRE-08-1un.png) [2 un](../evidencias/ui/CT-FRE-08-2un.png) |
 
@@ -107,7 +107,7 @@ Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo.
 | CT-API-05 | Raiz `/api` | ❌ [BUG-03](bugs.md#bug-03) (melhoria) | 200 text/html. Conta como falha porque contradiz o contrato documentado (\"Envie e receba sempre JSON\") e o comportamento das demais rotas inexistentes (`404 ROTA_NAO_ENCONTRADA`); é melhoria, e não bug, porque não afeta o cliente | [json](../evidencias/api/CT-API-05.json) |
 | CT-API-06 | Método não permitido (4 casos) | ✅ | 405 METODO_NAO_PERMITIDO | [a](../evidencias/api/CT-API-06-a.json) [b](../evidencias/api/CT-API-06-b.json) [c](../evidencias/api/CT-API-06-c.json) [d](../evidencias/api/CT-API-06-d.json) |
 | CT-API-07 | Calcular com cupom válido | ✅ | 199.8 / 19.98 / 19.9 / total 199.72 | [json](../evidencias/api/CT-API-07.json) |
-| CT-API-08 | Frete considera subtotal antes do desconto | ❌ [BUG-01](bugs.md#bug-01) | 1×P005 ok; 2×P005 → frete 19.9 (com e sem cupom); P007 + cupom ok | [a](../evidencias/api/CT-API-08-a.json) [b](../evidencias/api/CT-API-08-b.json) [c](../evidencias/api/CT-API-08-c.json) [d](../evidencias/api/CT-API-08-d.json) |
+| CT-API-08 | Frete considera subtotal antes do desconto | ❌ [BUG-01](bugs.md#bug-01) | 1×P005 ok; 2×P005 → frete 19.9 (com e sem cupom); P003 + P006 + cupom (subtotal 219.8, após desconto 197.82) → frete 0, confirmando o CA08 | [a](../evidencias/api/CT-API-08-a.json) [b](../evidencias/api/CT-API-08-b.json) [c](../evidencias/api/CT-API-08-c.json) [d](../evidencias/api/CT-API-08-d.json) |
 | CT-API-09 | Cupom inválido/expirado no cálculo | ✅ | 200, desconto 0, aplicado false, mensagem correta | [a](../evidencias/api/CT-API-09-a.json) [b](../evidencias/api/CT-API-09-b.json) |
 | CT-API-10 | Caixa e espaços na API | ✅ | `"  bemvindo10  "` aplicado; `"BEM VINDO10"` inválido | [a](../evidencias/api/CT-API-10-a.json) [b](../evidencias/api/CT-API-10-b.json) |
 | CT-API-11 | Validação de quantidade (8 casos) | ❌ [BUG-02](bugs.md#bug-02) | 6 → 200 (esperado 422 QUANTIDADE_MAXIMA_EXCEDIDA); 0, -1, 1.5, "2" e null → 422 corretos | [q6](../evidencias/api/CT-API-11-q6.json) [q5](../evidencias/api/CT-API-11-q5.json) [q0](../evidencias/api/CT-API-11-q0.json) |

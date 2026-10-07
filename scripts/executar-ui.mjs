@@ -149,7 +149,7 @@ const freteCasos = [
   ['CT-FRE-03', [['Mochila Urbana 20L', 2]], null],
   ['CT-FRE-04', [['Jaqueta Corta-Vento', 1]], null],
   ['CT-FRE-05', [['Mochila Urbana 20L', 2]], 'BEMVINDO10'],
-  ['CT-FRE-06', [['Jaqueta Corta-Vento', 1]], 'BEMVINDO10'],
+  ['CT-FRE-06', [['Tênis Casual Urbano', 1], ['Kit 3 Pares de Meias', 1]], 'BEMVINDO10'],
   ['CT-FRE-07', [['Camiseta Essencial', 1], ['Calça Jeans Slim', 1]], 'BEMVINDO10'],
 ];
 for (const [id, itens, cupom] of freteCasos) {

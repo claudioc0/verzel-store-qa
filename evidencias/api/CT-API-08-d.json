@@ -1,13 +1,20 @@
 {
   "id": "CT-API-08-d",
-  "executadoEm": "2026-10-07T13:56:57.279Z",
+  "executadoEm": "2026-10-07T21:27:31.371Z",
   "requisicao": {
     "metodo": "POST",
     "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
     "corpo": {
       "itens": [
         {
-          "produtoId": "P007",
+          "produtoId": "P003",
+          "quantidade": 1
+        },
+        {
+          "produtoId": "P006",
           "quantidade": 1
         }
       ],
@@ -20,19 +27,26 @@
     "corpo": {
       "itens": [
         {
-          "produtoId": "P007",
-          "nome": "Jaqueta Corta-Vento",
-          "precoUnitario": 229.9,
+          "produtoId": "P003",
+          "nome": "Tênis Casual Urbano",
+          "precoUnitario": 189.9,
           "quantidade": 1,
-          "total": 229.9
+          "total": 189.9
+        },
+        {
+          "produtoId": "P006",
+          "nome": "Kit 3 Pares de Meias",
+          "precoUnitario": 29.9,
+          "quantidade": 1,
+          "total": 29.9
         }
       ],
-      "subtotal": 229.9,
-      "desconto": 22.99,
+      "subtotal": 219.8,
+      "desconto": 21.98,
       "frete": 0,
       "freteGratis": true,
       "valorFaltanteFreteGratis": 0,
-      "total": 206.91,
+      "total": 197.82,
       "cupom": {
         "codigo": "BEMVINDO10",
         "aplicado": true,

@@ -37,6 +37,7 @@ Validar a entrega **cupom de desconto + frete grátis** da Verzel Store contra a
 | P005 Mochila Urbana 20L | R$ 100,00 | 2 × P005 = R$ 200,00 (limite exato do frete) |
 | P007 Jaqueta Corta-Vento | R$ 229,90 | carrinho acima do frete grátis |
 | P006 Kit 3 Pares de Meias | R$ 29,90 | quantidade máxima com valor baixo |
+| P003 + P006 | R$ 219,80 | acima de R$ 200,00 antes do desconto e abaixo depois dos 10% (R$ 197,82): distingue as duas leituras do CA08 |
 
 | Cupom | Desconto | Situação |
 |---|---|---|

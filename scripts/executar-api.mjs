@@ -26,7 +26,7 @@ const casos = [
   ['CT-API-08-a', 'POST', '/api/carrinho/calcular', { itens: [item('P005', 1)] }],
   ['CT-API-08-b', 'POST', '/api/carrinho/calcular', { itens: [item('P005', 2)] }],
   ['CT-API-08-c', 'POST', '/api/carrinho/calcular', { itens: [item('P005', 2)], cupom: 'BEMVINDO10' }],
-  ['CT-API-08-d', 'POST', '/api/carrinho/calcular', { itens: [item('P007', 1)], cupom: 'BEMVINDO10' }],
+  ['CT-API-08-d', 'POST', '/api/carrinho/calcular', { itens: [item('P003', 1), item('P006', 1)], cupom: 'BEMVINDO10' }],
   ['CT-API-09-a', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: 'XYZ123' }],
   ['CT-API-09-b', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: 'VERAO2026' }],
   ['CT-API-10-a', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: '  bemvindo10  ' }],
