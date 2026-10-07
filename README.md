@@ -10,7 +10,7 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 | Bug | Severidade | Resumo |
 |---|---|---|
 | [BUG-01](docs/bugs.md#bug-01) | Crítica | Subtotal de **exatamente R$ 200,00** não ganha frete grátis (UI e API). Com o BEMVINDO10, o cliente paga R$ 199,90 em vez de R$ 180,00 |
-| [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite (aceita até 1.000.000 de unidades), e a interface avisa mas deixa finalizar um carrinho acima dele |
+| [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite (aceita quantidades muito acima dele; testado até 1.000.000), e a interface avisa mas deixa finalizar um carrinho acima dele |
 | [BUG-03](docs/bugs.md#bug-03) | Baixa (melhoria) | `GET /api` retorna 200 com HTML em vez de erro JSON |
 | [BUG-04](docs/bugs.md#bug-04) | Baixa (aguarda PO) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
 | [BUG-05](docs/bugs.md#bug-05) | Média | Se o cálculo do carrinho falha depois de uma alteração, o carrinho e o checkout exibem os valores antigos (R$ 79,80) e o pedido é confirmado com outro valor (R$ 139,70) |
@@ -28,7 +28,7 @@ Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitaç
 | Report dos bugs | [docs/bugs.md](docs/bugs.md) |
 | Documento de evidências | [docs/evidencias.md](docs/evidencias.md) → prints em [evidencias/ui/](evidencias/ui/), requisições e respostas em [evidencias/api/](evidencias/api/) |
 | Ambiguidades e interpretações adotadas | [docs/ambiguidades.md](docs/ambiguidades.md) |
-| Checklist de revisão manual (reprodução dos bugs e conferência dos valores esperados) | [docs/checklist-revisao.xlsx](docs/checklist-revisao.xlsx) → prints em [evidencias/manual/](evidencias/manual/) |
+| Checklist de revisão manual: 25 itens refeitos à mão no navegador e no terminal (reprodução de cada bug, conferência dos valores esperados com calculadora e validação do repositório) | [docs/checklist-revisao.md](docs/checklist-revisao.md) (leitura no GitHub) · [planilha .xlsx](docs/checklist-revisao.xlsx) com os passos detalhados (download) · prints em [evidencias/manual/](evidencias/manual/) |
 | Automação com Playwright | [tests/](tests/) |
 
 ```
@@ -44,7 +44,7 @@ Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitaç
 
 ## Como rodar a automação
 
-**Pré-requisitos:** [Node.js](https://nodejs.org/) 18 ou superior e acesso à internet (os testes rodam contra o ambiente publicado).
+**Pré-requisitos:** [Node.js](https://nodejs.org/) 20 ou superior (exigido pelo Playwright 1.63) e acesso à internet (os testes rodam contra o ambiente publicado).
 
 ```bash
 npm install
@@ -58,7 +58,7 @@ npm test
 | `npm run test:api` | Só os testes de API |
 | `npm run test:ui` | Só os testes de interface (headless) |
 | `npm run test:headed` | Testes de interface com o navegador visível |
-| `npm run report` | Abre o relatório HTML da última execução |
+| `npm run report` | Abre o relatório HTML da última execução. O arquivo fica em `evidencias/automacao/relatorio/`, mas o GitHub o exibe como código-fonte: para vê-lo, clone o repositório e use este comando |
 | `npm run evidencias:api` / `npm run evidencias:ui` | Regeram as evidências da execução manual |
 
 ### Sobre a automação

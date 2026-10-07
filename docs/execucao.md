@@ -2,7 +2,7 @@
 
 **Data:** 07/10/2026 · **Ambiente:** https://verzel-store.qa-test-verzel-store.workers.dev · **Navegador:** Chromium (Playwright), desktop 1280×900 e mobile 375×812
 
-**Como foi executado:** os cenários de [cenarios/](cenarios/) foram executados com roteiros de apoio que reproduzem os passos manuais e salvam as evidências: [scripts/executar-ui.mjs](../scripts/executar-ui.mjs) (prints da interface) e [scripts/executar-api.mjs](../scripts/executar-api.mjs) (requisição e resposta de cada chamada). Os valores observados de cada cenário estão em [evidencias/ui/resultados.json](../evidencias/ui/resultados.json).
+**Como foi executado:** os cenários de [cenarios/](cenarios/) foram executados com roteiros de apoio que reproduzem os passos manuais e salvam as evidências: [scripts/executar-ui.mjs](../scripts/executar-ui.mjs) (prints da interface) e [scripts/executar-api.mjs](../scripts/executar-api.mjs) (requisição e resposta de cada chamada). Os valores observados de cada cenário estão em [evidencias/ui/resultados.json](../evidencias/ui/resultados.json). Depois disso, os bugs e os valores esperados foram revisados manualmente no navegador e no terminal: ver o [checklist de revisão manual](checklist-revisao.md).
 
 **Legenda:** ✅ passou · ❌ falhou: o resultado contradiz uma regra documentada; o registro pode ser bug ou melhoria, conforme o impacto (ver [bugs.md](bugs.md)) · ⚠️ observação ou dúvida para o PO: a documentação admite mais de uma leitura, ou não há regra que torne o comportamento certo ou errado · ➖ não se aplica
 
@@ -125,11 +125,11 @@ Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo.
 | CT-API-23 | Vários itens inválidos | ⚠️ | 422 apenas com o primeiro erro (`PRODUTO_NAO_ENCONTRADO`, `itens[0].produtoId`) ([A11](ambiguidades.md#a11)) | [json](../evidencias/api/CT-API-23.json) |
 | CT-API-24 | Content-Type ausente ou `text/plain` | ⚠️ | 200, processado normalmente ([A11](ambiguidades.md#a11)) | [a](../evidencias/api/CT-API-24-a.json) [b](../evidencias/api/CT-API-24-b.json) |
 | CT-API-25 | Cliente válido nas bordas | ✅ | 201, "José D'Ávila" preservado, CEP normalizado | [a](../evidencias/api/CT-API-25-a.json) [b](../evidencias/api/CT-API-25-b.json) |
+| CT-API-26 | Nome "Maria S" | ⚠️ | 422 "Informe nome e sobrenome.": dúvida para o PO ([A3](ambiguidades.md#a3)) | [json](../evidencias/api/CT-API-26.json) |
 | CT-API-27 | Cálculo ignora preços e totais enviados pelo cliente | ✅ | `preco`/`precoUnitario` = 1, `desconto` = 50, `frete` = 0 e `total` = 1 ignorados; resposta com 59.9 / 0 / 19.9 / 79.8 | [json](../evidencias/api/CT-API-27.json) |
 | CT-API-28 | Pedido ignora preços e totais enviados pelo cliente | ✅ | 201 com precoUnitario 59.9 e total 79.8 | [json](../evidencias/api/CT-API-28.json) |
 | CT-API-29 | Validação da lista de itens em `/api/pedidos` (7 casos) | ✅ | ITEM_DUPLICADO, ITENS_OBRIGATORIOS (vazia e ausente), ITEM_INVALIDO, PRODUTO_NAO_ENCONTRADO, QUANTIDADE_INVALIDA e JSON_INVALIDO, iguais a `/calcular` | [a](../evidencias/api/CT-API-29-a.json) [b](../evidencias/api/CT-API-29-b.json) [c](../evidencias/api/CT-API-29-c.json) [d](../evidencias/api/CT-API-29-d.json) [e](../evidencias/api/CT-API-29-e.json) [f](../evidencias/api/CT-API-29-f.json) [g](../evidencias/api/CT-API-29-g.json) |
 | CT-API-30 | Quantidade 1.000.000 | ❌ [BUG-02](bugs.md#bug-02) | Aceita nos dois endpoints; pedido VZ-972373 com total R$ 59.900.000,00 | [calcular](../evidencias/api/CT-API-30-a.json) [pedido](../evidencias/api/CT-API-30-b.json) |
-| CT-API-26 | Nome "Maria S" | ⚠️ | 422 "Informe nome e sobrenome.": dúvida para o PO ([A3](ambiguidades.md#a3)) | [json](../evidencias/api/CT-API-26.json) |
 | CT-API-31 | Nome com parte curta, dígitos ou pontuação | ⚠️ | "Maria S Silva", "Maria 12" e "Ma .." aceitos (201): a regra aceita qualquer 2 partes com 2+ caracteres ([A3](ambiguidades.md#a3)) | [a](../evidencias/api/CT-API-31-a.json) [b](../evidencias/api/CT-API-31-b.json) [c](../evidencias/api/CT-API-31-c.json) |
 
 ## Testes exploratórios

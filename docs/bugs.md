@@ -78,7 +78,7 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 
 **Resultado obtido**
 - API: `201`, pedido `VZ-637006` criado com 6 unidades (subtotal R$ 359,40). No cálculo do carrinho, `200` com os valores de 6 unidades.
-- **Não existe nenhum teto:** `quantidade: 1000000` é aceita nos dois endpoints, e o pedido `VZ-972373` foi criado com total de R$ 59.900.000,00 (CT-API-30).
+- **Aceita quantidades muito acima do limite (testado até 1.000.000):** `quantidade: 1000000` é aceita nos dois endpoints, e o pedido `VZ-972373` foi criado com total de R$ 59.900.000,00 (CT-API-30).
 - Interface: o carrinho **detecta** o problema e exibe "Limite de 5 unidades por produto.", mas mostra 9 unidades, subtotal R$ 539,10 e frete grátis, e mantém "Finalizar compra" habilitado. O pedido `VZ-527478` foi confirmado com **9× Camiseta Essencial**, total R$ 539,10.
 
 **Observação:** no uso normal, a interface bloqueia a 6ª unidade: o botão "Adicionar ao carrinho" e o botão + ficam desabilitados em 5 (CT-QTD-01/02). Ou seja, os botões impedem que o carrinho passe do limite, mas nada valida um carrinho que já esteja acima dele. Como a API também não valida o limite superior, nenhuma camada barra o pedido. A API valida corretamente quantidades 0, negativas, decimais, texto e nulas, aceita exatamente 5 (CT-API-21) e bloqueia a tentativa de repetir o item na lista (`ITEM_DUPLICADO`).
