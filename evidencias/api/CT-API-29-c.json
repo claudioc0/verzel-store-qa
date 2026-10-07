@@ -1,0 +1,29 @@
+{
+  "id": "CT-API-29-c",
+  "executadoEm": "2026-10-07T14:40:43.602Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
+    "corpo": {
+      "cliente": {
+        "nome": "Maria Silva",
+        "email": "maria@exemplo.com",
+        "cep": "01310-100"
+      }
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "ITENS_OBRIGATORIOS",
+        "mensagem": "Informe ao menos um item.",
+        "campo": "itens"
+      }
+    }
+  }
+}

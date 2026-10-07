@@ -228,3 +228,33 @@ Funcionalidade: API da Verzel Store
   Cenário: Nome com sobrenome abreviado
     Quando faço POST em "/api/pedidos" com nome "Maria S"
     Então registro o comportamento como dúvida para o PO (ver ambiguidades A3)
+
+  @CT-API-27
+  Cenário: Cálculo ignora preços e totais enviados pelo cliente
+    Quando faço POST em "/api/carrinho/calcular" com 1 "P001" informando preco = 1, precoUnitario = 1, desconto = 50, frete = 0 e total = 1 no corpo
+    Então a resposta usa o preço do servidor: precoUnitario = 59.9, desconto = 0, frete = 19.9 e total = 79.8
+
+  @CT-API-28
+  Cenário: Pedido ignora preços e totais enviados pelo cliente
+    Quando faço POST em "/api/pedidos" com cliente válido, 1 "P001" e total = 1, precoUnitario = 1 no corpo
+    Então a resposta tem status 201 com precoUnitario = 59.9 e total = 79.8
+
+  @CT-API-29
+  Esquema do Cenário: Validação da lista de itens também em /api/pedidos
+    Quando faço POST em "/api/pedidos" com cliente válido e o corpo de itens <itens>
+    Então a resposta tem status <status> e código "<codigo>"
+
+    Exemplos:
+      | itens                                                                              | status | codigo                 |
+      | [{"produtoId":"P001","quantidade":3},{"produtoId":"P001","quantidade":3}]          | 422    | ITEM_DUPLICADO         |
+      | []                                                                                 | 422    | ITENS_OBRIGATORIOS     |
+      | ausente                                                                            | 422    | ITENS_OBRIGATORIOS     |
+      | ["P001"]                                                                           | 422    | ITEM_INVALIDO          |
+      | [{"produtoId":"P999","quantidade":1}]                                              | 422    | PRODUTO_NAO_ENCONTRADO |
+      | [{"produtoId":"P001","quantidade":0}]                                              | 422    | QUANTIDADE_INVALIDA    |
+      | corpo que não é JSON                                                               | 400    | JSON_INVALIDO          |
+
+  @CT-API-30 @CA10
+  Cenário: Quantidade muito acima do limite
+    Quando faço POST em "/api/carrinho/calcular" e em "/api/pedidos" com 1000000 "P001"
+    Então a resposta tem status 422 e código "QUANTIDADE_MAXIMA_EXCEDIDA"

@@ -4,13 +4,13 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 
 ## Resultado em resumo
 
-- **69 cenários** executados (UI, API e exploratórios): 53 ✅ · 11 ❌ · 4 ⚠️ observações/dúvidas para o PO · 1 N/A
+- **73 cenários** executados (UI, API e exploratórios): 56 ✅ · 12 ❌ · 4 ⚠️ observações/dúvidas para o PO · 1 N/A
 - **4 bugs** registrados:
 
 | Bug | Severidade | Resumo |
 |---|---|---|
 | [BUG-01](docs/bugs.md#bug-01) | Crítica | Subtotal de **exatamente R$ 200,00** não ganha frete grátis (UI e API). Com o BEMVINDO10, o cliente paga R$ 199,90 em vez de R$ 180,00 |
-| [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite, e a interface avisa mas deixa finalizar um carrinho acima dele |
+| [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite (aceita até 1.000.000 de unidades), e a interface avisa mas deixa finalizar um carrinho acima dele |
 | [BUG-03](docs/bugs.md#bug-03) | Baixa (melhoria) | `GET /api` retorna 200 com HTML em vez de erro JSON |
 | [BUG-04](docs/bugs.md#bug-04) | Baixa (aguarda PO) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
 
@@ -59,8 +59,8 @@ npm test
 | `npm run evidencias:api` / `npm run evidencias:ui` | Regeram as evidências da execução manual |
 
 ### Sobre a automação
-- **31 testes**: 18 de API e 13 de interface, cobrindo CA01 a CA10, o checkout e a consistência entre a tela e a API. As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
-- **Bugs conhecidos não quebram a suíte:** os 5 testes que esbarram nos BUG-01 e BUG-02 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Quando o bug for corrigido, o Playwright acusa o teste, sinalizando que a marcação pode ser removida.
+- **35 testes**: 22 de API e 13 de interface, cobrindo CA01 a CA10, o checkout, a consistência entre a tela e a API e a integridade dos preços (a API ignora valores enviados pelo cliente). As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
+- **Bugs conhecidos não quebram a suíte:** os 5 testes que esbarram nos BUG-01 e BUG-02 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Cada um verifica o **resultado**, e não um jeito específico de corrigir: o CT-QTD-07, por exemplo, só exige que nenhum pedido seja confirmado com mais de 5 unidades, seja porque a interface bloqueia, ajusta a quantidade ou recebe erro da API. Assim, qualquer correção faz o teste passar, e o Playwright acusa a mudança, sinalizando que a marcação pode ser removida. Nos testes de API, só o status é verificado enquanto o bug existe; o código de erro documentado entra na asserção quando a marcação for retirada.
 - **Isolamento:** cada teste abre um contexto de navegador novo, e o carrinho fica no `sessionStorage` da aba, então os testes não interferem entre si. Os testes de API criam pedidos, mas, segundo a [documentação](https://verzel-store.qa-test-verzel-store.workers.dev/documentacao#ambiente), "a API não guarda nada entre uma chamada e outra" e os pedidos não são armazenados. Por isso não afetam outros candidatos.
 - **Padrões:** Page Object ([tests/support/carrinho.page.ts](tests/support/carrinho.page.ts)), seletores acessíveis (`getByRole`, `getByLabel`) e os atributos `data-valor` do resumo.
 

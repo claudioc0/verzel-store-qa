@@ -35,17 +35,27 @@ test.describe('POST /api/carrinho/calcular', () => {
     expect(await res.json()).toMatchObject({ subtotal: 459.8, frete: 0, freteGratis: true, valorFaltanteFreteGratis: 0 });
   });
 
+  test('CT-API-27 calcula com os preços do servidor e ignora valores enviados pelo cliente', async ({ request }) => {
+    const res = await request.post('/api/carrinho/calcular', {
+      data: { itens: [{ produtoId: 'P001', quantidade: 1, preco: 1, precoUnitario: 1, total: 1 }], subtotal: 1, desconto: 50, frete: 0, total: 1 },
+    });
+
+    expect(await res.json()).toMatchObject({ subtotal: 59.9, desconto: 0, frete: 19.9, total: 79.8, itens: [{ precoUnitario: 59.9 }] });
+  });
+
   test('CT-API-11 @CA10 aceita 5 unidades', async ({ request }) => {
     const res = await calcular(request, [{ produtoId: 'P001', quantidade: 5 }]);
     expect(res.status()).toBe(200);
   });
 
-  test('CT-API-11 @CA10 rejeita 6 unidades com QUANTIDADE_MAXIMA_EXCEDIDA', async ({ request }) => {
+  test('CT-API-11 @CA10 rejeita 6 unidades', async ({ request }) => {
     test.fail(true, 'BUG-02: API aceita mais de 5 unidades (ver docs/bugs.md)');
+    // Só o sintoma do bug (status) é verificado aqui. Se a correção usar um código de erro diferente
+    // de QUANTIDADE_MAXIMA_EXCEDIDA, o teste ainda passa a passar e o test.fail() acusa; ao remover a
+    // marcação, incluir a verificação do código documentado.
     const res = await calcular(request, [{ produtoId: 'P001', quantidade: 6 }]);
 
     expect(res.status()).toBe(422);
-    expect((await res.json()).erro.codigo).toBe('QUANTIDADE_MAXIMA_EXCEDIDA');
   });
 
   for (const [quantidade, nome] of [[0, 'zero'], [-1, 'negativa'], [1.5, 'decimal'], ['2', 'texto']] as const) {

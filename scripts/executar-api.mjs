@@ -73,6 +73,20 @@ const casos = [
   ['CT-API-25-a', 'POST', '/api/pedidos', { cliente: { nome: "José D'Ávila", email: 'jose.davila+loja@mail.empresa.com.br', cep: ' 01310-100 ' }, itens: [item('P001', 1)] }],
   ['CT-API-25-b', 'POST', '/api/pedidos', { cliente: { nome: 'Ana-Clara de Souza Lima', email: 'ana@exemplo.com', cep: '01310100' }, itens: [item('P001', 1)] }],
   ['CT-API-26', 'POST', '/api/pedidos', { cliente: { ...cliente, nome: 'Maria S' }, itens: [item('P001', 1)] }],
+  // Valores enviados pelo cliente devem ser ignorados: o servidor usa os próprios preços e regras
+  ['CT-API-27', 'POST', '/api/carrinho/calcular', { itens: [{ produtoId: 'P001', quantidade: 1, preco: 1, precoUnitario: 1, total: 1 }], subtotal: 1, desconto: 50, frete: 0, total: 1 }],
+  ['CT-API-28', 'POST', '/api/pedidos', { cliente, itens: [{ produtoId: 'P001', quantidade: 1, precoUnitario: 1 }], subtotal: 1, desconto: 50, frete: 0, total: 1 }],
+  // Validações da lista de itens também em /api/pedidos
+  ['CT-API-29-a', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 3), item('P001', 3)] }],
+  ['CT-API-29-b', 'POST', '/api/pedidos', { cliente, itens: [] }],
+  ['CT-API-29-c', 'POST', '/api/pedidos', { cliente }],
+  ['CT-API-29-d', 'POST', '/api/pedidos', { cliente, itens: ['P001'] }],
+  ['CT-API-29-e', 'POST', '/api/pedidos', { cliente, itens: [item('P999', 1)] }],
+  ['CT-API-29-f', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 0)] }],
+  ['CT-API-29-g', 'POST', '/api/pedidos', 'texto que não é JSON'],
+  // Impacto do BUG-02: não existe teto de quantidade
+  ['CT-API-30-a', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1000000)] }],
+  ['CT-API-30-b', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 1000000)] }],
 ];
 
 const FILTRO = process.argv[2] ? new RegExp(process.argv[2]) : null;

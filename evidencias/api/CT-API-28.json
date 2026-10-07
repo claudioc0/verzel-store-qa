@@ -1,0 +1,58 @@
+{
+  "id": "CT-API-28",
+  "executadoEm": "2026-10-07T14:40:43.404Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
+    "corpo": {
+      "cliente": {
+        "nome": "Maria Silva",
+        "email": "maria@exemplo.com",
+        "cep": "01310-100"
+      },
+      "itens": [
+        {
+          "produtoId": "P001",
+          "quantidade": 1,
+          "precoUnitario": 1
+        }
+      ],
+      "subtotal": 1,
+      "desconto": 50,
+      "frete": 0,
+      "total": 1
+    }
+  },
+  "resposta": {
+    "status": 201,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "numero": "VZ-456818",
+      "criadoEm": "2026-10-07T14:40:43.418Z",
+      "cliente": {
+        "nome": "Maria Silva",
+        "email": "maria@exemplo.com",
+        "cep": "01310100"
+      },
+      "itens": [
+        {
+          "produtoId": "P001",
+          "nome": "Camiseta Essencial",
+          "precoUnitario": 59.9,
+          "quantidade": 1,
+          "total": 59.9
+        }
+      ],
+      "subtotal": 59.9,
+      "desconto": 0,
+      "frete": 19.9,
+      "freteGratis": false,
+      "valorFaltanteFreteGratis": 140.1,
+      "total": 79.8,
+      "cupom": null
+    }
+  }
+}

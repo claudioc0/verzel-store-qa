@@ -42,6 +42,19 @@ test.describe('POST /api/pedidos', () => {
     expect((await res.json()).itens[0]).toMatchObject({ quantidade: 5, total: 299.5 });
   });
 
+  for (const [nome, itens, codigo] of [
+    ['item duplicado', [{ produtoId: 'P001', quantidade: 3 }, { produtoId: 'P001', quantidade: 3 }], 'ITEM_DUPLICADO'],
+    ['lista vazia', [], 'ITENS_OBRIGATORIOS'],
+    ['produto inexistente', [{ produtoId: 'P999', quantidade: 1 }], 'PRODUTO_NAO_ENCONTRADO'],
+  ] as const) {
+    test(`CT-API-29 pedido com ${nome} é rejeitado com ${codigo}`, async ({ request }) => {
+      const res = await criarPedido(request, [...itens]);
+
+      expect(res.status()).toBe(422);
+      expect((await res.json()).erro.codigo).toBe(codigo);
+    });
+  }
+
   test('CT-API-17 @CA10 pedido com 6 unidades é rejeitado', async ({ request }) => {
     test.fail(true, 'BUG-02: API aceita mais de 5 unidades (ver docs/bugs.md)');
     const res = await criarPedido(request, [{ produtoId: 'P001', quantidade: 6 }]);

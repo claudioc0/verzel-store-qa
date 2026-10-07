@@ -22,9 +22,9 @@ Validar a entrega **cupom de desconto + frete grátis** da Verzel Store contra a
 ## 3. Estratégia
 | Tipo | Como |
 |---|---|
-| Funcional (UI): execução assistida por script | Os passos de cada cenário de [cenarios/](cenarios/) são executados por um roteiro Playwright ([scripts/executar-ui.mjs](../scripts/executar-ui.mjs)) que imita a interação manual, tira um print de página inteira e registra os valores lidos da tela. Achados novos são reproduzidos à mão no navegador |
+| Funcional (UI): execução assistida por script | Os passos de cada cenário de [cenarios/](cenarios/) são executados por um roteiro Playwright ([scripts/executar-ui.mjs](../scripts/executar-ui.mjs)) que imita a interação manual, tira um print de página inteira e registra os valores lidos da tela |
 | Funcional (API): execução assistida por script | Um roteiro ([scripts/executar-api.mjs](../scripts/executar-api.mjs)) envia cada requisição do cenário e grava a requisição e a resposta como evidência |
-| Exploratório | Sessões guiadas por charters: recarregar a página, esvaziar o carrinho, rota inexistente, uso só com teclado (rótulos e mensagens com `role="alert"`), layout em 375 px com medição de rolagem horizontal, consistência UI × API, reaplicação do cupom de "primeira compra" e estado do carrinho fora do limite |
+| Exploratório | Sessões guiadas por charters: recarregar a página, esvaziar o carrinho, rota inexistente, uso só com teclado (rótulos e mensagens com `role="alert"`), layout em 375 px com medição de rolagem horizontal, consistência UI × API, integridade de preços (valores enviados pelo cliente devem ser ignorados), reaplicação do cupom de "primeira compra" e estado do carrinho fora do limite |
 | Automação | Suíte Playwright (TypeScript) cobrindo UI e API dos cenários mais críticos, executável com `npm test` |
 
 **Técnicas de projeto de testes:** partição de equivalência e análise de valor-limite (R$ 199,80 / R$ 200,00 no frete; 5 / 6 unidades; quantidade 0, negativa e decimal), tabela de decisão (cupom × frete) e comparação UI × API.

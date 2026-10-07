@@ -1,0 +1,32 @@
+{
+  "id": "CT-API-29-d",
+  "executadoEm": "2026-10-07T14:40:43.641Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
+    "corpo": {
+      "cliente": {
+        "nome": "Maria Silva",
+        "email": "maria@exemplo.com",
+        "cep": "01310-100"
+      },
+      "itens": [
+        "P001"
+      ]
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "ITEM_INVALIDO",
+        "mensagem": "Cada item deve ser um objeto com produtoId e quantidade.",
+        "campo": "itens[0]"
+      }
+    }
+  }
+}
