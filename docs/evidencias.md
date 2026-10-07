@@ -6,6 +6,7 @@ Todas as evidências ficam em [/evidencias](../evidencias/) e são referenciadas
 |---|---|---|
 | [evidencias/ui/](../evidencias/ui/) | Prints de página inteira da loja (PNG) + [resultados.json](../evidencias/ui/resultados.json) com os valores lidos da tela em cada cenário | `<ID do cenário>[-variação].png` |
 | [evidencias/api/](../evidencias/api/) | Um JSON por chamada, com método, URL, corpo enviado, status, content-type e corpo recebido | `<ID do cenário>[-variação].json` |
+| [evidencias/manual/](../evidencias/manual/) | Prints da revisão manual feita no navegador e no terminal, um ou mais por item do [checklist de revisão](checklist-revisao.xlsx) | `<ID do item>[-detalhe].jpg` |
 | [evidencias/automacao/](../evidencias/automacao/) | Relatório HTML da automação Playwright (abrir com `npm run report`) | gerado por `npm test` |
 
 > **Sobre os anexos do relatório:** os arquivos em `evidencias/automacao/relatorio/data/` são anexos (prints, traces e contexto de erro) dos testes marcados com `test.fail()`. Eles registram **falhas esperadas**, que reproduzem o BUG-01, o BUG-02 e o BUG-05, e não falhas da suíte. No relatório, esses testes aparecem como aprovados.

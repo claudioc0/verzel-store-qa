@@ -28,11 +28,12 @@ Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitaç
 | Report dos bugs | [docs/bugs.md](docs/bugs.md) |
 | Documento de evidências | [docs/evidencias.md](docs/evidencias.md) → prints em [evidencias/ui/](evidencias/ui/), requisições e respostas em [evidencias/api/](evidencias/api/) |
 | Ambiguidades e interpretações adotadas | [docs/ambiguidades.md](docs/ambiguidades.md) |
+| Checklist de revisão manual (reprodução dos bugs e conferência dos valores esperados) | [docs/checklist-revisao.xlsx](docs/checklist-revisao.xlsx) → prints em [evidencias/manual/](evidencias/manual/) |
 | Automação com Playwright | [tests/](tests/) |
 
 ```
 ├── docs/            plano, cenários .feature, execução, bugs, evidências, ambiguidades
-├── evidencias/      ui/ (PNG + resultados.json) · api/ (JSON) · automacao/ (relatório HTML)
+├── evidencias/      ui/ (PNG + resultados.json) · api/ (JSON) · manual/ (prints da revisão manual) · automacao/ (relatório HTML)
 ├── scripts/         roteiros que geraram as evidências da execução
 ├── tests/
 │   ├── api/         testes de API (carrinho e pedidos)
