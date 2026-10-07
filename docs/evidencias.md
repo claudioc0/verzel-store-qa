@@ -19,7 +19,7 @@ Todas as evidências ficam em [/evidencias](../evidencias/) e são referenciadas
 | [BUG-03](bugs.md#bug-03) | [CT-API-05.json](../evidencias/api/CT-API-05.json) |
 | [BUG-04](bugs.md#bug-04) | [CT-API-12-d.json](../evidencias/api/CT-API-12-d.json) |
 | [BUG-05](bugs.md#bug-05) | [CT-CAR-01-alteracao.png](../evidencias/ui/CT-CAR-01-alteracao.png) · [CT-CAR-01-checkout.png](../evidencias/ui/CT-CAR-01-checkout.png) · [CT-CAR-01-confirmado.png](../evidencias/ui/CT-CAR-01-confirmado.png) · [CT-CAR-02-checkout.png](../evidencias/ui/CT-CAR-02-checkout.png) |
-| [BUG-06](bugs.md#bug-06) | [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png) · [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png) · `novaTentativa` em [resultados.json](../evidencias/ui/resultados.json) |
+| [BUG-06](bugs.md#bug-06) | [CT-CHK-09-carrinho-cupom-expirado.png](../evidencias/ui/CT-CHK-09-carrinho-cupom-expirado.png) · [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png) · [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png) · `novaTentativa` em [resultados.json](../evidencias/ui/resultados.json) |
 
 ## Como regerar
 ```bash

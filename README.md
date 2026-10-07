@@ -14,7 +14,7 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 | [BUG-03](docs/bugs.md#bug-03) | Baixa (melhoria) | `GET /api` retorna 200 com HTML em vez de erro JSON |
 | [BUG-04](docs/bugs.md#bug-04) | Baixa (aguarda PO) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
 | [BUG-05](docs/bugs.md#bug-05) | Média | Se o cálculo do carrinho falha depois de uma alteração, o carrinho e o checkout exibem os valores antigos (R$ 79,80) e o pedido é confirmado com outro valor (R$ 139,70) |
-| [BUG-06](docs/bugs.md#bug-06) | Baixa (melhoria) | O checkout não permite remover um cupom recusado pela API; o cliente precisa voltar ao carrinho |
+| [BUG-06](docs/bugs.md#bug-06) | Baixa (melhoria) | Cupom recusado pela API aparece como "aplicado" no carrinho, e o checkout não permite removê-lo |
 
 Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitações-conhecidas) (o CA11 só pôde ser verificado parcialmente) e as [dúvidas para o PO](docs/ambiguidades.md).
 

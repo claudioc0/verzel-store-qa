@@ -10,7 +10,7 @@
 | [BUG-03](#bug-03) | `GET /api` retorna 200 com o HTML da loja em vez de erro JSON | Baixa (melhoria) | Baixa | Doc. da API | API |
 | [BUG-04](#bug-04) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` | Baixa (aguarda PO; não confirmado como bug) | Baixa | Doc. de erros | API |
 | [BUG-05](#bug-05) | Com falha no cálculo do carrinho, o checkout exibe valores desatualizados e o pedido é confirmado com outro valor | Média | Alta | Consistência UI × pedido | UI |
-| [BUG-06](#bug-06) | Checkout não permite remover um cupom recusado pela API | Baixa (melhoria) | Baixa | Usabilidade | UI |
+| [BUG-06](#bug-06) | Cupom recusado pela API: o carrinho o anuncia como aplicado e o checkout não permite removê-lo | Baixa (melhoria) | Baixa | Usabilidade | UI |
 
 Classificação conforme o [plano de testes §7](plano-de-testes.md#7-classificação-de-bugs).
 
@@ -153,16 +153,24 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 ---
 
 ## BUG-06
-**Checkout não permite remover um cupom recusado pela API**
+**Cupom recusado pela API: o carrinho o anuncia como aplicado e o checkout não permite removê-lo**
 
-- **Severidade:** Baixa, classificado como **melhoria**. Pode ser tratado também como pergunta ao PO sobre o fluxo desejado.
-- **Contexto:** um cupom pode deixar de valer entre o carrinho e o checkout (por exemplo, expirar nesse intervalo). Nesse caso, `POST /api/pedidos` responde `422 CUPOM_EXPIRADO` ou `CUPOM_INVALIDO`.
+- **Severidade:** Baixa, classificado como **melhoria**. Os valores cobrados estão corretos (desconto R$ 0,00), mas a interface informa o contrário do que a API responde e só revela o problema na confirmação do pedido. Pode ser tratado também como pergunta ao PO sobre o fluxo desejado.
+- **Contexto:** um cupom pode deixar de valer depois de aplicado (por exemplo, expirar com o carrinho aberto). Nesse caso, `POST /api/carrinho/calcular` responde `cupom.aplicado: false` com `"Cupom expirado."`, e `POST /api/pedidos` responde `422 CUPOM_EXPIRADO`.
 
-**Passos para reproduzir:** gravar `verzel-store:cupom` = `"VERAO2026"` no sessionStorage, ir ao checkout e confirmar com dados válidos (CT-CHK-09).
+**Passos para reproduzir**
+1. Em uma aba anônima, adicionar 1× "Camiseta Essencial".
+2. F12 → Application → Session Storage → criar a chave `verzel-store:cupom` com o valor `"VERAO2026"`, **com as aspas** (a loja guarda o valor em JSON). Isso simula um cupom que deixou de valer depois de aplicado.
+3. Pressionar F5. A loja só lê o armazenamento ao carregar a página; sem recarregar, a alteração é ignorada e o pedido é concluído sem cupom.
+4. Abrir o carrinho.
+5. Finalizar compra, preencher dados válidos e clicar em "Confirmar pedido" duas vezes.
 
-**Resultado obtido:** o checkout mostra "Cupom expirado." e mantém o botão habilitado. Uma nova tentativa reenvia o mesmo cupom e recebe o mesmo `422` (verificado: `novaTentativa` em `resultados.json`, chaves `CT-CHK-09-a/b`). O checkout não mostra o cupom nem oferece como removê-lo; o cliente precisa deduzir que deve voltar ao carrinho ("Voltar ao carrinho") e clicar em "Remover cupom".
+**Resultado obtido**
+- **Carrinho:** exibe "Cupom **VERAO2026 aplicado**." com "Remover cupom" e desconto R$ 0,00, enquanto a resposta de `/api/carrinho/calcular` na mesma tela é `"aplicado": false, "mensagem": "Cupom expirado."`. A interface decide o que exibir pelo cupom guardado na aba, e não pelo campo `aplicado` da resposta.
+- **Checkout:** o resumo não mostra o cupom. Ao confirmar, aparece "Cupom expirado." e o botão continua habilitado. A segunda tentativa reenvia o mesmo cupom e recebe o mesmo `422` (verificado: `novaTentativa` em `resultados.json`, chaves `CT-CHK-09-a/b`). O checkout não oferece como remover o cupom; o cliente precisa deduzir que deve voltar ao carrinho e clicar em "Remover cupom".
 
-**Sugestão:** no erro de cupom, oferecer no próprio checkout a opção de remover o cupom e seguir sem desconto, ou ao menos indicar o caminho ("Remova o cupom no carrinho").
+**Resultado esperado / sugestão**
+- No carrinho, usar o resultado da API: quando `aplicado` for `false`, exibir a mensagem (`"Cupom expirado."`) em vez de "Cupom X aplicado.", como já acontece ao aplicar um cupom expirado pelo campo.
+- No checkout, em erro de cupom, mostrar o cupom e oferecer a opção de removê-lo e seguir sem desconto, ou ao menos indicar o caminho ("Remova o cupom no carrinho").
 
-**Evidências:** [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png), [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png)
-
+**Evidências:** [CT-CHK-09-carrinho-cupom-expirado.png](../evidencias/ui/CT-CHK-09-carrinho-cupom-expirado.png), [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png), [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png)
