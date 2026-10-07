@@ -6,3 +6,5 @@ playwright/.cache/
 .env
 # Enunciado do teste (material da Verzel, não publicar)
 teste tecnico/
+# Arquivos temporários do Office
+~$*
