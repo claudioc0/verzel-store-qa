@@ -1,0 +1,676 @@
+{
+  "CT-CUP-01": {
+    "subtotal": "R$ 59,90",
+    "desconto": "- R$ 5,99",
+    "frete": "R$ 19,90",
+    "total": "R$ 73,81",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-CUP-02": {
+    "subtotal": "R$ 199,80",
+    "desconto": "- R$ 19,98",
+    "frete": "R$ 19,90",
+    "total": "R$ 199,72",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 0,20 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-CUP-03": {
+    "\"bemvindo10\"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    },
+    "\"BemVindo10\"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    },
+    "\"  BEMVINDO10\"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    },
+    "\"BEMVINDO10  \"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    },
+    "\" bemvindo10 \"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    }
+  },
+  "CT-CUP-04": {
+    "subtotal": "R$ 59,90",
+    "desconto": "R$ 0,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 79,80",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+    "mensagemCupom": "Cupom inválido.",
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom inválido."
+  },
+  "CT-CUP-05": {
+    "XYZ123": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom inválido.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom inválido."
+    },
+    "BEMVINDO": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom inválido.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom inválido."
+    },
+    "BEMVINDO100": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom inválido.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom inválido."
+    },
+    "BEMVINDO1O": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom inválido.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom inválido."
+    }
+  },
+  "CT-CUP-06": {
+    "\"VERAO2026\"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom expirado.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom expirado."
+    },
+    "\"verao2026\"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom expirado.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom expirado."
+    },
+    "\" VERAO2026 \"": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom expirado.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom expirado."
+    }
+  },
+  "CT-CUP-07": {
+    "vazio": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Informe um cupom.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nInforme um cupom."
+    },
+    "soEspacos": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Informe um cupom.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nInforme um cupom."
+    }
+  },
+  "CT-CUP-08-09": {
+    "aplicado": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom",
+      "campoCupomVisivel": 0,
+      "areaCupom": "Camiseta Essencial\n\nR$ 59,90 cada\n\n-\n1\n+\n\nR$ 59,90\n\nRemover\n\nCupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    },
+    "removido": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom",
+      "campoCupomVisivel": 1
+    },
+    "outro": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": "Cupom expirado.",
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom\n\nCupom expirado."
+    }
+  },
+  "CT-CUP-10": {
+    "subtotal": "R$ 119,80",
+    "desconto": "- R$ 11,98",
+    "frete": "R$ 19,90",
+    "total": "R$ 127,72",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 80,20 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-FRE-01": {
+    "subtotal": "R$ 59,90",
+    "desconto": "R$ 0,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 79,80",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-FRE-02": {
+    "subtotal": "R$ 199,80",
+    "desconto": "R$ 0,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 219,70",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": "Faltam R$ 0,20 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-FRE-03": {
+    "subtotal": "R$ 200,00",
+    "desconto": "R$ 0,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 219,90",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": "Faltam R$ 0,00 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-FRE-04": {
+    "subtotal": "R$ 229,90",
+    "desconto": "R$ 0,00",
+    "frete": "Grátis",
+    "total": "R$ 229,90",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": null,
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-FRE-05": {
+    "subtotal": "R$ 200,00",
+    "desconto": "- R$ 20,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 199,90",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 0,00 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-FRE-06": {
+    "subtotal": "R$ 229,90",
+    "desconto": "- R$ 22,99",
+    "frete": "Grátis",
+    "total": "R$ 206,91",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": null,
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-FRE-07": {
+    "subtotal": "R$ 199,80",
+    "desconto": "- R$ 19,98",
+    "frete": "R$ 19,90",
+    "total": "R$ 199,72",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 0,20 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-FRE-08": {
+    "um": {
+      "subtotal": "R$ 100,00",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 119,90",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 100,00 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+    },
+    "dois": {
+      "subtotal": "R$ 200,00",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 219,90",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 0,00 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+    },
+    "volta": {
+      "subtotal": "R$ 100,00",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 119,90",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 100,00 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+    }
+  },
+  "CT-QTD-01": {
+    "botaoDesabilitado": true,
+    "aviso": "Limite de 5 unidades atingido.",
+    "contadorCabecalho": "verzel\nstore\nProdutos\nDocumentação\nCarrinho\n5",
+    "quantidade": "5"
+  },
+  "CT-QTD-02": {
+    "botaoMaisDesabilitado": true,
+    "quantidade": "5",
+    "subtotal": "R$ 149,50",
+    "desconto": "R$ 0,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 169,40",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": "Faltam R$ 50,50 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-QTD-04": {
+    "quantidade": "1",
+    "menosDesabilitado": true
+  },
+  "CT-QTD-05": {
+    "subtotal": "R$ 399,00",
+    "desconto": "R$ 0,00",
+    "frete": "Grátis",
+    "total": "R$ 399,00",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": null,
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-QTD-06": {
+    "itens": [
+      "Camiseta Essencial"
+    ],
+    "subtotal": "R$ 59,90",
+    "desconto": "R$ 0,00",
+    "frete": "R$ 19,90",
+    "total": "R$ 79,80",
+    "rotuloDesconto": "Desconto",
+    "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+  },
+  "CT-ARR-01-1": {
+    "subtotal": "R$ 179,70",
+    "desconto": "- R$ 17,97",
+    "frete": "R$ 19,90",
+    "total": "R$ 181,63",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 20,30 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-ARR-01-2": {
+    "subtotal": "R$ 89,70",
+    "desconto": "- R$ 8,97",
+    "frete": "R$ 19,90",
+    "total": "R$ 100,63",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 110,30 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-ARR-01-3": {
+    "subtotal": "R$ 149,50",
+    "desconto": "- R$ 14,95",
+    "frete": "R$ 19,90",
+    "total": "R$ 154,45",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 50,50 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-ARR-01-4": {
+    "subtotal": "R$ 189,90",
+    "desconto": "- R$ 18,99",
+    "frete": "R$ 19,90",
+    "total": "R$ 190,81",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 10,10 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-ARR-01-5": {
+    "subtotal": "R$ 689,70",
+    "desconto": "- R$ 68,97",
+    "frete": "Grátis",
+    "total": "R$ 620,73",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": null,
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-ARR-02": {
+    "subtotal": "R$ 849,40",
+    "desconto": "- R$ 84,94",
+    "frete": "Grátis",
+    "total": "R$ 764,46",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": null,
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "CT-CHK-01": {
+    "carrinho": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+    },
+    "conf": {
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado",
+      "texto": "Pedido confirmado\n\nPedido VZ-976283\n\nObrigado, Maria. Seu pedido foi registrado e o pagamento será feito na entrega.\n\nItens do pedido\nSubtotal\nR$ 59,90\nDesconto\nR$ 0,00\nFrete\nR$ 19,90\nTotal\nR$ 79,80\n1x Camiseta Essencial\nR$ 59,90\nContinuar comprando",
+      "resumo": {
+        "subtotal": "R$ 59,90",
+        "desconto": "R$ 0,00",
+        "frete": "R$ 19,90",
+        "total": "R$ 79,80",
+        "rotuloDesconto": "Desconto",
+        "avisoFrete": null,
+        "mensagemCupom": null,
+        "cupomAplicado": null
+      }
+    },
+    "carrinhoApos": "Seu carrinho está vazio\n\nEscolha um produto na vitrine para começar.\n\nVer produtos"
+  },
+  "CT-CHK-02": {
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado"
+  },
+  "CT-CHK-03": [
+    {
+      "dados": [
+        "",
+        "maria@exemplo.com",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe o nome completo."
+      ]
+    },
+    {
+      "dados": [
+        "Maria",
+        "maria@exemplo.com",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe nome e sobrenome."
+      ]
+    },
+    {
+      "dados": [
+        "Maria S",
+        "maria@exemplo.com",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe nome e sobrenome."
+      ]
+    },
+    {
+      "dados": [
+        "   ",
+        "maria@exemplo.com",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe o nome completo."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe o e-mail."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria.exemplo.com",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe um e-mail válido."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria@exemplo",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe um e-mail válido."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria @exemplo.com",
+        "01310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe um e-mail válido."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria@exemplo.com",
+        ""
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe o CEP."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria@exemplo.com",
+        "1310-100"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe um CEP com 8 dígitos."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria@exemplo.com",
+        "01310-1000"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe um CEP com 8 dígitos."
+      ]
+    },
+    {
+      "dados": [
+        "Maria Silva",
+        "maria@exemplo.com",
+        "ABCDE-FGH"
+      ],
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "erros": [
+        "Informe um CEP com 8 dígitos."
+      ]
+    }
+  ],
+  "CT-CHK-04": {
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/carrinho"
+  },
+  "CT-CHK-05": {
+    "texto": "Nenhum pedido recente\n\nA confirmação aparece aqui logo depois que você finaliza uma compra.\n\nVer produtos"
+  },
+  "CT-CHK-06": {
+    "checkout": {
+      "subtotal": "R$ 200,00",
+      "desconto": "- R$ 20,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 199,90",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": null,
+      "mensagemCupom": null,
+      "cupomAplicado": null
+    },
+    "confirmado": {
+      "subtotal": "R$ 200,00",
+      "desconto": "- R$ 20,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 199,90",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": null,
+      "mensagemCupom": null,
+      "cupomAplicado": null
+    }
+  },
+  "CT-CUP-11": {
+    "checkout": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": null,
+      "mensagemCupom": null,
+      "cupomAplicado": null
+    },
+    "confirmado": {
+      "subtotal": "R$ 59,90",
+      "desconto": "- R$ 5,99",
+      "frete": "R$ 19,90",
+      "total": "R$ 73,81",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": null,
+      "mensagemCupom": null,
+      "cupomAplicado": null
+    }
+  },
+  "EXP-01-recarregar": {
+    "subtotal": "R$ 59,90",
+    "desconto": "- R$ 5,99",
+    "frete": "R$ 19,90",
+    "total": "R$ 73,81",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "EXP-02-404": {
+    "titulo": "Página não encontrada | Verzel Store",
+    "texto": "Página não encontrada\n\nO endereço acessado não existe na Verzel Store.\n\nVer produtos"
+  },
+  "EXP-03-mobile": {
+    "scrollHorizontal": false
+  },
+  "EXP-04-esvaziar": {
+    "texto": "Carrinho\nEsvaziar carrinho\nCamiseta Essencial\n\nR$ 59,90 cada\n\n-\n1\n+\n\nR$ 59,90\n\nRemover\nCupom de desconto\nAplicar cupom\nResumo do pedido\nSubtotal\nR$ 59,90\nDesconto\nR$ 0,00\nFrete\nR$ 19,90\nTotal\nR$ 79,80\n\nFaltam R$ 140,10 para o frete grátis.\n\nFinalizar compra",
+    "resumo": {
+      "subtotal": "R$ 59,90",
+      "desconto": "R$ 0,00",
+      "frete": "R$ 19,90",
+      "total": "R$ 79,80",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom"
+    }
+  }
+}

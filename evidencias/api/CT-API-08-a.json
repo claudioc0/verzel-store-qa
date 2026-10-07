@@ -1,0 +1,38 @@
+{
+  "id": "CT-API-08-a",
+  "executadoEm": "2026-10-07T13:56:57.147Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P005",
+          "quantidade": 1
+        }
+      ]
+    }
+  },
+  "resposta": {
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P005",
+          "nome": "Mochila Urbana 20L",
+          "precoUnitario": 100,
+          "quantidade": 1,
+          "total": 100
+        }
+      ],
+      "subtotal": 100,
+      "desconto": 0,
+      "frete": 19.9,
+      "freteGratis": false,
+      "valorFaltanteFreteGratis": 100,
+      "total": 119.9,
+      "cupom": null
+    }
+  }
+}

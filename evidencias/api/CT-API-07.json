@@ -1,0 +1,54 @@
+{
+  "id": "CT-API-07",
+  "executadoEm": "2026-10-07T13:56:57.113Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P001",
+          "quantidade": 1
+        },
+        {
+          "produtoId": "P002",
+          "quantidade": 1
+        }
+      ],
+      "cupom": "BEMVINDO10"
+    }
+  },
+  "resposta": {
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P001",
+          "nome": "Camiseta Essencial",
+          "precoUnitario": 59.9,
+          "quantidade": 1,
+          "total": 59.9
+        },
+        {
+          "produtoId": "P002",
+          "nome": "Calça Jeans Slim",
+          "precoUnitario": 139.9,
+          "quantidade": 1,
+          "total": 139.9
+        }
+      ],
+      "subtotal": 199.8,
+      "desconto": 19.98,
+      "frete": 19.9,
+      "freteGratis": false,
+      "valorFaltanteFreteGratis": 0.2,
+      "total": 199.72,
+      "cupom": {
+        "codigo": "BEMVINDO10",
+        "aplicado": true,
+        "mensagem": "Cupom aplicado: 10% de desconto nos produtos."
+      }
+    }
+  }
+}

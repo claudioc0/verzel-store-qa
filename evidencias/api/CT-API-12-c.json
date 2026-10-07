@@ -1,0 +1,24 @@
+{
+  "id": "CT-API-12-c",
+  "executadoEm": "2026-10-07T13:56:57.968Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "corpo": {
+      "itens": [
+        "P001"
+      ]
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "ITEM_INVALIDO",
+        "mensagem": "Cada item deve ser um objeto com produtoId e quantidade.",
+        "campo": "itens[0]"
+      }
+    }
+  }
+}

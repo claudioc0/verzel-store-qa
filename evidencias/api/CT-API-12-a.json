@@ -1,0 +1,22 @@
+{
+  "id": "CT-API-12-a",
+  "executadoEm": "2026-10-07T13:56:57.836Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "corpo": {
+      "itens": []
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "ITENS_OBRIGATORIOS",
+        "mensagem": "Informe ao menos um item.",
+        "campo": "itens"
+      }
+    }
+  }
+}

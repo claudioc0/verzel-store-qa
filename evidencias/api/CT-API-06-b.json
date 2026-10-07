@@ -1,0 +1,19 @@
+{
+  "id": "CT-API-06-b",
+  "executadoEm": "2026-10-07T13:56:56.956Z",
+  "requisicao": {
+    "metodo": "GET",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "corpo": null
+  },
+  "resposta": {
+    "status": 405,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "METODO_NAO_PERMITIDO",
+        "mensagem": "O método GET não é permitido nesta rota."
+      }
+    }
+  }
+}

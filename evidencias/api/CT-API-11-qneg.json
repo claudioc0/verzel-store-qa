@@ -1,0 +1,27 @@
+{
+  "id": "CT-API-11-qneg",
+  "executadoEm": "2026-10-07T13:56:57.643Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P001",
+          "quantidade": -1
+        }
+      ]
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "QUANTIDADE_INVALIDA",
+        "mensagem": "A quantidade deve ser um número inteiro maior ou igual a 1.",
+        "campo": "itens[0].quantidade"
+      }
+    }
+  }
+}

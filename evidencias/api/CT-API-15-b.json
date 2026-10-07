@@ -1,0 +1,33 @@
+{
+  "id": "CT-API-15-b",
+  "executadoEm": "2026-10-07T13:56:58.455Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "corpo": {
+      "cliente": {
+        "nome": "Maria Silva",
+        "email": "maria@exemplo.com",
+        "cep": "01310-100"
+      },
+      "itens": [
+        {
+          "produtoId": "P001",
+          "quantidade": 1
+        }
+      ],
+      "cupom": "VERAO2026"
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "CUPOM_EXPIRADO",
+        "mensagem": "Cupom expirado.",
+        "campo": "cupom"
+      }
+    }
+  }
+}

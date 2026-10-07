@@ -1,0 +1,19 @@
+{
+  "id": "CT-API-04",
+  "executadoEm": "2026-10-07T13:56:56.728Z",
+  "requisicao": {
+    "metodo": "GET",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/rota-inexistente",
+    "corpo": null
+  },
+  "resposta": {
+    "status": 404,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "ROTA_NAO_ENCONTRADA",
+        "mensagem": "Rota não encontrada."
+      }
+    }
+  }
+}

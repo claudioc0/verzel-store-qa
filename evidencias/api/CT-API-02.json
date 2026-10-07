@@ -1,0 +1,20 @@
+{
+  "id": "CT-API-02",
+  "executadoEm": "2026-10-07T13:56:56.548Z",
+  "requisicao": {
+    "metodo": "GET",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/produtos/P005",
+    "corpo": null
+  },
+  "resposta": {
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "id": "P005",
+      "nome": "Mochila Urbana 20L",
+      "descricao": "Compartimento acolchoado para notebook.",
+      "categoria": "Acessórios",
+      "preco": 100
+    }
+  }
+}

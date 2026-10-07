@@ -1,0 +1,14 @@
+{
+  "id": "CT-API-05",
+  "executadoEm": "2026-10-07T13:56:56.788Z",
+  "requisicao": {
+    "metodo": "GET",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api",
+    "corpo": null
+  },
+  "resposta": {
+    "status": 200,
+    "contentType": "text/html",
+    "corpo": "<!doctype html>\n<html lang=\"pt-BR\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <meta name=\"robots\" content=\"noindex\" />\n    <title>Verzel Store | Ambiente de tes"
+  }
+}

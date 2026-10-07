@@ -1,0 +1,19 @@
+{
+  "id": "CT-API-03-c",
+  "executadoEm": "2026-10-07T13:56:56.677Z",
+  "requisicao": {
+    "metodo": "GET",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/produtos/abc",
+    "corpo": null
+  },
+  "resposta": {
+    "status": 404,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "PRODUTO_NAO_ENCONTRADO",
+        "mensagem": "Produto abc não encontrado."
+      }
+    }
+  }
+}

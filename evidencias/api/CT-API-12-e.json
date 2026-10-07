@@ -1,0 +1,27 @@
+{
+  "id": "CT-API-12-e",
+  "executadoEm": "2026-10-07T13:56:58.080Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P999",
+          "quantidade": 1
+        }
+      ]
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "PRODUTO_NAO_ENCONTRADO",
+        "mensagem": "Produto P999 não encontrado.",
+        "campo": "itens[0].produtoId"
+      }
+    }
+  }
+}

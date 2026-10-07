@@ -1,0 +1,40 @@
+{
+  "id": "CT-API-16-d",
+  "executadoEm": "2026-10-07T13:56:58.717Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P001",
+          "quantidade": 1
+        }
+      ]
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "DADOS_INVALIDOS",
+        "mensagem": "Existem campos inválidos no pedido.",
+        "campos": [
+          {
+            "campo": "cliente.nome",
+            "mensagem": "Informe o nome completo."
+          },
+          {
+            "campo": "cliente.email",
+            "mensagem": "Informe o e-mail."
+          },
+          {
+            "campo": "cliente.cep",
+            "mensagem": "Informe o CEP."
+          }
+        ]
+      }
+    }
+  }
+}
