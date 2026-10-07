@@ -1,0 +1,40 @@
+{
+  "id": "CT-API-26",
+  "executadoEm": "2026-10-07T14:30:37.468Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
+    "corpo": {
+      "cliente": {
+        "nome": "Maria S",
+        "email": "maria@exemplo.com",
+        "cep": "01310-100"
+      },
+      "itens": [
+        {
+          "produtoId": "P001",
+          "quantidade": 1
+        }
+      ]
+    }
+  },
+  "resposta": {
+    "status": 422,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "DADOS_INVALIDOS",
+        "mensagem": "Existem campos inválidos no pedido.",
+        "campos": [
+          {
+            "campo": "cliente.nome",
+            "mensagem": "Informe nome e sobrenome."
+          }
+        ]
+      }
+    }
+  }
+}

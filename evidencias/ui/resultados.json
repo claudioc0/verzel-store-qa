@@ -672,5 +672,132 @@
       "mensagemCupom": null,
       "cupomAplicado": "Cupom de desconto\nAplicar cupom"
     }
+  },
+  "CT-QTD-07": {
+    "carrinho": {
+      "texto": "Camiseta Essencial\n\nR$ 59,90 cada\n\nLimite de 5 unidades por produto.\n\n-\n9\n+\n\nR$ 539,10\n\nRemover",
+      "subtotal": "R$ 539,10",
+      "desconto": "R$ 0,00",
+      "frete": "Grátis",
+      "total": "R$ 539,10",
+      "rotuloDesconto": "Desconto",
+      "avisoFrete": null,
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom de desconto\nAplicar cupom",
+      "finalizarVisivel": true
+    },
+    "statusPedido": 201,
+    "pedido": {
+      "numero": "VZ-527478",
+      "criadoEm": "2026-10-07T14:29:59.495Z",
+      "cliente": {
+        "nome": "Maria Silva",
+        "email": "maria@exemplo.com",
+        "cep": "01310100"
+      },
+      "itens": [
+        {
+          "produtoId": "P001",
+          "nome": "Camiseta Essencial",
+          "precoUnitario": 59.9,
+          "quantidade": 9,
+          "total": 539.1
+        }
+      ],
+      "subtotal": 539.1,
+      "desconto": 0,
+      "frete": 0,
+      "freteGratis": true,
+      "valorFaltanteFreteGratis": 0,
+      "total": 539.1,
+      "cupom": null
+    },
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado"
+  },
+  "CT-CHK-07-1": {
+    "dados": [
+      "José D'Ávila",
+      "jose.davila+loja@mail.empresa.com.br",
+      "01310-100"
+    ],
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado",
+    "erros": []
+  },
+  "CT-CHK-07-2": {
+    "dados": [
+      "Ana-Clara de Souza Lima",
+      "ana@exemplo.com",
+      "01310100"
+    ],
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado",
+    "erros": []
+  },
+  "CT-CHK-07-3": {
+    "dados": [
+      "  Maria Silva  ",
+      "  maria@exemplo.com  ",
+      " 01310-100 "
+    ],
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado",
+    "erros": []
+  },
+  "CT-CHK-08": {
+    "envios": 1,
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado"
+  },
+  "EXP-05-primeira-compra": {
+    "subtotal": "R$ 59,90",
+    "desconto": "- R$ 5,99",
+    "frete": "R$ 19,90",
+    "total": "R$ 73,81",
+    "rotuloDesconto": "Desconto (BEMVINDO10)",
+    "avisoFrete": "Faltam R$ 140,10 para o frete grátis.",
+    "mensagemCupom": null,
+    "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+  },
+  "EXP-06-ui-x-api": {
+    "api": {
+      "subtotal": 199.8,
+      "desconto": 19.98,
+      "frete": 19.9,
+      "total": 199.72
+    },
+    "tela": {
+      "subtotal": "R$ 199,80",
+      "desconto": "- R$ 19,98",
+      "frete": "R$ 19,90",
+      "total": "R$ 199,72",
+      "rotuloDesconto": "Desconto (BEMVINDO10)",
+      "avisoFrete": "Faltam R$ 0,20 para o frete grátis.",
+      "mensagemCupom": null,
+      "cupomAplicado": "Cupom BEMVINDO10 aplicado.\n\nRemover cupom"
+    }
+  },
+  "EXP-03-mobile-checkout": {
+    "/": {
+      "larguraConteudo": 375,
+      "larguraTela": 375
+    },
+    "/carrinho": {
+      "larguraConteudo": 375,
+      "larguraTela": 375
+    },
+    "/checkout": {
+      "larguraConteudo": 375,
+      "larguraTela": 375
+    },
+    "/documentacao": {
+      "larguraConteudo": 375,
+      "larguraTela": 375
+    }
+  },
+  "EXP-07-teclado": {
+    "itens": [
+      "Camiseta Essencial"
+    ],
+    "rotuloCampoCupom": "Cupom de desconto",
+    "mensagem": "Cupom inválido.",
+    "roleMensagem": "alert",
+    "ariaInvalid": "true"
   }
 }

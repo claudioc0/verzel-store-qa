@@ -1,14 +1,17 @@
 // Executa os cenários de interface de docs/cenarios/*.feature, salva um print por passo
 // relevante em evidencias/ui/ e grava os valores observados em evidencias/ui/resultados.json.
-// Uso: node scripts/executar-ui.mjs
+// Uso: node scripts/executar-ui.mjs [regex de IDs]   ex.: node scripts/executar-ui.mjs "CT-CHK-0[78]|EXP-05"
+// Com filtro, roda só os cenários correspondentes e mescla o resultado no resultados.json existente.
 import { chromium } from '@playwright/test';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const BASE = 'https://verzel-store.qa-test-verzel-store.workers.dev';
 const DIR = new URL('../evidencias/ui/', import.meta.url);
 mkdirSync(DIR, { recursive: true });
-const resultados = {};
+const FILTRO = process.argv[2] ? new RegExp(process.argv[2]) : null;
+const ARQUIVO = fileURLToPath(new URL('resultados.json', DIR));
+const resultados = FILTRO && existsSync(ARQUIVO) ? JSON.parse(readFileSync(ARQUIVO, 'utf-8')) : {};
 
 const browser = await chromium.launch();
 
@@ -56,6 +59,7 @@ async function print(page, nome) {
 }
 
 async function cenario(id, fn) {
+  if (FILTRO && !FILTRO.test(id)) return;
   const page = await novaAba();
   try {
     resultados[id] = await fn(page);
@@ -248,12 +252,15 @@ const invalidos = [
   ['Maria Silva', 'maria@exemplo.com', '1310-100'], ['Maria Silva', 'maria@exemplo.com', '01310-1000'], ['Maria Silva', 'maria@exemplo.com', 'ABCDE-FGH'],
 ];
 await cenario('CT-CHK-03', async (p) => {
-  await adicionar(p, 'Camiseta Essencial'); await p.goto(BASE + '/checkout');
+  await adicionar(p, 'Camiseta Essencial');
   const out = [];
   for (const [i, d] of invalidos.entries()) {
-    await preencher(p, ...d); await p.getByRole('button', { name: 'Confirmar pedido' }).click(); await p.waitForTimeout(700);
+    // Cada caso parte de um formulário recém-carregado, para que erros de um caso não mascarem o próximo.
+    await p.goto(BASE + '/checkout');
+    await preencher(p, ...d); await p.getByRole('button', { name: 'Confirmar pedido' }).click();
+    await p.locator('[id$="-erro"]').first().waitFor({ timeout: 5000 }).catch(() => {});
     await print(p, `CT-CHK-03-${String(i + 1).padStart(2, '0')}`);
-    out.push({ dados: d, url: p.url(), erros: await p.locator('.campo-erro, [id$="-erro"]').allInnerTexts() });
+    out.push({ dados: d, url: p.url(), erros: await p.locator('[id$="-erro"]').allInnerTexts() });
     if (!p.url().endsWith('/checkout')) break;
   }
   return out;
@@ -312,5 +319,96 @@ await cenario('EXP-04-esvaziar', async (p) => {
   return { texto: await p.locator('main').innerText(), resumo: await resumo(p) };
 });
 
-writeFileSync(new URL('resultados.json', DIR), JSON.stringify(resultados, null, 2) + '\n');
+
+// ---------- Complemento pós-auditoria ----------
+await cenario('CT-QTD-07', async (p) => {
+  // Carrinho com 9 unidades gravado direto no sessionStorage (simula estado adulterado ou desatualizado).
+  await adicionar(p, 'Camiseta Essencial');
+  await p.evaluate(() => sessionStorage.setItem('verzel-store:itens', JSON.stringify([{ produtoId: 'P001', quantidade: 9 }])));
+  await irCarrinho(p); await print(p, 'CT-QTD-07-carrinho');
+  const carrinho = { texto: await p.locator('.item-carrinho').innerText(), ...(await resumo(p)),
+    finalizarVisivel: await p.getByRole('link', { name: 'Finalizar compra' }).isVisible() };
+  await p.goto(BASE + '/checkout');
+  await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+  const resposta = p.waitForResponse((r) => r.url().endsWith('/api/pedidos'));
+  await p.getByRole('button', { name: 'Confirmar pedido' }).click();
+  const r = await resposta;
+  await p.waitForURL('**/pedido-confirmado').catch(() => {}); await p.waitForTimeout(500);
+  await print(p, 'CT-QTD-07-confirmado');
+  return { carrinho, statusPedido: r.status(), pedido: await r.json(), url: p.url() };
+});
+const validos = [
+  ["José D'Ávila", 'jose.davila+loja@mail.empresa.com.br', '01310-100'],
+  ['Ana-Clara de Souza Lima', 'ana@exemplo.com', '01310100'],
+  ['  Maria Silva  ', '  maria@exemplo.com  ', ' 01310-100 '],
+];
+for (const [i, d] of validos.entries()) {
+  await cenario(`CT-CHK-07-${i + 1}`, async (p) => {
+    await adicionar(p, 'Camiseta Essencial'); await p.goto(BASE + '/checkout');
+    await preencher(p, ...d); await p.getByRole('button', { name: 'Confirmar pedido' }).click();
+    await p.waitForURL('**/pedido-confirmado', { timeout: 5000 }).catch(() => {});
+    await p.waitForTimeout(500); await print(p, `CT-CHK-07-${i + 1}`);
+    return { dados: d, url: p.url(), erros: await p.locator('[id$="-erro"]').allInnerTexts() };
+  });
+}
+await cenario('CT-CHK-08', async (p) => {
+  await adicionar(p, 'Camiseta Essencial'); await p.goto(BASE + '/checkout');
+  await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+  let envios = 0;
+  p.on('request', (r) => { if (r.url().endsWith('/api/pedidos')) envios++; });
+  await p.getByRole('button', { name: 'Confirmar pedido' }).dblclick();
+  await p.waitForURL('**/pedido-confirmado'); await p.waitForTimeout(1500);
+  await print(p, 'CT-CHK-08');
+  return { envios, url: p.url() };
+});
+await cenario('EXP-05-primeira-compra', async (p) => {
+  await adicionar(p, 'Camiseta Essencial'); await irCarrinho(p); await aplicarCupom(p, 'BEMVINDO10');
+  await p.goto(BASE + '/checkout'); await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+  await p.getByRole('button', { name: 'Confirmar pedido' }).click(); await p.waitForURL('**/pedido-confirmado');
+  await adicionar(p, 'Camiseta Essencial'); await irCarrinho(p); await aplicarCupom(p, 'BEMVINDO10');
+  await print(p, 'EXP-05-segunda-compra');
+  return resumo(p);
+});
+await cenario('EXP-06-ui-x-api', async (p) => {
+  await adicionar(p, 'Camiseta Essencial'); await adicionar(p, 'Calça Jeans Slim');
+  const resposta = p.waitForResponse((r) => r.url().endsWith('/api/carrinho/calcular') && r.request().postData()?.includes('BEMVINDO10'));
+  await irCarrinho(p);
+  await p.locator('#campo-cupom').fill('BEMVINDO10'); await p.getByRole('button', { name: 'Aplicar cupom' }).click();
+  const api = await (await resposta).json();
+  await p.waitForTimeout(700); await print(p, 'EXP-06-ui-x-api');
+  return { api: { subtotal: api.subtotal, desconto: api.desconto, frete: api.frete, total: api.total }, tela: await resumo(p) };
+});
+await cenario('EXP-03-mobile-checkout', async () => {
+  const p = await novaAba({ width: 375, height: 812 });
+  await adicionar(p, 'Camiseta Essencial');
+  const medidas = {};
+  for (const rota of ['/', '/carrinho', '/checkout', '/documentacao']) {
+    await p.goto(BASE + rota); await p.waitForTimeout(700);
+    medidas[rota] = await p.evaluate(() => ({ larguraConteudo: document.documentElement.scrollWidth, larguraTela: window.innerWidth }));
+  }
+  await p.goto(BASE + '/checkout'); await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+  await print(p, 'EXP-03-mobile-checkout');
+  await p.getByRole('button', { name: 'Confirmar pedido' }).click(); await p.waitForURL('**/pedido-confirmado');
+  await print(p, 'EXP-03-mobile-confirmado');
+  await p.context().close();
+  return medidas;
+});
+await cenario('EXP-07-teclado', async (p) => {
+  // Fluxo só com teclado: adicionar produto, aplicar cupom e verificar rótulos e mensagens anunciáveis.
+  await p.goto(BASE + '/');
+  await p.getByRole('button', { name: 'Adicionar ao carrinho' }).first().focus();
+  await p.keyboard.press('Enter');
+  await irCarrinho(p);
+  await p.locator('#campo-cupom').focus(); await p.keyboard.type('XYZ123'); await p.keyboard.press('Enter');
+  await p.waitForTimeout(900); await print(p, 'EXP-07-teclado');
+  const msg = p.locator('#mensagem-cupom');
+  return {
+    itens: await p.locator('.item-carrinho h3').allTextContents(),
+    rotuloCampoCupom: await p.locator('label[for="campo-cupom"]').innerText(),
+    mensagem: await msg.innerText(), roleMensagem: await msg.getAttribute('role'),
+    ariaInvalid: await p.locator('#campo-cupom').getAttribute('aria-invalid'),
+  };
+});
+
+writeFileSync(ARQUIVO, JSON.stringify(resultados, null, 2) + '\n');
 await browser.close();

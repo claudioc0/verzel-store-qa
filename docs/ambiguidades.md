@@ -1,31 +1,51 @@
 # Ambiguidades e interpretações
 
-Pontos em que a documentação deixa margem de interpretação, com a interpretação adotada nos testes.
+Pontos em que a documentação deixa margem de interpretação, com a interpretação adotada nos testes. Os itens marcados como **dúvida para o PO** não foram tratados como certos nem como errados: ficam pendentes de decisão de quem define o produto.
 
 ## A1
 **O link `/api` do enunciado não abre nada útil.**
-A documentação diz que "A API fica no mesmo endereço da loja, no caminho `/api`" e lista os endpoints abaixo dele. **Interpretação:** `/api` é o prefixo base, não um endpoint, então a ausência de conteúdo não é bug. A resposta `200 text/html` para esse caminho, diferente do `404` JSON das demais rotas inexistentes, foi registrada como [BUG-03](bugs.md#bug-03).
+A documentação diz que "A API fica no mesmo endereço da loja, no caminho `/api`" e lista os endpoints abaixo dele. **Interpretação:** `/api` é o prefixo base, não um endpoint, então a ausência de conteúdo não é bug. A resposta `200 text/html` para esse caminho, diferente do `404` JSON das demais rotas inexistentes, foi registrada como melhoria em [BUG-03](bugs.md#bug-03).
 
 ## A2
-**"Frete grátis a partir de R$ 200,00, inclusive" combinado com cupom (CA06 × CA08).**
-**Interpretação:** o valor comparado com R$ 200,00 é sempre o subtotal bruto dos produtos. Portanto 2 × R$ 100,00 com BEMVINDO10 (subtotal R$ 200,00, total de produtos R$ 180,00) deve ter frete grátis.
+**Frete grátis com cupom: regra confirmada, não ambígua.**
+CA08 ("considera o subtotal antes do desconto") e a fórmula das Regras de cálculo ("R$ 0,00 quando o subtotal é igual ou maior que R$ 200,00", em que o subtotal é a soma dos produtos) resolvem o caso explicitamente: 2 × R$ 100,00 com BEMVINDO10 deve ter frete grátis. Este item fica registrado só como referência para o [BUG-01](bugs.md#bug-01).
 
 ## A3
-**Regras de validação do nome, e-mail e CEP no checkout não estão nos critérios de aceite.**
-**Interpretação:** usei as mensagens da própria interface como referência e o formato do exemplo da API (`01310-100`). Comportamentos observados e considerados corretos: o nome exige nome e sobrenome com pelo menos 2 letras cada ("Maria S" é rejeitado); o CEP é aceito com ou sem hífen e retorna normalizado (`01310100`).
+**Nome "Maria S" é rejeitado: dúvida para o PO.**
+A documentação diz apenas que "o nome do cliente precisa ter nome e sobrenome", e isso é uma regra que "já existia antes desta entrega". A implementação exige pelo menos 2 letras em cada parte, tanto na interface quanto na API (CT-CHK-03, CT-API-26). "Maria S" tem nome e sobrenome abreviado e é recusado com "Informe nome e sobrenome.". **Interpretação:** a regra é mais restritiva que a documentação. Como não faz parte desta entrega, não registrei como bug, mas também não considerei o comportamento correto por padrão. Fica como pergunta ao PO.
+
+Comportamentos de borda confirmados como **aceitos** (CT-CHK-07, CT-API-25): acentos e apóstrofo ("José D'Ávila"), hífen e 3 ou mais nomes ("Ana-Clara de Souza Lima"), e-mail com `+` e subdomínio, espaços nas pontas dos campos e CEP com ou sem hífen (normalizado para `01310100`).
 
 ## A4
 **CA10 "na interface": não existe campo para digitar a quantidade.**
-A quantidade só muda pelos botões + e −, e o valor é exibido em um `<output>` somente leitura. **Interpretação:** o cenário CT-QTD-03 (digitar quantidade) não se aplica à interface, e a validação equivalente foi feita pela API.
+A quantidade só muda pelos botões + e −, e o valor é exibido em um `<output>` somente leitura. **Interpretação:** o cenário CT-QTD-03 (digitar quantidade) não se aplica. A validação da interface foi feita de duas formas: pelos botões (CT-QTD-01/02) e por um carrinho carregado acima do limite (CT-QTD-07), que revelou a parte de interface do [BUG-02](bugs.md#bug-02).
 
 ## A5
 **Cupom com espaço no meio (`BEM VINDO10`).**
 CA02 diz que espaços "no início e no fim" são ignorados. **Interpretação:** espaços internos fazem parte do código, então o cupom deve ser inválido. Foi o comportamento observado.
 
 ## A6
-**Ausência de `quantidade` no item: `ITEM_INVALIDO` ou `QUANTIDADE_INVALIDA`?**
-Ver [BUG-04](bugs.md#bug-04). Adotei a leitura literal da tabela de erros.
+**Ausência de `quantidade` no item: `ITEM_INVALIDO` ou `QUANTIDADE_INVALIDA`? Dúvida para o PO.**
+A tabela de erros define `ITEM_INVALIDO` como "um item não é um objeto com produtoId e quantidade", o que descreve literalmente um item sem `quantidade`. Mas o item é um objeto com `produtoId`, então `QUANTIDADE_INVALIDA` também se encaixa. Registrado como [BUG-04](bugs.md#bug-04) com status "aguarda confirmação do PO".
 
 ## A7
 **Cupom persiste ao recarregar a página.**
 A documentação diz que o carrinho fica guardado na aba. **Interpretação:** o cupom aplicado faz parte do carrinho, então mantê-lo após recarregar (comportamento observado) está correto.
+
+## A8
+**"Na primeira compra, o cupom BEMVINDO10 dá 10%" (texto da home).**
+Os critérios de aceite não restringem o cupom à primeira compra, e a loja não tem cadastro de clientes. Observado em EXP-05: depois de um pedido confirmado, o BEMVINDO10 é aceito de novo na mesma aba. **Interpretação:** sem identificação do cliente, a regra de "primeira compra" não é verificável neste ambiente. Não registrei como bug; fica como dúvida para o PO caso a restrição seja esperada em algum nível (por exemplo, por e-mail no pedido).
+
+## A9
+**CA11, "valores arredondados para 2 casas decimais": verificação parcial.**
+Com a massa disponível, nenhum cálculo produz uma terceira casa decimal (preços múltiplos de R$ 0,10 e cupom de 10%). **Interpretação:** o CA11 foi verificado apenas quanto à ausência de resíduo de ponto flutuante na interface e na API. A regra de arredondamento propriamente dita (meio para cima, truncamento etc.) não pôde ser exercitada.
+
+## A10
+**Cupom só com espaços: mensagens diferentes na interface e na API.**
+Na interface, `"   "` mostra "Informe um cupom." sem chamar a API (CT-CUP-07). Em `/api/carrinho/calcular`, o mesmo valor retorna `cupom.mensagem: "Cupom inválido."` e `""` retorna `cupom: null` (CT-API-19). **Interpretação:** a documentação não define o comportamento para cupom vazio, e nenhum dos dois aplica desconto. Registrado só como observação.
+
+## A11
+**Comportamentos tolerantes da API: observações, não bugs.**
+- Requisição sem `Content-Type` ou com `text/plain` e corpo JSON válido é processada normalmente (CT-API-24). A documentação pede o cabeçalho ao cliente da API, mas não diz que o servidor deve recusar.
+- Com vários itens inválidos, a API retorna só o primeiro erro, com o `campo` correto (CT-API-23). A documentação mostra um único `erro` por resposta.
+- Na API, "um cupom por vez" (CA05) é garantido pelo próprio formato: `cupom` é um único texto, não uma lista.

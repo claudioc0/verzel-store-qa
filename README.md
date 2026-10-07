@@ -4,15 +4,17 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 
 ## Resultado em resumo
 
-- **55 cenários** executados (UI, API e exploratórios): 44 ✅ · 10 ❌ · 1 N/A
-- **4 bugs** encontrados, sendo 2 de severidade alta:
+- **69 cenários** executados (UI, API e exploratórios): 53 ✅ · 11 ❌ · 4 ⚠️ observações/dúvidas para o PO · 1 N/A
+- **4 bugs** registrados:
 
 | Bug | Severidade | Resumo |
 |---|---|---|
-| [BUG-01](docs/bugs.md#bug-01) | Alta | Subtotal de **exatamente R$ 200,00** não ganha frete grátis (UI e API). Com o BEMVINDO10, o cliente paga R$ 199,90 em vez de R$ 180,00 |
-| [BUG-02](docs/bugs.md#bug-02) | Alta | A API aceita e cria pedido com **mais de 5 unidades** do mesmo produto |
-| [BUG-03](docs/bugs.md#bug-03) | Baixa | `GET /api` retorna 200 com HTML em vez de erro JSON |
-| [BUG-04](docs/bugs.md#bug-04) | Baixa | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
+| [BUG-01](docs/bugs.md#bug-01) | Crítica | Subtotal de **exatamente R$ 200,00** não ganha frete grátis (UI e API). Com o BEMVINDO10, o cliente paga R$ 199,90 em vez de R$ 180,00 |
+| [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite, e a interface avisa mas deixa finalizar um carrinho acima dele |
+| [BUG-03](docs/bugs.md#bug-03) | Baixa (melhoria) | `GET /api` retorna 200 com HTML em vez de erro JSON |
+| [BUG-04](docs/bugs.md#bug-04) | Baixa (aguarda PO) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
+
+Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitações-conhecidas) (o CA11 só pôde ser verificado parcialmente) e as [dúvidas para o PO](docs/ambiguidades.md).
 
 ## Onde encontrar cada entrega
 
@@ -20,7 +22,7 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 |---|---|
 | Plano de testes (escopo, estratégia, massa de dados) | [docs/plano-de-testes.md](docs/plano-de-testes.md) |
 | Cenários de teste em **Gherkin** | [docs/cenarios/](docs/cenarios/) (`cupom`, `frete`, `quantidade`, `arredondamento`, `checkout`, `api`) |
-| Execução manual e exploratória, com o resultado de cada cenário | [docs/execucao.md](docs/execucao.md) |
+| Execução (assistida por script) e exploratória, com o resultado de cada cenário | [docs/execucao.md](docs/execucao.md) |
 | Report dos bugs | [docs/bugs.md](docs/bugs.md) |
 | Documento de evidências | [docs/evidencias.md](docs/evidencias.md) → prints em [evidencias/ui/](evidencias/ui/), requisições e respostas em [evidencias/api/](evidencias/api/) |
 | Ambiguidades e interpretações adotadas | [docs/ambiguidades.md](docs/ambiguidades.md) |
@@ -57,9 +59,9 @@ npm test
 | `npm run evidencias:api` / `npm run evidencias:ui` | Regeram as evidências da execução manual |
 
 ### Sobre a automação
-- **27 testes**: 16 de API e 11 de interface, cobrindo CA01 a CA10 e o checkout. As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
-- **Bugs conhecidos não quebram a suíte:** os testes que esbarram nos BUG-01 e BUG-02 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Quando o bug for corrigido, o Playwright acusa o teste, sinalizando que a marcação pode ser removida.
-- **Isolamento:** cada teste abre um contexto de navegador novo. Como o carrinho fica no `sessionStorage` da aba, os testes podem rodar em paralelo sem interferir entre si nem com outros candidatos.
+- **31 testes**: 18 de API e 13 de interface, cobrindo CA01 a CA10, o checkout e a consistência entre a tela e a API. As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
+- **Bugs conhecidos não quebram a suíte:** os 5 testes que esbarram nos BUG-01 e BUG-02 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Quando o bug for corrigido, o Playwright acusa o teste, sinalizando que a marcação pode ser removida.
+- **Isolamento:** cada teste abre um contexto de navegador novo, e o carrinho fica no `sessionStorage` da aba, então os testes não interferem entre si. Os testes de API criam pedidos, mas, segundo a [documentação](https://verzel-store.qa-test-verzel-store.workers.dev/documentacao#ambiente), "a API não guarda nada entre uma chamada e outra" e os pedidos não são armazenados. Por isso não afetam outros candidatos.
 - **Padrões:** Page Object ([tests/support/carrinho.page.ts](tests/support/carrinho.page.ts)), seletores acessíveis (`getByRole`, `getByLabel`) e os atributos `data-valor` do resumo.
 
 ## Ambiente de execução

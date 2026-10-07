@@ -3,6 +3,10 @@
 Funcionalidade: Arredondamento de valores
   Todos os valores são arredondados para 2 casas decimais (CA11).
 
+  Limitação: com preços múltiplos de R$ 0,10 e cupom de 10%, nenhum cálculo gera
+  uma terceira casa decimal. Estes cenários verificam a ausência de resíduo de ponto
+  flutuante, não a regra de arredondamento em si (ver docs/ambiguidades.md, A9).
+
   @CT-ARR-01 @CA11
   Esquema do Cenário: Valores do carrinho com 2 casas decimais
     Dado que meu carrinho tem <quantidade> unidades de "<produto>"

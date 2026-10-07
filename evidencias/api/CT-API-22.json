@@ -1,0 +1,41 @@
+{
+  "id": "CT-API-22",
+  "executadoEm": "2026-10-07T14:30:37.149Z",
+  "requisicao": {
+    "metodo": "POST",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/carrinho/calcular",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P007",
+          "quantidade": 2
+        }
+      ]
+    }
+  },
+  "resposta": {
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "itens": [
+        {
+          "produtoId": "P007",
+          "nome": "Jaqueta Corta-Vento",
+          "precoUnitario": 229.9,
+          "quantidade": 2,
+          "total": 459.8
+        }
+      ],
+      "subtotal": 459.8,
+      "desconto": 0,
+      "frete": 0,
+      "freteGratis": true,
+      "valorFaltanteFreteGratis": 0,
+      "total": 459.8,
+      "cupom": null
+    }
+  }
+}

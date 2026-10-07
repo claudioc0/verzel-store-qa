@@ -1,5 +1,6 @@
 // Executa os cenários de API de docs/cenarios/api.feature e grava requisição + resposta
-// de cada caso em evidencias/api/<ID>.json. Uso: node scripts/executar-api.mjs
+// de cada caso em evidencias/api/<ID>.json.
+// Uso: node scripts/executar-api.mjs [regex de IDs]   ex.: node scripts/executar-api.mjs "CT-API-2"
 import { mkdirSync, writeFileSync } from 'node:fs';
 
 const BASE = 'https://verzel-store.qa-test-verzel-store.workers.dev';
@@ -57,10 +58,29 @@ const casos = [
   ['CT-API-16-d', 'POST', '/api/pedidos', { itens: [item('P001', 1)] }],
   ['CT-API-17', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 6)] }],
   ['CT-API-18', 'POST', '/api/pedidos', { cliente, itens: [item('P005', 2)], cupom: 'BEMVINDO10' }],
+  // Complemento pós-auditoria
+  ['CT-API-19-a', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: null }],
+  ['CT-API-19-b', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: 10 }],
+  ['CT-API-19-c', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: '' }],
+  ['CT-API-19-d', 'POST', '/api/carrinho/calcular', { itens: [item('P001', 1)], cupom: '   ' }],
+  ['CT-API-20-a', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 1)], cupom: ' bemvindo10 ' }],
+  ['CT-API-20-b', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 1)], cupom: '' }],
+  ['CT-API-21', 'POST', '/api/pedidos', { cliente, itens: [item('P001', 5)] }],
+  ['CT-API-22', 'POST', '/api/carrinho/calcular', { itens: [item('P007', 2)] }],
+  ['CT-API-23', 'POST', '/api/carrinho/calcular', { itens: [item('P999', 1), item('P002', 0)] }],
+  ['CT-API-24-a', 'POST', '/api/carrinho/calcular', JSON.stringify({ itens: [item('P001', 1)] }), {}],
+  ['CT-API-24-b', 'POST', '/api/carrinho/calcular', JSON.stringify({ itens: [item('P001', 1)] }), { 'Content-Type': 'text/plain' }],
+  ['CT-API-25-a', 'POST', '/api/pedidos', { cliente: { nome: "José D'Ávila", email: 'jose.davila+loja@mail.empresa.com.br', cep: ' 01310-100 ' }, itens: [item('P001', 1)] }],
+  ['CT-API-25-b', 'POST', '/api/pedidos', { cliente: { nome: 'Ana-Clara de Souza Lima', email: 'ana@exemplo.com', cep: '01310100' }, itens: [item('P001', 1)] }],
+  ['CT-API-26', 'POST', '/api/pedidos', { cliente: { ...cliente, nome: 'Maria S' }, itens: [item('P001', 1)] }],
 ];
 
-for (const [id, metodo, rota, corpo] of casos) {
-  const init = { method: metodo, headers: { 'Content-Type': 'application/json' } };
+const FILTRO = process.argv[2] ? new RegExp(process.argv[2]) : null;
+
+for (const [id, metodo, rota, corpo, cabecalhos] of casos) {
+  if (FILTRO && !FILTRO.test(id)) continue;
+  // O 5º elemento, quando presente, substitui os cabeçalhos padrão (usado nos testes de Content-Type).
+  const init = { method: metodo, headers: cabecalhos ?? { 'Content-Type': 'application/json' } };
   if (corpo !== undefined) init.body = typeof corpo === 'string' ? corpo : JSON.stringify(corpo);
   const res = await fetch(BASE + rota, init);
   const texto = await res.text();
@@ -68,7 +88,7 @@ for (const [id, metodo, rota, corpo] of casos) {
   try { resposta = JSON.parse(texto); } catch { resposta = texto.slice(0, 300); }
   const evidencia = {
     id, executadoEm: new Date().toISOString(),
-    requisicao: { metodo, url: BASE + rota, corpo: corpo ?? null },
+    requisicao: { metodo, url: BASE + rota, cabecalhos: init.headers, corpo: corpo ?? null },
     resposta: { status: res.status, contentType: res.headers.get('content-type'), corpo: resposta },
   };
   writeFileSync(new URL(`${id}.json`, DIR), JSON.stringify(evidencia, null, 2) + '\n');

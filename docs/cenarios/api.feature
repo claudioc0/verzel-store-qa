@@ -169,3 +169,62 @@ Funcionalidade: API da Verzel Store
     Quando faço POST em "/api/pedidos" com cliente válido, 2 "P005" e cupom "BEMVINDO10"
     Então a resposta tem status 201
     E subtotal = 200, desconto = 20, frete = 0, freteGratis = true e total = 180
+
+  # ---------- Complemento ----------
+
+  @CT-API-19
+  Esquema do Cenário: Tipos inesperados no campo cupom não quebram o cálculo
+    Quando faço POST em "/api/carrinho/calcular" com 1 "P001" e cupom <cupom>
+    Então a resposta tem status 200 e desconto = 0
+
+    Exemplos:
+      | cupom |
+      | null  |
+      | 10    |
+      | ""    |
+      | "   " |
+
+  @CT-API-20 @CA02
+  Esquema do Cenário: Cupom no pedido segue as mesmas regras do cálculo
+    Quando faço POST em "/api/pedidos" com cliente válido, 1 "P001" e cupom "<cupom>"
+    Então a resposta tem status 201 e desconto = <desconto>
+
+    Exemplos:
+      | cupom          | desconto |
+      | " bemvindo10 " | 5.99     |
+      | ""             | 0        |
+
+  @CT-API-21 @CA10
+  Cenário: Pedido com exatamente 5 unidades é aceito
+    Quando faço POST em "/api/pedidos" com cliente válido e 5 "P001"
+    Então a resposta tem status 201
+
+  @CT-API-22 @CA06
+  Cenário: Valor faltante para frete grátis nunca é negativo
+    Quando faço POST em "/api/carrinho/calcular" com 2 "P007" (R$ 459,80)
+    Então valorFaltanteFreteGratis = 0
+
+  @CT-API-23
+  Cenário: Vários itens inválidos na mesma requisição
+    Quando faço POST em "/api/carrinho/calcular" com "P999" (inexistente) e "P002" com quantidade 0
+    Então a resposta tem status 422 e aponta o primeiro erro com o campo correto
+
+  @CT-API-24
+  Esquema do Cenário: Corpo JSON com Content-Type ausente ou diferente
+    Quando faço POST em "/api/carrinho/calcular" com corpo JSON válido e Content-Type <tipo>
+    Então registro o comportamento (a documentação não define a resposta do servidor)
+
+    Exemplos:
+      | tipo       |
+      | ausente    |
+      | text/plain |
+
+  @CT-API-25
+  Cenário: Dados de cliente válidos nas bordas
+    Quando faço POST em "/api/pedidos" com nome "José D'Ávila", e-mail "jose.davila+loja@mail.empresa.com.br" e CEP " 01310-100 "
+    Então a resposta tem status 201 com nome acentuado preservado e CEP normalizado
+
+  @CT-API-26
+  Cenário: Nome com sobrenome abreviado
+    Quando faço POST em "/api/pedidos" com nome "Maria S"
+    Então registro o comportamento como dúvida para o PO (ver ambiguidades A3)

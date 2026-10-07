@@ -5,18 +5,23 @@
 
 | ID | Título | Severidade | Prioridade | Critério | Camada |
 |---|---|---|---|---|---|
-| [BUG-01](#bug-01) | Subtotal de exatamente R$ 200,00 não ganha frete grátis | Alta | Alta | CA06 / CA08 | UI + API |
-| [BUG-02](#bug-02) | API aceita mais de 5 unidades do mesmo produto | Alta | Alta | CA10 | API |
-| [BUG-03](#bug-03) | `GET /api` retorna 200 com o HTML da loja em vez de erro JSON | Baixa | Baixa | Doc. da API | API |
-| [BUG-04](#bug-04) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` | Baixa | Baixa | Doc. de erros | API |
+| [BUG-01](#bug-01) | Subtotal de exatamente R$ 200,00 não ganha frete grátis | **Crítica** | Alta | CA06 / CA08 / Regras de cálculo | UI + API |
+| [BUG-02](#bug-02) | Pedido com mais de 5 unidades do mesmo produto é aceito (API e interface) | Alta | Alta | CA10 | UI + API |
+| [BUG-03](#bug-03) | `GET /api` retorna 200 com o HTML da loja em vez de erro JSON | Baixa (melhoria) | Baixa | Doc. da API | API |
+| [BUG-04](#bug-04) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` | Baixa (aguarda PO) | Baixa | Doc. de erros | API |
+
+Classificação conforme o [plano de testes §7](plano-de-testes.md#7-classificação-de-bugs).
 
 ---
 
 ## BUG-01
 **Subtotal de exatamente R$ 200,00 não ganha frete grátis**
 
-- **Severidade:** Alta. O cliente paga R$ 19,90 a mais no valor-limite da promoção, que é o próprio valor anunciado na home ("Frete grátis a partir de R$ 200,00").
-- **Critérios violados:** CA06 ("frete grátis para compras com subtotal a partir de R$ 200,00, inclusive"). Com o cupom aplicado, viola também o resultado esperado de CA08.
+- **Severidade:** Crítica. Pelo critério do plano, é "cobra valor errado em fluxo principal": o cliente paga R$ 19,90 a mais em um checkout comum, justamente no valor anunciado na home ("Frete grátis a partir de R$ 200,00"), e o valor errado vai para o pedido confirmado.
+- **Regras violadas:**
+  - CA06: "frete grátis para compras com subtotal a partir de R$ 200,00, **inclusive**".
+  - Regras de cálculo: "Frete: R$ 0,00 quando o subtotal é **igual ou maior** que R$ 200,00".
+  - Com o cupom aplicado, viola também o resultado esperado de CA08.
 - **Pré-condição:** carrinho vazio.
 
 **Passos para reproduzir**
@@ -34,40 +39,48 @@
 - Com cupom: frete R$ 19,90, total **R$ 199,90**. O mesmo valor vai para o pedido confirmado.
 - A API tem o mesmo comportamento: `subtotal: 200`, `freteGratis: false`, `frete: 19.9`, `valorFaltanteFreteGratis: 0`.
 
-**Análise:** a comparação parece usar `subtotal > 200` em vez de `subtotal >= 200`. R$ 199,80 cobra frete (correto) e R$ 229,90 ganha frete grátis (correto); só o valor exato de R$ 200,00 falha. CA08 (subtotal antes do desconto) está correto: R$ 229,90 com cupom fica em R$ 206,91 e mantém o frete grátis.
+**Análise (hipótese, sem acesso ao código):** a comparação parece usar `subtotal > 200` em vez de `subtotal >= 200`. R$ 199,80 cobra frete (correto) e R$ 229,90 ganha frete grátis (correto); só o valor exato de R$ 200,00 falha. CA08 (subtotal antes do desconto) está correto: R$ 229,90 com cupom fica em R$ 206,91 e mantém o frete grátis.
 
 **Evidências:** [CT-FRE-03.png](../evidencias/ui/CT-FRE-03.png), [CT-FRE-05.png](../evidencias/ui/CT-FRE-05.png), [CT-FRE-08-2un.png](../evidencias/ui/CT-FRE-08-2un.png), [CT-CHK-06-confirmado.png](../evidencias/ui/CT-CHK-06-confirmado.png), [CT-API-08-b.json](../evidencias/api/CT-API-08-b.json), [CT-API-08-c.json](../evidencias/api/CT-API-08-c.json), [CT-API-18.json](../evidencias/api/CT-API-18.json)
 
 ---
 
 ## BUG-02
-**API aceita mais de 5 unidades do mesmo produto**
+**Pedido com mais de 5 unidades do mesmo produto é aceito (API e interface)**
 
-- **Severidade:** Alta. A regra de negócio é burlada pela API e um pedido é criado com quantidade proibida.
-- **Critério violado:** CA10 ("no máximo 5 unidades por pedido. A regra vale para a interface e para a API"). A tabela de erros documenta `422 QUANTIDADE_MAXIMA_EXCEDIDA`.
+- **Severidade:** Alta. A regra de negócio é burlada e um pedido é criado com quantidade proibida.
+- **Critério violado:** CA10 ("no máximo 5 unidades por pedido. A regra vale **para a interface e para a API**"). A tabela de erros documenta `422 QUANTIDADE_MAXIMA_EXCEDIDA`.
 
-**Passos para reproduzir**
+**Caminho 1: API**
 ```bash
-curl -X POST https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos \
-  -H "Content-Type: application/json" \
-  -d '{"cliente":{"nome":"Maria Silva","email":"maria@exemplo.com","cep":"01310-100"},"itens":[{"produtoId":"P001","quantidade":6}]}'
+curl -X POST https://verzel-store.qa-test-verzel-store.workers.dev/api/pedidos   -H "Content-Type: application/json"   -d '{"cliente":{"nome":"Maria Silva","email":"maria@exemplo.com","cep":"01310-100"},"itens":[{"produtoId":"P001","quantidade":6}]}'
 ```
 Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P001","quantidade":6}]}`.
 
-**Resultado esperado:** `422` com `{"erro":{"codigo":"QUANTIDADE_MAXIMA_EXCEDIDA", ...}}`.
+**Caminho 2: interface, com o carrinho fora do limite**
+1. Na vitrine, adicionar 1× "Camiseta Essencial".
+2. No DevTools (Application → Session Storage), alterar `verzel-store:itens` para `[{"produtoId":"P001","quantidade":9}]`. Isso simula um carrinho adulterado ou salvo antes de uma regra mudar.
+3. Recarregar `/carrinho`.
+4. Clicar em "Finalizar compra" e confirmar com dados válidos.
 
-**Resultado obtido:** `201`, pedido `VZ-637006` criado com 6 unidades (subtotal R$ 359,40). No cálculo do carrinho, `200` com os valores de 6 unidades.
+**Resultado esperado**
+- API: `422` com `{"erro":{"codigo":"QUANTIDADE_MAXIMA_EXCEDIDA", ...}}`.
+- Interface: impedir o checkout (ou ajustar a quantidade para 5) e, se o pedido for enviado, exibir o erro da API.
 
-**Observação:** a interface respeita o limite (o botão fica desabilitado em 5 e aparece "Limite de 5 unidades atingido.") e a API valida quantidades 0, negativas, decimais, texto e nulas. A falha é só no limite superior. A tentativa de burlar o limite repetindo o item na lista é bloqueada por `ITEM_DUPLICADO`.
+**Resultado obtido**
+- API: `201`, pedido `VZ-637006` criado com 6 unidades (subtotal R$ 359,40). No cálculo do carrinho, `200` com os valores de 6 unidades.
+- Interface: o carrinho **detecta** o problema e exibe "Limite de 5 unidades por produto.", mas mostra 9 unidades, subtotal R$ 539,10 e frete grátis, e mantém "Finalizar compra" habilitado. O pedido `VZ-527478` foi confirmado com **9× Camiseta Essencial**, total R$ 539,10.
 
-**Evidências:** [CT-API-11-q6.json](../evidencias/api/CT-API-11-q6.json), [CT-API-17.json](../evidencias/api/CT-API-17.json)
+**Observação:** no uso normal, a interface bloqueia a 6ª unidade: o botão "Adicionar ao carrinho" e o botão + ficam desabilitados em 5 (CT-QTD-01/02). Ou seja, os botões impedem que o carrinho passe do limite, mas nada valida um carrinho que já esteja acima dele. Como a API também não valida o limite superior, nenhuma camada barra o pedido. A API valida corretamente quantidades 0, negativas, decimais, texto e nulas, aceita exatamente 5 (CT-API-21) e bloqueia a tentativa de repetir o item na lista (`ITEM_DUPLICADO`).
+
+**Evidências:** [CT-API-11-q6.json](../evidencias/api/CT-API-11-q6.json), [CT-API-17.json](../evidencias/api/CT-API-17.json), [CT-QTD-07-carrinho.png](../evidencias/ui/CT-QTD-07-carrinho.png), [CT-QTD-07-confirmado.png](../evidencias/ui/CT-QTD-07-confirmado.png)
 
 ---
 
 ## BUG-03
 **`GET /api` retorna 200 com o HTML da loja em vez de erro JSON**
 
-- **Severidade:** Baixa. Não afeta o cliente, mas quebra o contrato da API ("Envie e receba sempre JSON") e confunde quem integra.
+- **Severidade:** Baixa, classificado como **melhoria**. Não afeta o cliente. É o fallback comum de uma SPA, mas destoa do contrato da API ("Envie e receba sempre JSON") e de todas as outras rotas inexistentes sob `/api`, que respondem `404 ROTA_NAO_ENCONTRADA`.
 
 **Passos para reproduzir:** `curl -i https://verzel-store.qa-test-verzel-store.workers.dev/api`
 
@@ -84,7 +97,7 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 ## BUG-04
 **Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO`**
 
-- **Severidade:** Baixa. A requisição é rejeitada corretamente; só o código de erro diverge da documentação.
+- **Severidade:** Baixa. **Status: aguarda confirmação do PO.** A requisição é rejeitada corretamente; só o código de erro diverge da leitura literal da documentação.
 
 **Passos para reproduzir:** `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P001"}]}`
 
@@ -92,6 +105,6 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 
 **Resultado obtido:** `422 QUANTIDADE_INVALIDA` com `campo: "itens[0].quantidade"`.
 
-**Observação:** há uma interpretação alternativa, em que a ausência do campo é tratada como "quantidade inválida". Registrei como bug de baixa severidade porque o texto da documentação descreve exatamente este caso como `ITEM_INVALIDO`.
+**Observação:** existe uma leitura alternativa válida. O item é um objeto e tem `produtoId`, então a falta de `quantidade` pode ser tratada como "quantidade não é um inteiro ≥ 1". Por isso o registro fica como pendente de decisão do PO, e não como defeito confirmado. Ver [A6](ambiguidades.md#a6).
 
 **Evidência:** [CT-API-12-d.json](../evidencias/api/CT-API-12-d.json)

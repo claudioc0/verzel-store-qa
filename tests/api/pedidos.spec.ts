@@ -35,6 +35,13 @@ test.describe('POST /api/pedidos', () => {
     expect(erro.campos.map((c: { campo: string }) => c.campo).sort()).toEqual(['cliente.cep', 'cliente.email', 'cliente.nome']);
   });
 
+  test('CT-API-21 @CA10 pedido com 5 unidades (limite) é aceito', async ({ request }) => {
+    const res = await criarPedido(request, [{ produtoId: 'P001', quantidade: 5 }]);
+
+    expect(res.status()).toBe(201);
+    expect((await res.json()).itens[0]).toMatchObject({ quantidade: 5, total: 299.5 });
+  });
+
   test('CT-API-17 @CA10 pedido com 6 unidades é rejeitado', async ({ request }) => {
     test.fail(true, 'BUG-02: API aceita mais de 5 unidades (ver docs/bugs.md)');
     const res = await criarPedido(request, [{ produtoId: 'P001', quantidade: 6 }]);

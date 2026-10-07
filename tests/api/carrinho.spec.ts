@@ -29,6 +29,12 @@ test.describe('POST /api/carrinho/calcular', () => {
     expect(await res.json()).toMatchObject({ subtotal: 200, desconto: 20, frete: 0, freteGratis: true, total: 180 });
   });
 
+  test('CT-API-22 @CA06 valor faltante para frete grátis nunca é negativo', async ({ request }) => {
+    const res = await calcular(request, [{ produtoId: 'P007', quantidade: 2 }]);
+
+    expect(await res.json()).toMatchObject({ subtotal: 459.8, frete: 0, freteGratis: true, valorFaltanteFreteGratis: 0 });
+  });
+
   test('CT-API-11 @CA10 aceita 5 unidades', async ({ request }) => {
     const res = await calcular(request, [{ produtoId: 'P001', quantidade: 5 }]);
     expect(res.status()).toBe(200);

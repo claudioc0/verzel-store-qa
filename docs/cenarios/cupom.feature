@@ -81,6 +81,7 @@ Funcionalidade: Cupom de desconto
     Então vejo a mensagem "Informe um cupom."
     E nenhum desconto é aplicado
 
+  # Na API, "um cupom por vez" é garantido pelo formato: o campo cupom é um único texto, não uma lista.
   @CT-CUP-08 @CA05
   Cenário: Apenas um cupom aplicado por vez
     Dado que meu carrinho tem 1 unidade de "Camiseta Essencial"

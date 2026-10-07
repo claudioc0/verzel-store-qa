@@ -65,3 +65,22 @@ Funcionalidade: Checkout e confirmação do pedido
     E apliquei o cupom "BEMVINDO10"
     Quando confirmo o pedido com dados válidos
     Então a confirmação mostra desconto "R$ 20,00", frete "Grátis" e total "R$ 180,00"
+
+  @CT-CHK-07
+  Esquema do Cenário: Dados válidos nas bordas são aceitos
+    Quando preencho nome "<nome>", e-mail "<email>" e CEP "<cep>"
+    E clico em "Confirmar pedido"
+    Então o pedido é confirmado
+
+    Exemplos:
+      | nome                    | email                                | cep           |
+      | José D'Ávila            | jose.davila+loja@mail.empresa.com.br | 01310-100     |
+      | Ana-Clara de Souza Lima | ana@exemplo.com                      | 01310100      |
+      | "  Maria Silva  "       | "  maria@exemplo.com  "              | " 01310-100 " |
+
+  @CT-CHK-08
+  Cenário: Clique duplo em "Confirmar pedido" não gera pedido duplicado
+    Quando preencho dados válidos
+    E dou um clique duplo em "Confirmar pedido"
+    Então apenas uma requisição de pedido é enviada
+    E sou levado para a página de pedido confirmado

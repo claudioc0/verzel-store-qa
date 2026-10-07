@@ -54,3 +54,11 @@ Funcionalidade: Limite de quantidade por produto
     Quando removo "Boné Aba Curva" do carrinho
     Então o carrinho mostra apenas "Camiseta Essencial"
     E o subtotal exibido é de "R$ 59,90"
+
+  @CT-QTD-07 @CA10
+  Cenário: Carrinho acima do limite não pode ser finalizado
+    Dado que meu carrinho foi carregado com 9 unidades de "Camiseta Essencial"
+    # Simulado alterando "verzel-store:itens" no sessionStorage (carrinho adulterado ou desatualizado)
+    Quando acesso o carrinho
+    Então vejo o aviso "Limite de 5 unidades por produto."
+    E não consigo confirmar um pedido com 9 unidades
