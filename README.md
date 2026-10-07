@@ -4,8 +4,8 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 
 ## Resultado em resumo
 
-- **79 cenários** executados (UI, API e exploratórios): 59 ✅ · 14 ❌ · 5 ⚠️ observações/dúvidas para o PO · 1 N/A
-- **6 bugs** registrados (2 deles melhorias):
+- **79 cenários** executados (UI, API e exploratórios): 59 ✅ · 13 ❌ · 6 ⚠️ observações/dúvidas para o PO · 1 N/A
+- **6 registros** em [bugs.md](docs/bugs.md): 3 bugs, 2 melhorias e 1 aguardando decisão do PO:
 
 | Bug | Severidade | Resumo |
 |---|---|---|
@@ -13,7 +13,7 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 | [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite (aceita até 1.000.000 de unidades), e a interface avisa mas deixa finalizar um carrinho acima dele |
 | [BUG-03](docs/bugs.md#bug-03) | Baixa (melhoria) | `GET /api` retorna 200 com HTML em vez de erro JSON |
 | [BUG-04](docs/bugs.md#bug-04) | Baixa (aguarda PO) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
-| [BUG-05](docs/bugs.md#bug-05) | Média | Se o cálculo do carrinho falha depois de uma alteração, o checkout exibe o total antigo (R$ 79,80) e o pedido é confirmado com outro valor (R$ 139,70) |
+| [BUG-05](docs/bugs.md#bug-05) | Média | Se o cálculo do carrinho falha depois de uma alteração, o carrinho e o checkout exibem os valores antigos (R$ 79,80) e o pedido é confirmado com outro valor (R$ 139,70) |
 | [BUG-06](docs/bugs.md#bug-06) | Baixa (melhoria) | O checkout não permite remover um cupom recusado pela API; o cliente precisa voltar ao carrinho |
 
 Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitações-conhecidas) (o CA11 só pôde ser verificado parcialmente) e as [dúvidas para o PO](docs/ambiguidades.md).

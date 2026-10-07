@@ -4,7 +4,7 @@
 
 **Como foi executado:** os cenários de [cenarios/](cenarios/) foram executados com roteiros de apoio que reproduzem os passos manuais e salvam as evidências: [scripts/executar-ui.mjs](../scripts/executar-ui.mjs) (prints da interface) e [scripts/executar-api.mjs](../scripts/executar-api.mjs) (requisição e resposta de cada chamada). Os valores observados de cada cenário estão em [evidencias/ui/resultados.json](../evidencias/ui/resultados.json).
 
-**Legenda:** ✅ passou · ❌ falhou (bug) · ⚠️ observação ou dúvida para o PO (comportamento registrado, sem regra documentada que o torne certo ou errado) · ➖ não se aplica
+**Legenda:** ✅ passou · ❌ falhou: o resultado contradiz uma regra documentada; o registro pode ser bug ou melhoria, conforme o impacto (ver [bugs.md](bugs.md)) · ⚠️ observação ou dúvida para o PO: a documentação admite mais de uma leitura, ou não há regra que torne o comportamento certo ou errado · ➖ não se aplica
 
 ## Resumo
 
@@ -16,11 +16,11 @@
 | Arredondamento | 2 | 2* | 0 | 0 | 0 |
 | Checkout | 10 | 9 | 1 | 0 | 0 |
 | Carrinho com falha no cálculo | 3 | 1 | 2 | 0 | 0 |
-| API | 31 | 20 | 7 | 4 | 0 |
+| API | 31 | 20 | 6 | 5 | 0 |
 | Exploratório | 7 | 6 | 0 | 1 | 0 |
-| **Total** | **79** | **59** | **14** | **5** | **1** |
+| **Total** | **79** | **59** | **13** | **6** | **1** |
 
-Os 14 cenários com falha correspondem a **5 bugs**. O sexto, [BUG-06](bugs.md#bug-06), é uma melhoria identificada em um cenário que passou (CT-CHK-09) ([bugs.md](bugs.md)).
+Os 13 cenários com falha correspondem a 4 registros: **3 bugs** (BUG-01, BUG-02 e BUG-05) e **1 melhoria** (BUG-03). Há ainda a melhoria [BUG-06](bugs.md#bug-06), identificada em um cenário que passou (CT-CHK-09), e o [BUG-04](bugs.md#bug-04), que aguarda o PO e por isso conta como ⚠️ ([bugs.md](bugs.md)).
 \* CA11 verificado só parcialmente: a massa disponível não gera terceira casa decimal ([A9](ambiguidades.md#a9)).
 
 ## Cupom ([cupom.feature](cenarios/cupom.feature))
@@ -92,7 +92,7 @@ Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo.
 
 | ID | Cenário | Resultado | Observado | Evidência |
 |---|---|---|---|---|
-| CT-CAR-01 | Cálculo responde HTTP 500 | ❌ [BUG-05](bugs.md#bug-05) | Ao abrir: alerta "Não foi possível calcular o carrinho." sem resumo nem botão (correto). Depois de alterar para 2 unidades: o alerta aparece, mas o resumo antigo (R$ 79,80) e "Finalizar compra" continuam; o checkout mostra "1x" e R$ 79,80; pedido VZ-952731 confirmado com 2× e R$ 139,70 | [abertura](../evidencias/ui/CT-CAR-01-carregamento.png) [alteração](../evidencias/ui/CT-CAR-01-alteracao.png) [checkout](../evidencias/ui/CT-CAR-01-checkout.png) [confirmado](../evidencias/ui/CT-CAR-01-confirmado.png) |
+| CT-CAR-01 | Cálculo responde HTTP 500 | ❌ [BUG-05](bugs.md#bug-05) | Ao abrir: alerta "Não foi possível calcular o carrinho." sem resumo nem botão (correto). Depois de alterar para 2 unidades: o alerta aparece, mas a linha do item (R$ 59,90), o resumo antigo (R$ 79,80) e "Finalizar compra" continuam; o checkout mostra "1x" e R$ 79,80; pedido VZ-952731 confirmado com 2× e R$ 139,70 | [abertura](../evidencias/ui/CT-CAR-01-carregamento.png) [alteração](../evidencias/ui/CT-CAR-01-alteracao.png) [checkout](../evidencias/ui/CT-CAR-01-checkout.png) [confirmado](../evidencias/ui/CT-CAR-01-confirmado.png) |
 | CT-CAR-02 | Conexão interrompida no cálculo | ❌ [BUG-05](bugs.md#bug-05) | Mesmo comportamento, com "Não foi possível calcular o carrinho. Verifique sua conexão."; pedido VZ-257168 confirmado com 2× e R$ 139,70 depois de o checkout exibir R$ 79,80 | [abertura](../evidencias/ui/CT-CAR-02-carregamento.png) [alteração](../evidencias/ui/CT-CAR-02-alteracao.png) [checkout](../evidencias/ui/CT-CAR-02-checkout.png) [confirmado](../evidencias/ui/CT-CAR-02-confirmado.png) |
 | CT-CAR-03 | Erro 422 por produto inexistente (P999 gravado na aba) | ✅ | Alerta "Produto P999 não encontrado.", sem resumo nem botão. Observação: o item P999 não é listado, então só sai do carrinho com "Esvaziar carrinho" (estado só alcançável alterando a aba) | [print](../evidencias/ui/CT-CAR-03.png) |
 
@@ -104,14 +104,14 @@ Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo.
 | CT-API-02 | Produto existente | ✅ | 200, P005 com preço 100 | [json](../evidencias/api/CT-API-02.json) |
 | CT-API-03 | Produto inexistente (P999, p001, abc) | ✅ | 404 PRODUTO_NAO_ENCONTRADO | [a](../evidencias/api/CT-API-03-a.json) [b](../evidencias/api/CT-API-03-b.json) [c](../evidencias/api/CT-API-03-c.json) |
 | CT-API-04 | Rota inexistente | ✅ | 404 ROTA_NAO_ENCONTRADA | [json](../evidencias/api/CT-API-04.json) |
-| CT-API-05 | Raiz `/api` | ❌ [BUG-03](bugs.md#bug-03) | 200 text/html | [json](../evidencias/api/CT-API-05.json) |
+| CT-API-05 | Raiz `/api` | ❌ [BUG-03](bugs.md#bug-03) (melhoria) | 200 text/html. Conta como falha porque contradiz o contrato documentado (\"Envie e receba sempre JSON\") e o comportamento das demais rotas inexistentes (`404 ROTA_NAO_ENCONTRADA`); é melhoria, e não bug, porque não afeta o cliente | [json](../evidencias/api/CT-API-05.json) |
 | CT-API-06 | Método não permitido (4 casos) | ✅ | 405 METODO_NAO_PERMITIDO | [a](../evidencias/api/CT-API-06-a.json) [b](../evidencias/api/CT-API-06-b.json) [c](../evidencias/api/CT-API-06-c.json) [d](../evidencias/api/CT-API-06-d.json) |
 | CT-API-07 | Calcular com cupom válido | ✅ | 199.8 / 19.98 / 19.9 / total 199.72 | [json](../evidencias/api/CT-API-07.json) |
 | CT-API-08 | Frete considera subtotal antes do desconto | ❌ [BUG-01](bugs.md#bug-01) | 1×P005 ok; 2×P005 → frete 19.9 (com e sem cupom); P007 + cupom ok | [a](../evidencias/api/CT-API-08-a.json) [b](../evidencias/api/CT-API-08-b.json) [c](../evidencias/api/CT-API-08-c.json) [d](../evidencias/api/CT-API-08-d.json) |
 | CT-API-09 | Cupom inválido/expirado no cálculo | ✅ | 200, desconto 0, aplicado false, mensagem correta | [a](../evidencias/api/CT-API-09-a.json) [b](../evidencias/api/CT-API-09-b.json) |
 | CT-API-10 | Caixa e espaços na API | ✅ | `"  bemvindo10  "` aplicado; `"BEM VINDO10"` inválido | [a](../evidencias/api/CT-API-10-a.json) [b](../evidencias/api/CT-API-10-b.json) |
 | CT-API-11 | Validação de quantidade (8 casos) | ❌ [BUG-02](bugs.md#bug-02) | 6 → 200 (esperado 422 QUANTIDADE_MAXIMA_EXCEDIDA); 0, -1, 1.5, "2" e null → 422 corretos | [q6](../evidencias/api/CT-API-11-q6.json) [q5](../evidencias/api/CT-API-11-q5.json) [q0](../evidencias/api/CT-API-11-q0.json) |
-| CT-API-12 | Validação da lista de itens (8 casos) | ❌ [BUG-04](bugs.md#bug-04) | 7 de 8 corretos; item sem quantidade → QUANTIDADE_INVALIDA | [d](../evidencias/api/CT-API-12-d.json) [f](../evidencias/api/CT-API-12-f.json) [g](../evidencias/api/CT-API-12-g.json) |
+| CT-API-12 | Validação da lista de itens (8 casos) | ⚠️ [BUG-04](bugs.md#bug-04) (aguarda PO) | 7 de 8 conforme a tabela de erros; item sem `quantidade` → QUANTIDADE_INVALIDA, que admite duas leituras da documentação ([A6](ambiguidades.md#a6)) | [d](../evidencias/api/CT-API-12-d.json) [f](../evidencias/api/CT-API-12-f.json) [g](../evidencias/api/CT-API-12-g.json) |
 | CT-API-13 | Duplicar item para burlar o limite | ✅ | 422 ITEM_DUPLICADO | [json](../evidencias/api/CT-API-13.json) |
 | CT-API-14 | Criar pedido válido | ✅ | 201, VZ-790201, CEP normalizado, valores iguais ao cálculo | [pedido](../evidencias/api/CT-API-14.json) [cálculo](../evidencias/api/CT-API-14-calc.json) |
 | CT-API-15 | Pedido com cupom inválido/expirado | ✅ | 422 CUPOM_INVALIDO / CUPOM_EXPIRADO | [a](../evidencias/api/CT-API-15-a.json) [b](../evidencias/api/CT-API-15-b.json) |

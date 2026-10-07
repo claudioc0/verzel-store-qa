@@ -4,7 +4,7 @@ Pontos em que a documentação deixa margem de interpretação, com a interpreta
 
 ## A1
 **O link `/api` do enunciado não abre nada útil.**
-A documentação diz que "A API fica no mesmo endereço da loja, no caminho `/api`" e lista os endpoints abaixo dele. **Interpretação:** `/api` é o prefixo base, não um endpoint, então a ausência de conteúdo não é bug. A resposta `200 text/html` para esse caminho, diferente do `404` JSON das demais rotas inexistentes, foi registrada como melhoria em [BUG-03](bugs.md#bug-03).
+A documentação diz que "A API fica no mesmo endereço da loja, no caminho `/api`" e lista os endpoints abaixo dele. **Interpretação:** `/api` é o prefixo base, não um endpoint, então a ausência de conteúdo não é bug. O que foi registrado como melhoria em [BUG-03](bugs.md#bug-03) não é a falta de conteúdo, e sim o formato da resposta: `200 text/html`, diferente do `404` JSON das demais rotas inexistentes e do contrato "Envie e receba sempre JSON".
 
 ## A2
 **Frete grátis com cupom: regra confirmada, não ambígua.**
@@ -37,7 +37,7 @@ CA02 diz que espaços "no início e no fim" são ignorados. **Interpretação:**
 
 ## A6
 **Ausência de `quantidade` no item: `ITEM_INVALIDO` ou `QUANTIDADE_INVALIDA`? Dúvida para o PO.**
-A tabela de erros define `ITEM_INVALIDO` como "um item não é um objeto com produtoId e quantidade", o que descreve literalmente um item sem `quantidade`. Mas o item é um objeto com `produtoId`, então `QUANTIDADE_INVALIDA` também se encaixa. Registrado como [BUG-04](bugs.md#bug-04) com status "aguarda confirmação do PO".
+A tabela de erros define `ITEM_INVALIDO` como "um item não é um objeto com produtoId e quantidade", o que descreve literalmente um item sem `quantidade`. Mas o item é um objeto com `produtoId`, então `QUANTIDADE_INVALIDA` também se encaixa. Registrado como [BUG-04](bugs.md#bug-04) com status "aguarda confirmação do PO" e contado como ⚠️ na execução, não como falha.
 
 ## A7
 **Cupom persiste ao recarregar a página.**

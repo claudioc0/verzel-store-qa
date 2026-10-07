@@ -8,11 +8,17 @@
 | [BUG-01](#bug-01) | Subtotal de exatamente R$ 200,00 não ganha frete grátis | **Crítica** | Alta | CA06 / CA08 / Regras de cálculo | UI + API |
 | [BUG-02](#bug-02) | Pedido com mais de 5 unidades do mesmo produto é aceito (API e interface) | Alta | Alta | CA10 | UI + API |
 | [BUG-03](#bug-03) | `GET /api` retorna 200 com o HTML da loja em vez de erro JSON | Baixa (melhoria) | Baixa | Doc. da API | API |
-| [BUG-04](#bug-04) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` | Baixa (aguarda PO) | Baixa | Doc. de erros | API |
+| [BUG-04](#bug-04) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` | Baixa (aguarda PO; não confirmado como bug) | Baixa | Doc. de erros | API |
 | [BUG-05](#bug-05) | Com falha no cálculo do carrinho, o checkout exibe valores desatualizados e o pedido é confirmado com outro valor | Média | Alta | Consistência UI × pedido | UI |
 | [BUG-06](#bug-06) | Checkout não permite remover um cupom recusado pela API | Baixa (melhoria) | Baixa | Usabilidade | UI |
 
 Classificação conforme o [plano de testes §7](plano-de-testes.md#7-classificação-de-bugs).
+
+| Tipo | Registros | Na execução |
+|---|---|---|
+| **Bug** (regra documentada não cumprida, com impacto para o cliente) | BUG-01, BUG-02, BUG-05 | ❌ |
+| **Melhoria** (diverge do contrato ou da usabilidade esperada, sem impacto em valores) | BUG-03, BUG-06 | ❌ no CT-API-05 (BUG-03); o BUG-06 surgiu em um cenário que passou |
+| **Aguarda o PO** (a documentação admite duas leituras) | BUG-04 | ⚠️ |
 
 ---
 
@@ -132,7 +138,10 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 **Resultado esperado:** com o cálculo falhando, o carrinho não deve exibir valores de um estado anterior junto com "Finalizar compra" habilitado, e o checkout não deve exibir um resumo diferente do que será enviado. O mesmo comportamento já existe no primeiro carregamento: o resumo e o botão somem e só o alerta fica.
 
 **Resultado obtido**
-- **Carrinho:** a quantidade passa para 2 e aparece o alerta "Não foi possível calcular o carrinho.", mas o resumo continua com os valores de 1 unidade (subtotal R$ 59,90, total R$ 79,80) e "Finalizar compra" continua habilitado.
+- **Carrinho:** a quantidade passa para 2 e aparece o alerta "Não foi possível calcular o carrinho.", mas os valores continuam os de 1 unidade:
+  - o **total da linha do item** continua R$ 59,90, ao lado da quantidade 2;
+  - o **resumo** continua com subtotal R$ 59,90 e total R$ 79,80;
+  - "Finalizar compra" continua habilitado.
 - **Checkout:** o resumo mostra "1x Camiseta Essencial" e total **R$ 79,80**, sem nenhum alerta, enquanto o cabeçalho mostra "Carrinho 2".
 - **Pedido confirmado:** `VZ-952731` com **2× Camiseta Essencial** e total **R$ 139,70**.
 - O mesmo ocorre com a conexão interrompida, no pedido `VZ-257168` (CT-CAR-02).
