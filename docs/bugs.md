@@ -9,6 +9,8 @@
 | [BUG-02](#bug-02) | Pedido com mais de 5 unidades do mesmo produto é aceito (API e interface) | Alta | Alta | CA10 | UI + API |
 | [BUG-03](#bug-03) | `GET /api` retorna 200 com o HTML da loja em vez de erro JSON | Baixa (melhoria) | Baixa | Doc. da API | API |
 | [BUG-04](#bug-04) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` | Baixa (aguarda PO) | Baixa | Doc. de erros | API |
+| [BUG-05](#bug-05) | Com falha no cálculo do carrinho, o checkout exibe valores desatualizados e o pedido é confirmado com outro valor | Média | Alta | Consistência UI × pedido | UI |
+| [BUG-06](#bug-06) | Checkout não permite remover um cupom recusado pela API | Baixa (melhoria) | Baixa | Usabilidade | UI |
 
 Classificação conforme o [plano de testes §7](plano-de-testes.md#7-classificação-de-bugs).
 
@@ -59,7 +61,8 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 
 **Caminho 2: interface, com o carrinho fora do limite**
 1. Na vitrine, adicionar 1× "Camiseta Essencial".
-2. No DevTools (Application → Session Storage), alterar `verzel-store:itens` para `[{"produtoId":"P001","quantidade":9}]`. Isso simula um carrinho adulterado ou salvo antes de uma regra mudar.
+2. No DevTools (Application → Session Storage), alterar `verzel-store:itens` para `[{"produtoId":"P001","quantidade":9}]`.
+   - **Hipótese, não verificada:** na prática, esse estado poderia surgir de um carrinho adulterado pelo próprio cliente ou salvo antes de uma mudança de regra. Não há evidência de que isso aconteça em uso real. O passo serve só para colocar a interface diante de um carrinho acima do limite, e o CA10 vale para a interface independentemente da origem desse estado.
 3. Recarregar `/carrinho`.
 4. Clicar em "Finalizar compra" e confirmar com dados válidos.
 
@@ -109,3 +112,48 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 **Observação:** existe uma leitura alternativa válida. O item é um objeto e tem `produtoId`, então a falta de `quantidade` pode ser tratada como "quantidade não é um inteiro ≥ 1". Por isso o registro fica como pendente de decisão do PO, e não como defeito confirmado. Ver [A6](ambiguidades.md#a6).
 
 **Evidência:** [CT-API-12-d.json](../evidencias/api/CT-API-12-d.json)
+
+---
+
+## BUG-05
+**Com falha no cálculo do carrinho, o checkout exibe valores desatualizados e o pedido é confirmado com outro valor**
+
+- **Severidade:** Média. Pelo critério do plano, ocorre em fluxo secundário, porque depende de uma falha de `/api/carrinho/calcular` (erro 500 ou conexão interrompida). O efeito, porém, é sério: o cliente confirma um pedido vendo um total e o pedido registra outro. Por isso a prioridade sugerida é Alta.
+- **Regra violada:** não há critério de aceite específico. O defeito é a interface oferecer o checkout e exibir um resumo que não corresponde ao carrinho.
+- **Pré-condição:** carrinho com 1× "Camiseta Essencial" (total R$ 79,80) já calculado.
+
+**Passos para reproduzir**
+1. Abrir `/carrinho` com 1× "Camiseta Essencial".
+2. Simular a falha da API de cálculo: no DevTools, Network → bloquear a URL `/api/carrinho/calcular` (ou ficar offline). Na automação, isso foi feito com `page.route` respondendo 500 ou abortando a conexão.
+3. Clicar em + para passar a quantidade para 2.
+4. Clicar em "Finalizar compra".
+5. Restabelecer a conexão, preencher dados válidos e confirmar o pedido.
+
+**Resultado esperado:** com o cálculo falhando, o carrinho não deve exibir valores de um estado anterior junto com "Finalizar compra" habilitado, e o checkout não deve exibir um resumo diferente do que será enviado. O mesmo comportamento já existe no primeiro carregamento: o resumo e o botão somem e só o alerta fica.
+
+**Resultado obtido**
+- **Carrinho:** a quantidade passa para 2 e aparece o alerta "Não foi possível calcular o carrinho.", mas o resumo continua com os valores de 1 unidade (subtotal R$ 59,90, total R$ 79,80) e "Finalizar compra" continua habilitado.
+- **Checkout:** o resumo mostra "1x Camiseta Essencial" e total **R$ 79,80**, sem nenhum alerta, enquanto o cabeçalho mostra "Carrinho 2".
+- **Pedido confirmado:** `VZ-952731` com **2× Camiseta Essencial** e total **R$ 139,70**.
+- O mesmo ocorre com a conexão interrompida, no pedido `VZ-257168` (CT-CAR-02).
+
+**Análise (hipótese, sem acesso ao código):** o resumo parece ser o último resultado bem-sucedido do cálculo, mantido em memória. A falha mostra o alerta, mas não invalida esse resumo nem esconde o botão, ao contrário do que acontece quando o primeiro cálculo falha.
+
+**Evidências:** [CT-CAR-01-alteracao.png](../evidencias/ui/CT-CAR-01-alteracao.png), [CT-CAR-01-checkout.png](../evidencias/ui/CT-CAR-01-checkout.png), [CT-CAR-01-confirmado.png](../evidencias/ui/CT-CAR-01-confirmado.png), [CT-CAR-02-checkout.png](../evidencias/ui/CT-CAR-02-checkout.png), [resultados.json](../evidencias/ui/resultados.json) (chaves `CT-CAR-01` e `CT-CAR-02`)
+
+---
+
+## BUG-06
+**Checkout não permite remover um cupom recusado pela API**
+
+- **Severidade:** Baixa, classificado como **melhoria**. Pode ser tratado também como pergunta ao PO sobre o fluxo desejado.
+- **Contexto:** um cupom pode deixar de valer entre o carrinho e o checkout (por exemplo, expirar nesse intervalo). Nesse caso, `POST /api/pedidos` responde `422 CUPOM_EXPIRADO` ou `CUPOM_INVALIDO`.
+
+**Passos para reproduzir:** gravar `verzel-store:cupom` = `"VERAO2026"` no sessionStorage, ir ao checkout e confirmar com dados válidos (CT-CHK-09).
+
+**Resultado obtido:** o checkout mostra "Cupom expirado." e mantém o botão habilitado. Uma nova tentativa reenvia o mesmo cupom e recebe o mesmo `422` (verificado: `novaTentativa` em `resultados.json`, chaves `CT-CHK-09-a/b`). O checkout não mostra o cupom nem oferece como removê-lo; o cliente precisa deduzir que deve voltar ao carrinho ("Voltar ao carrinho") e clicar em "Remover cupom".
+
+**Sugestão:** no erro de cupom, oferecer no próprio checkout a opção de remover o cupom e seguir sem desconto, ou ao menos indicar o caminho ("Remova o cupom no carrinho").
+
+**Evidências:** [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png), [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png)
+

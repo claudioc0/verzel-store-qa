@@ -15,11 +15,12 @@
 | Quantidade | 7 | 5 | 1 | 0 | 1 |
 | Arredondamento | 2 | 2* | 0 | 0 | 0 |
 | Checkout | 10 | 9 | 1 | 0 | 0 |
+| Carrinho com falha no cálculo | 3 | 1 | 2 | 0 | 0 |
 | API | 31 | 20 | 7 | 4 | 0 |
 | Exploratório | 7 | 6 | 0 | 1 | 0 |
-| **Total** | **76** | **58** | **12** | **5** | **1** |
+| **Total** | **79** | **59** | **14** | **5** | **1** |
 
-Os 12 cenários com falha correspondem a **4 bugs** ([bugs.md](bugs.md)).
+Os 14 cenários com falha correspondem a **5 bugs**. O sexto, [BUG-06](bugs.md#bug-06), é uma melhoria identificada em um cenário que passou (CT-CHK-09) ([bugs.md](bugs.md)).
 \* CA11 verificado só parcialmente: a massa disponível não gera terceira casa decimal ([A9](ambiguidades.md#a9)).
 
 ## Cupom ([cupom.feature](cenarios/cupom.feature))
@@ -82,10 +83,18 @@ Os 12 cenários com falha correspondem a **4 bugs** ([bugs.md](bugs.md)).
 | CT-CHK-06 | Pedido de R$ 200,00 + cupom | ❌ [BUG-01](bugs.md#bug-01) | Confirmado com frete R$ 19,90 e total R$ 199,90 (esperado R$ 180,00) | [checkout](../evidencias/ui/CT-CHK-06-checkout.png) [confirmado](../evidencias/ui/CT-CHK-06-confirmado.png) |
 | CT-CHK-07 | Dados válidos nas bordas (3 casos) | ✅ | Acentos e apóstrofo, hífen com 3+ nomes, `+` e subdomínio, espaços nas pontas: todos confirmados | [1](../evidencias/ui/CT-CHK-07-1.png) [2](../evidencias/ui/CT-CHK-07-2.png) [3](../evidencias/ui/CT-CHK-07-3.png) |
 | CT-CHK-08 | Clique duplo em "Confirmar pedido" | ✅ | Só 1 `POST /api/pedidos` enviado (contagem das requisições: `"envios": 1`) | [resultados.json](../evidencias/ui/resultados.json) (chave `CT-CHK-08`) · [print](../evidencias/ui/CT-CHK-08.png) |
-| CT-CHK-09 | Erro 422 da API exibido no formulário (cupom VERAO2026 / XYZ123 no armazenamento da aba) | ✅ | 422 CUPOM_EXPIRADO / CUPOM_INVALIDO; mensagem "Cupom expirado." / "Cupom inválido." com `role="alert"`; continua no checkout com o botão habilitado. Para seguir, o cliente precisa voltar ao carrinho e remover o cupom, porque o checkout não oferece essa opção | [VERAO2026](../evidencias/ui/CT-CHK-09-a.png) [XYZ123](../evidencias/ui/CT-CHK-09-b.png) |
+| CT-CHK-09 | Erro 422 da API exibido no formulário (cupom VERAO2026 / XYZ123 no armazenamento da aba) | ✅ | 422 CUPOM_EXPIRADO / CUPOM_INVALIDO; mensagem "Cupom expirado." / "Cupom inválido." com `role="alert"`; continua no checkout com o botão habilitado. Uma nova tentativa reenvia o mesmo cupom e recebe o mesmo 422; para seguir, o cliente precisa voltar ao carrinho e remover o cupom (melhoria [BUG-06](bugs.md#bug-06)) | [VERAO2026](../evidencias/ui/CT-CHK-09-a.png) [XYZ123](../evidencias/ui/CT-CHK-09-b.png) |
 | CT-CHK-10 | Falha sem resposta da API (HTTP 500 sem corpo / conexão interrompida) | ✅ | "Não foi possível confirmar o pedido. Tente novamente."; campos preservados; botão habilitado; nova tentativa confirma o pedido | [500](../evidencias/ui/CT-CHK-10-a-erro.png) [500 → nova tentativa](../evidencias/ui/CT-CHK-10-a-nova-tentativa.png) [conexão](../evidencias/ui/CT-CHK-10-b-erro.png) [conexão → nova tentativa](../evidencias/ui/CT-CHK-10-b-nova-tentativa.png) |
 
 Mensagens do CT-CHK-03: nome vazio ou só espaços → "Informe o nome completo."; "Maria" e "Maria S" → "Informe nome e sobrenome."; e-mail vazio → "Informe o e-mail."; e-mail mal formado → "Informe um e-mail válido."; CEP vazio → "Informe o CEP."; CEP com dígitos a mais ou a menos, ou com letras → "Informe um CEP com 8 dígitos.".
+
+## Carrinho com falha no cálculo ([carrinho.feature](cenarios/carrinho.feature))
+
+| ID | Cenário | Resultado | Observado | Evidência |
+|---|---|---|---|---|
+| CT-CAR-01 | Cálculo responde HTTP 500 | ❌ [BUG-05](bugs.md#bug-05) | Ao abrir: alerta "Não foi possível calcular o carrinho." sem resumo nem botão (correto). Depois de alterar para 2 unidades: o alerta aparece, mas o resumo antigo (R$ 79,80) e "Finalizar compra" continuam; o checkout mostra "1x" e R$ 79,80; pedido VZ-952731 confirmado com 2× e R$ 139,70 | [abertura](../evidencias/ui/CT-CAR-01-carregamento.png) [alteração](../evidencias/ui/CT-CAR-01-alteracao.png) [checkout](../evidencias/ui/CT-CAR-01-checkout.png) [confirmado](../evidencias/ui/CT-CAR-01-confirmado.png) |
+| CT-CAR-02 | Conexão interrompida no cálculo | ❌ [BUG-05](bugs.md#bug-05) | Mesmo comportamento, com "Não foi possível calcular o carrinho. Verifique sua conexão."; pedido VZ-257168 confirmado com 2× e R$ 139,70 depois de o checkout exibir R$ 79,80 | [abertura](../evidencias/ui/CT-CAR-02-carregamento.png) [alteração](../evidencias/ui/CT-CAR-02-alteracao.png) [checkout](../evidencias/ui/CT-CAR-02-checkout.png) [confirmado](../evidencias/ui/CT-CAR-02-confirmado.png) |
+| CT-CAR-03 | Erro 422 por produto inexistente (P999 gravado na aba) | ✅ | Alerta "Produto P999 não encontrado.", sem resumo nem botão. Observação: o item P999 não é listado, então só sai do carrinho com "Esvaziar carrinho" (estado só alcançável alterando a aba) | [print](../evidencias/ui/CT-CAR-03.png) |
 
 ## API ([api.feature](cenarios/api.feature))
 

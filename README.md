@@ -4,8 +4,8 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 
 ## Resultado em resumo
 
-- **76 cenários** executados (UI, API e exploratórios): 58 ✅ · 12 ❌ · 5 ⚠️ observações/dúvidas para o PO · 1 N/A
-- **4 bugs** registrados:
+- **79 cenários** executados (UI, API e exploratórios): 59 ✅ · 14 ❌ · 5 ⚠️ observações/dúvidas para o PO · 1 N/A
+- **6 bugs** registrados (2 deles melhorias):
 
 | Bug | Severidade | Resumo |
 |---|---|---|
@@ -13,6 +13,8 @@ Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](h
 | [BUG-02](docs/bugs.md#bug-02) | Alta | Pedido com **mais de 5 unidades** do mesmo produto é aceito: a API não valida o limite (aceita até 1.000.000 de unidades), e a interface avisa mas deixa finalizar um carrinho acima dele |
 | [BUG-03](docs/bugs.md#bug-03) | Baixa (melhoria) | `GET /api` retorna 200 com HTML em vez de erro JSON |
 | [BUG-04](docs/bugs.md#bug-04) | Baixa (aguarda PO) | Item sem `quantidade` retorna `QUANTIDADE_INVALIDA` em vez de `ITEM_INVALIDO` |
+| [BUG-05](docs/bugs.md#bug-05) | Média | Se o cálculo do carrinho falha depois de uma alteração, o checkout exibe o total antigo (R$ 79,80) e o pedido é confirmado com outro valor (R$ 139,70) |
+| [BUG-06](docs/bugs.md#bug-06) | Baixa (melhoria) | O checkout não permite remover um cupom recusado pela API; o cliente precisa voltar ao carrinho |
 
 Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitações-conhecidas) (o CA11 só pôde ser verificado parcialmente) e as [dúvidas para o PO](docs/ambiguidades.md).
 
@@ -59,8 +61,8 @@ npm test
 | `npm run evidencias:api` / `npm run evidencias:ui` | Regeram as evidências da execução manual |
 
 ### Sobre a automação
-- **37 testes**: 22 de API e 15 de interface, cobrindo CA01 a CA10, o checkout (inclusive os caminhos de erro da API), a consistência entre a tela e a API e a integridade dos preços (a API ignora valores enviados pelo cliente). As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
-- **Bugs conhecidos não quebram a suíte:** os 5 testes que esbarram nos BUG-01 e BUG-02 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Cada um verifica o **resultado**, e não um jeito específico de corrigir: o CT-QTD-07, por exemplo, só exige que nenhum pedido seja confirmado com mais de 5 unidades, seja porque a interface bloqueia, ajusta a quantidade ou recebe erro da API. Assim, qualquer correção faz o teste passar, e o Playwright acusa a mudança, sinalizando que a marcação pode ser removida. Nos testes de API, só o status é verificado enquanto o bug existe; o código de erro documentado entra na asserção quando a marcação for retirada.
+- **39 testes**: 22 de API e 17 de interface, cobrindo CA01 a CA10, o checkout e o carrinho (inclusive os caminhos de erro da API), a consistência entre a tela e a API e a integridade dos preços (a API ignora valores enviados pelo cliente). As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
+- **Bugs conhecidos não quebram a suíte:** os 6 testes que esbarram nos BUG-01, BUG-02 e BUG-05 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Cada um verifica o **resultado**, e não um jeito específico de corrigir: o CT-QTD-07, por exemplo, só exige que nenhum pedido seja confirmado com mais de 5 unidades, seja porque a interface bloqueia, ajusta a quantidade ou recebe erro da API. Assim, qualquer correção faz o teste passar, e o Playwright acusa a mudança, sinalizando que a marcação pode ser removida. Nos testes de API, só o status é verificado enquanto o bug existe; o código de erro documentado entra na asserção quando a marcação for retirada.
 - **Isolamento:** cada teste abre um contexto de navegador novo, e o carrinho fica no `sessionStorage` da aba, então os testes não interferem entre si. Os testes de API criam pedidos, mas, segundo a [documentação](https://verzel-store.qa-test-verzel-store.workers.dev/documentacao#ambiente), "a API não guarda nada entre uma chamada e outra" e os pedidos não são armazenados. Por isso não afetam outros candidatos.
 - **Padrões:** Page Object ([tests/support/carrinho.page.ts](tests/support/carrinho.page.ts)), seletores acessíveis (`getByRole`, `getByLabel`) e os atributos `data-valor` do resumo.
 

@@ -807,6 +807,11 @@
       "mensagem": "Cupom expirado.",
       "campo": "cupom"
     },
+    "novaTentativa": {
+      "status": 422,
+      "cupomEnviado": "VERAO2026",
+      "codigo": "CUPOM_EXPIRADO"
+    },
     "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
     "alertas": [
       "Cupom expirado."
@@ -819,6 +824,11 @@
       "codigo": "CUPOM_INVALIDO",
       "mensagem": "Cupom inválido.",
       "campo": "cupom"
+    },
+    "novaTentativa": {
+      "status": 422,
+      "cupomEnviado": "XYZ123",
+      "codigo": "CUPOM_INVALIDO"
     },
     "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
     "alertas": [
@@ -845,5 +855,88 @@
     "botaoHabilitado": true,
     "camposPreservados": "Maria Silva",
     "urlAposNovaTentativa": "https://verzel-store.qa-test-verzel-store.workers.dev/pedido-confirmado"
+  },
+  "CT-CAR-01": {
+    "falhaSimulada": "HTTP 500 sem corpo",
+    "antes": {
+      "total": "R$ 79,80"
+    },
+    "carregamento": {
+      "alertas": [
+        "Não foi possível calcular o carrinho."
+      ],
+      "textoPrincipal": "Carrinho | Esvaziar carrinho | Camiseta Essencial | R$ 59,90 cada | - | 1 | + | ... | Remover | Cupom de desconto | Aplicar cupom | Não foi possível calcular o carrinho.",
+      "totalExibido": null,
+      "finalizarVisivel": false
+    },
+    "alteracao": {
+      "quantidade": "2",
+      "alertas": [
+        "Não foi possível calcular o carrinho."
+      ],
+      "textoPrincipal": "Carrinho | Esvaziar carrinho | Camiseta Essencial | R$ 59,90 cada | - | 2 | + | R$ 59,90 | Remover | Cupom de desconto | Aplicar cupom | Não foi possível calcular o carrinho. | Resumo do pedido | Subtotal | R$ 59,90 | Desconto | R$ 0,00 | Frete | R$ 19,90 | Total | R$ 79,80 | Faltam R$ 140,10 para o frete grátis. | Finalizar compra",
+      "totalExibido": "R$ 79,80",
+      "finalizarVisivel": true
+    },
+    "checkout": {
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "texto": "Finalizar compra | Voltar ao carrinho | Dados para entrega | Nome completo | E-mail | CEP | Somente números ou no formato 00000-000. | O pagamento é feito na entrega. | Confirmar pedido | Resumo do pedido | Subtotal | R$ 59,90 | Desconto | R$ 0,00 | Frete | R$ 19,90 | Total | R$ 79,80 | 1x Camiseta Essencial | R$ 59,90"
+    },
+    "confirmado": {
+      "numero": "VZ-952731",
+      "quantidade": 2,
+      "total": 139.7
+    }
+  },
+  "CT-CAR-02": {
+    "falhaSimulada": "conexão interrompida",
+    "antes": {
+      "total": "R$ 79,80"
+    },
+    "carregamento": {
+      "alertas": [
+        "Não foi possível calcular o carrinho. Verifique sua conexão."
+      ],
+      "textoPrincipal": "Carrinho | Esvaziar carrinho | Camiseta Essencial | R$ 59,90 cada | - | 1 | + | ... | Remover | Cupom de desconto | Aplicar cupom | Não foi possível calcular o carrinho. Verifique sua conexão.",
+      "totalExibido": null,
+      "finalizarVisivel": false
+    },
+    "alteracao": {
+      "quantidade": "2",
+      "alertas": [
+        "Não foi possível calcular o carrinho. Verifique sua conexão."
+      ],
+      "textoPrincipal": "Carrinho | Esvaziar carrinho | Camiseta Essencial | R$ 59,90 cada | - | 2 | + | R$ 59,90 | Remover | Cupom de desconto | Aplicar cupom | Não foi possível calcular o carrinho. Verifique sua conexão. | Resumo do pedido | Subtotal | R$ 59,90 | Desconto | R$ 0,00 | Frete | R$ 19,90 | Total | R$ 79,80 | Faltam R$ 140,10 para o frete grátis. | Finalizar compra",
+      "totalExibido": "R$ 79,80",
+      "finalizarVisivel": true
+    },
+    "checkout": {
+      "url": "https://verzel-store.qa-test-verzel-store.workers.dev/checkout",
+      "texto": "Finalizar compra | Voltar ao carrinho | Dados para entrega | Nome completo | E-mail | CEP | Somente números ou no formato 00000-000. | O pagamento é feito na entrega. | Confirmar pedido | Resumo do pedido | Subtotal | R$ 59,90 | Desconto | R$ 0,00 | Frete | R$ 19,90 | Total | R$ 79,80 | 1x Camiseta Essencial | R$ 59,90"
+    },
+    "confirmado": {
+      "numero": "VZ-257168",
+      "quantidade": 2,
+      "total": 139.7
+    }
+  },
+  "CT-CAR-03": {
+    "status": 422,
+    "corpo": {
+      "erro": {
+        "codigo": "PRODUTO_NAO_ENCONTRADO",
+        "mensagem": "Produto P999 não encontrado.",
+        "campo": "itens[1].produtoId"
+      }
+    },
+    "alertas": [
+      "Produto P999 não encontrado."
+    ],
+    "textoPrincipal": "Carrinho | Esvaziar carrinho | Camiseta Essencial | R$ 59,90 cada | - | 1 | + | ... | Remover | Cupom de desconto | Aplicar cupom | Produto P999 não encontrado.",
+    "totalExibido": null,
+    "finalizarVisivel": false,
+    "itensListados": [
+      "Camiseta Essencial"
+    ]
   }
 }

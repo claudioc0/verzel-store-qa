@@ -8,7 +8,7 @@ Todas as evidências ficam em [/evidencias](../evidencias/) e são referenciadas
 | [evidencias/api/](../evidencias/api/) | Um JSON por chamada, com método, URL, corpo enviado, status, content-type e corpo recebido | `<ID do cenário>[-variação].json` |
 | [evidencias/automacao/](../evidencias/automacao/) | Relatório HTML da automação Playwright (abrir com `npm run report`) | gerado por `npm test` |
 
-> **Sobre os anexos do relatório:** os arquivos em `evidencias/automacao/relatorio/data/` são anexos (prints, traces e contexto de erro) dos testes marcados com `test.fail()`. Eles registram **falhas esperadas**, que reproduzem o BUG-01 e o BUG-02, e não falhas da suíte. No relatório, esses testes aparecem como aprovados.
+> **Sobre os anexos do relatório:** os arquivos em `evidencias/automacao/relatorio/data/` são anexos (prints, traces e contexto de erro) dos testes marcados com `test.fail()`. Eles registram **falhas esperadas**, que reproduzem o BUG-01, o BUG-02 e o BUG-05, e não falhas da suíte. No relatório, esses testes aparecem como aprovados.
 
 ## Evidências por bug
 
@@ -18,6 +18,8 @@ Todas as evidências ficam em [/evidencias](../evidencias/) e são referenciadas
 | [BUG-02](bugs.md#bug-02) | [CT-API-11-q6.json](../evidencias/api/CT-API-11-q6.json) · [CT-API-17.json](../evidencias/api/CT-API-17.json) · [CT-API-30-b.json](../evidencias/api/CT-API-30-b.json) · [CT-QTD-07-carrinho.png](../evidencias/ui/CT-QTD-07-carrinho.png) · [CT-QTD-07-confirmado.png](../evidencias/ui/CT-QTD-07-confirmado.png) |
 | [BUG-03](bugs.md#bug-03) | [CT-API-05.json](../evidencias/api/CT-API-05.json) |
 | [BUG-04](bugs.md#bug-04) | [CT-API-12-d.json](../evidencias/api/CT-API-12-d.json) |
+| [BUG-05](bugs.md#bug-05) | [CT-CAR-01-alteracao.png](../evidencias/ui/CT-CAR-01-alteracao.png) · [CT-CAR-01-checkout.png](../evidencias/ui/CT-CAR-01-checkout.png) · [CT-CAR-01-confirmado.png](../evidencias/ui/CT-CAR-01-confirmado.png) · [CT-CAR-02-checkout.png](../evidencias/ui/CT-CAR-02-checkout.png) |
+| [BUG-06](bugs.md#bug-06) | [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png) · [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png) · `novaTentativa` em [resultados.json](../evidencias/ui/resultados.json) |
 
 ## Como regerar
 ```bash

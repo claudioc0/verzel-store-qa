@@ -423,7 +423,13 @@ for (const [sufixo, cupom] of [['a', 'VERAO2026'], ['b', 'XYZ123']]) {
     await p.getByRole('button', { name: 'Confirmar pedido' }).click();
     const r = await resposta;
     await p.waitForTimeout(800); await print(p, `CT-CHK-09-${sufixo}`);
-    return { status: r.status(), erroApi: (await r.json()).erro, url: p.url(),
+    const erroApi = (await r.json()).erro;
+    // Segunda tentativa sem sair do checkout: o mesmo cupom é reenviado?
+    const segunda = p.waitForResponse((x) => x.url().endsWith('/api/pedidos'));
+    await p.getByRole('button', { name: 'Confirmar pedido' }).click();
+    const r2 = await segunda;
+    const novaTentativa = { status: r2.status(), cupomEnviado: JSON.parse(r2.request().postData() ?? '{}').cupom, codigo: (await r2.json()).erro?.codigo };
+    return { status: r.status(), erroApi, novaTentativa, url: p.url(),
       alertas: await p.locator('[role="alert"]').allInnerTexts(),
       botaoHabilitado: await p.getByRole('button', { name: 'Confirmar pedido' }).isEnabled() };
   });
@@ -448,6 +454,66 @@ for (const [sufixo, falha] of [['a', 'HTTP 500 sem corpo'], ['b', 'conexão inte
     return { ...erro, urlAposNovaTentativa: p.url() };
   });
 }
+
+
+// ---------- Carrinho quando o cálculo falha ----------
+async function estadoCarrinho(p) {
+  const total = p.locator('[data-valor="total"]');
+  const finalizar = p.getByRole('link', { name: 'Finalizar compra' });
+  return {
+    alertas: await p.locator('[role="alert"]').allInnerTexts(),
+    textoPrincipal: (await p.locator('main').innerText()).replace(/\n+/g, ' | ').slice(0, 600),
+    totalExibido: (await total.count()) ? (await total.textContent())?.trim() : null,
+    finalizarVisivel: (await finalizar.count()) ? await finalizar.isVisible() : false,
+  };
+}
+for (const [sufixo, falha] of [['a', 'HTTP 500 sem corpo'], ['b', 'conexão interrompida']]) {
+  await cenario(`CT-CAR-0${sufixo === 'a' ? 1 : 2}`, async (p) => {
+    const id = `CT-CAR-0${sufixo === 'a' ? 1 : 2}`;
+    await adicionar(p, 'Camiseta Essencial'); await irCarrinho(p);
+    const antes = await resumo(p);
+    // Primeiro carregamento já com o cálculo falhando
+    await p.route('**/api/carrinho/calcular', (r) => (sufixo === 'a' ? r.fulfill({ status: 500, body: '' }) : r.abort('failed')));
+    await p.reload(); await p.waitForTimeout(1500);
+    await print(p, `${id}-carregamento`);
+    const carregamento = await estadoCarrinho(p);
+    // Alteração do carrinho com o cálculo falhando: os valores antigos continuam na tela?
+    await p.unroute('**/api/carrinho/calcular');
+    await p.reload(); await p.locator('[data-valor="total"]').waitFor(); await p.waitForTimeout(600);
+    await p.route('**/api/carrinho/calcular', (r) => (sufixo === 'a' ? r.fulfill({ status: 500, body: '' }) : r.abort('failed')));
+    await p.getByRole('button', { name: 'Aumentar quantidade de Camiseta Essencial' }).click();
+    await p.waitForTimeout(1500); await print(p, `${id}-alteracao`);
+    const alteracao = { quantidade: await p.locator('output[aria-label="Quantidade de Camiseta Essencial"]').textContent(), ...(await estadoCarrinho(p)) };
+    // Segue para o checkout com o cálculo ainda falhando: o que o resumo mostra?
+    let checkout = null, confirmado = null;
+    if (alteracao.finalizarVisivel) {
+      await p.getByRole('link', { name: 'Finalizar compra' }).click();
+      await p.waitForTimeout(1500); await print(p, `${id}-checkout`);
+      checkout = { url: p.url(), texto: (await p.locator('main').innerText()).replace(/\n+/g, ' | ').slice(0, 700) };
+      // A API volta ao normal e o cliente confirma: qual valor é cobrado?
+      await p.unroute('**/api/carrinho/calcular');
+      await preencher(p, 'Maria Silva', 'maria@exemplo.com', '01310-100');
+      const pedido = p.waitForResponse((r) => r.url().endsWith('/api/pedidos'));
+      await p.getByRole('button', { name: 'Confirmar pedido' }).click();
+      const corpo = await (await pedido).json();
+      await p.waitForURL('**/pedido-confirmado', { timeout: 5000 }).catch(() => {}); await p.waitForTimeout(500);
+      await print(p, `${id}-confirmado`);
+      confirmado = { numero: corpo.numero, quantidade: corpo.itens?.[0]?.quantidade, total: corpo.total };
+    }
+    return { falhaSimulada: falha, antes: { total: antes.total }, carregamento, alteracao, checkout, confirmado };
+  });
+}
+await cenario('CT-CAR-03', async (p) => {
+  // Produto inexistente gravado na aba: a API de cálculo responde 422 PRODUTO_NAO_ENCONTRADO.
+  await adicionar(p, 'Camiseta Essencial');
+  await p.evaluate(() => sessionStorage.setItem('verzel-store:itens', JSON.stringify([{ produtoId: 'P001', quantidade: 1 }, { produtoId: 'P999', quantidade: 1 }])));
+  const resposta = p.waitForResponse((r) => r.url().endsWith('/api/carrinho/calcular') && !!r.request().postData()?.includes('P999'));
+  await p.goto(BASE + '/carrinho');
+  const r = await resposta; const corpo = await r.json(); await p.waitForTimeout(1200);
+  await print(p, 'CT-CAR-03');
+  return { status: r.status(), corpo, ...(await estadoCarrinho(p)),
+    itensListados: await p.locator('.item-carrinho h3').allTextContents() };
+});
 
 writeFileSync(ARQUIVO, JSON.stringify(resultados, null, 2) + '\n');
 await browser.close();
