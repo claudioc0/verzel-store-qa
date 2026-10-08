@@ -4,7 +4,7 @@ Versão em Markdown da planilha [checklist-revisao.xlsx](checklist-revisao.xlsx)
 
 **O que é:** depois da execução assistida por script ([execucao.md](execucao.md)), cada bug foi reproduzido manualmente no navegador e no terminal, e os valores esperados de cada critério de aceite foram conferidos com calculadora contra a documentação. A coluna "Resultado observado" é o registro feito durante essa revisão.
 
-**Data da revisão:** 07/10/2026 · **Itens:** 25 · **Resultado:** 25 OK
+**Data da revisão:** 07/10/2026, 08/10/2026 · **Itens:** 25 · **Resultado:** 25 OK
 
 | ID | Categoria | Referência | O que foi validado | Como foi validado | Resultado observado | Status | Evidência |
 |---|---|---|---|---|---|---|---|

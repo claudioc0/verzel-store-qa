@@ -26,7 +26,7 @@ Funcionalidade: Carrinho quando o cálculo falha
     Então vejo a mensagem de erro do cálculo
     E não vejo valores de um estado anterior do carrinho
     E não consigo seguir para o checkout com um resumo que não corresponde ao carrinho
-    Quando, mesmo assim, chego ao checkout e confirmo o pedido depois que a API volta ao normal
+    Quando mesmo assim chego ao checkout e confirmo o pedido depois que a API volta ao normal
     Então o valor confirmado é o mesmo que foi exibido no checkout
 
     Exemplos:
