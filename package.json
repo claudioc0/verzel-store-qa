@@ -2,11 +2,18 @@
   "name": "verzel-store-qa",
   "version": "1.0.0",
   "description": "Teste técnico QA Júnior Verzel: validação de cupom de desconto e frete grátis da Verzel Store",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": "claudioc0",
+  "engines": {
+    "node": ">=20"
+  },
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "scripts": {
+    "typecheck": "tsc",
     "test": "playwright test",
     "test:api": "playwright test --project=api",
     "test:ui": "playwright test --project=ui-chromium",
@@ -15,12 +22,9 @@
     "evidencias:api": "node scripts/executar-api.mjs",
     "evidencias:ui": "node scripts/executar-ui.mjs"
   },
-  "author": "",
-  "license": "UNLICENSED",
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.4",
     "typescript": "^7.0.2"
-  },
-  "private": true
+  }
 }

@@ -55,6 +55,7 @@ npm test
 | Comando | O que faz |
 |---|---|
 | `npm test` | Roda todos os testes (API + UI) |
+| `npm run typecheck` | Checa os tipos do TypeScript dos testes (o Playwright executa sem checar tipos) |
 | `npm run test:api` | Só os testes de API |
 | `npm run test:ui` | Só os testes de interface (headless) |
 | `npm run test:headed` | Testes de interface com o navegador visível |
