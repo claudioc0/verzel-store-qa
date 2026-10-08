@@ -72,4 +72,4 @@ npm test
 Windows 10 · Node 24 · Playwright 1.63 (Chromium) · execução em 07/10/2026.
 
 ## Uso de IA
-Usei o Claude (Anthropic) como assistente para ler a documentação, sugerir cenários e valores-limite, escrever os roteiros de execução e a automação, e organizar a documentação. Revisei os valores esperados contra a documentação e confirmei cada bug nas evidências (prints e respostas da API).
+Usei o Claude (Anthropic) como assistente para extrair pontos-chave do problema, sugerir cenários e valores-limite, elaborar os roteiros de execução, e organizar a documentação de maneira estruturada. Todos os artefatos e resultados gerados pela IA foram revisados. Além disso, validei os valores esperados contra a documentação e confirmei cada bug manualmente, com evidências (prints e respostas da API) registradas no [checklist de revisão manual](docs/checklist-revisao.md).
