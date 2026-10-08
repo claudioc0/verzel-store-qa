@@ -7,6 +7,10 @@ Funcionalidade: Arredondamento de valores
   uma terceira casa decimal. Estes cenários verificam a ausência de resíduo de ponto
   flutuante, não a regra de arredondamento em si (ver docs/ambiguidades.md, A9).
 
+  A coluna "residuo_em_js" indica se a conta direta em JavaScript gera resíduo
+  (ex.: 3 × 29,90 = 89.69999999999999). Só esses exemplos exercitam o resíduo; os demais
+  dão resultado exato e servem apenas para conferir os valores.
+
   @CT-ARR-01 @CA11
   Esquema do Cenário: Valores do carrinho com 2 casas decimais
     Dado que meu carrinho tem <quantidade> unidades de "<produto>"
@@ -18,15 +22,16 @@ Funcionalidade: Arredondamento de valores
     E nenhum valor da interface ou da API tem mais de 2 casas decimais
 
     Exemplos:
-      | produto              | quantidade | subtotal  | desconto | frete    | total     |
-      | Camiseta Essencial   | 3          | R$ 179,70 | R$ 17,97 | R$ 19,90 | R$ 181,63 |
-      | Kit 3 Pares de Meias | 3          | R$ 89,70  | R$ 8,97  | R$ 19,90 | R$ 100,63 |
-      | Kit 3 Pares de Meias | 5          | R$ 149,50 | R$ 14,95 | R$ 19,90 | R$ 154,45 |
-      | Tênis Casual Urbano  | 1          | R$ 189,90 | R$ 18,99 | R$ 19,90 | R$ 190,81 |
-      | Jaqueta Corta-Vento  | 3          | R$ 689,70 | R$ 68,97 | Grátis   | R$ 620,73 |
+      | produto              | quantidade | subtotal  | desconto | frete    | total     | residuo_em_js |
+      | Camiseta Essencial   | 3          | R$ 179,70 | R$ 17,97 | R$ 19,90 | R$ 181,63 | não           |
+      | Kit 3 Pares de Meias | 3          | R$ 89,70  | R$ 8,97  | R$ 19,90 | R$ 100,63 | sim           |
+      | Kit 3 Pares de Meias | 5          | R$ 149,50 | R$ 14,95 | R$ 19,90 | R$ 154,45 | sim           |
+      | Tênis Casual Urbano  | 1          | R$ 189,90 | R$ 18,99 | R$ 19,90 | R$ 190,81 | sim           |
+      | Jaqueta Corta-Vento  | 3          | R$ 689,70 | R$ 68,97 | Grátis   | R$ 620,73 | sim           |
 
   @CT-ARR-02 @CA11
-  Cenário: Carrinho com vários produtos não acumula erro de ponto flutuante
+  Cenário: Carrinho com todos os produtos tem os valores esperados
+    # A soma dos 8 preços é exata em JavaScript (849,4): este cenário confere os valores, não o resíduo
     Dado que meu carrinho tem 1 unidade de cada produto (P001 a P008)
     Quando aplico o cupom "BEMVINDO10"
     Então o subtotal é "R$ 849,40"

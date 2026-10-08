@@ -51,6 +51,8 @@ Os critérios de aceite não restringem o cupom à primeira compra, e a loja nã
 **CA11, "valores arredondados para 2 casas decimais": verificação parcial.**
 Com a massa disponível, nenhum cálculo produz uma terceira casa decimal (preços múltiplos de R$ 0,10 e cupom de 10%). **Interpretação:** o CA11 foi verificado apenas quanto à ausência de resíduo de ponto flutuante na interface e na API. A regra de arredondamento propriamente dita (meio para cima, truncamento etc.) não pôde ser exercitada.
 
+Os casos que de fato exercitam o resíduo são os que geram valores como `89.69999999999999` (3 × 29,90) ou `18.990000000000002` (10% de 189,90) numa conta direta em JavaScript: 4 dos 5 exemplos do CT-ARR-01, além do CT-FRE-06 e do CT-FRE-07. A loja devolveu valores limpos em todos. Dois cálculos não geram resíduo e por isso não provam nada sobre ele: 3 × 59,90 (= 179,7 exato) e a soma dos 8 produtos (= 849,4 exato). A análise assume a ordem preço × quantidade, soma e × 0,1; outra ordem de operações daria resíduos em outros casos.
+
 ## A10
 **Cupom só com espaços: mensagens diferentes na interface e na API.**
 Na interface, `"   "` mostra "Informe um cupom." sem chamar a API (CT-CUP-07). Em `/api/carrinho/calcular`, o mesmo valor retorna `cupom.mensagem: "Cupom inválido."` e `""` retorna `cupom: null` (CT-API-19). **Interpretação:** a documentação não define o comportamento para cupom vazio, e nenhum dos dois aplica desconto. Registrado só como observação.

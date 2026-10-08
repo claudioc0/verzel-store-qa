@@ -50,7 +50,7 @@ Validar a entrega **cupom de desconto + frete grátis** da Verzel Store contra a
 - Ambiente compartilhado: o carrinho fica isolado por aba (sessionStorage), e a documentação garante que "a API não guarda nada entre uma chamada e outra". Por isso os testes não interferem uns nos outros nem com outros candidatos.
 
 ## 6. Limitações conhecidas
-- **CA11 (arredondamento) só é parcialmente verificável com a massa disponível.** Todos os preços são múltiplos de R$ 0,10 e o único cupom válido é de 10%, então o desconto sempre fecha em centavos exatos e nunca surge uma terceira casa decimal para arredondar. O cupom de 15% (VERAO2026) está expirado. Os testes confirmam só a ausência de resíduo de ponto flutuante (ex.: 3 × 59,90 = 179,70, e não 179,70000000000002). Ver [A9](ambiguidades.md#a9).
+- **CA11 (arredondamento) só é parcialmente verificável com a massa disponível.** Todos os preços são múltiplos de R$ 0,10 e o único cupom válido é de 10%, então o desconto sempre fecha em centavos exatos e nunca surge uma terceira casa decimal para arredondar. O cupom de 15% (VERAO2026) está expirado. Os testes confirmam só a ausência de resíduo de ponto flutuante (ex.: 3 × 29,90 = 89,70, e não 89,69999999999999; 10% de 189,90 = 18,99, e não 18,990000000000002). Ver [A9](ambiguidades.md#a9).
 - **"Na primeira compra"** (texto da home) não é verificável sem cadastro de clientes. Ver [A8](ambiguidades.md#a8).
 
 ## 7. Classificação de bugs

@@ -68,8 +68,8 @@ Os 13 cenários com falha correspondem a 4 registros: **3 bugs** (BUG-01, BUG-02
 
 | ID | Cenário | CA | Resultado | Observado | Evidência |
 |---|---|---|---|---|---|
-| CT-ARR-01 | 5 combinações com cupom | CA11 | ✅* | Todos os valores conferem com a tabela de exemplos, com 2 casas | [1](../evidencias/ui/CT-ARR-01-1.png) [2](../evidencias/ui/CT-ARR-01-2.png) [3](../evidencias/ui/CT-ARR-01-3.png) [4](../evidencias/ui/CT-ARR-01-4.png) [5](../evidencias/ui/CT-ARR-01-5.png) |
-| CT-ARR-02 | Todos os 8 produtos + cupom | CA11 | ✅* | Subtotal R$ 849,40, desconto R$ 84,94, total R$ 764,46 (API idem, sem resíduo de ponto flutuante) | [print](../evidencias/ui/CT-ARR-02.png) |
+| CT-ARR-01 | 5 combinações com cupom | CA11 | ✅* | Todos os valores conferem com a tabela de exemplos, com 2 casas. 4 dos 5 exemplos gerariam resíduo numa conta direta em JavaScript (ex.: 3 × 29,90 = 89.69999999999999), e a loja devolveu valores limpos | [1](../evidencias/ui/CT-ARR-01-1.png) [2](../evidencias/ui/CT-ARR-01-2.png) [3](../evidencias/ui/CT-ARR-01-3.png) [4](../evidencias/ui/CT-ARR-01-4.png) [5](../evidencias/ui/CT-ARR-01-5.png) |
+| CT-ARR-02 | Todos os 8 produtos + cupom | CA11 | ✅* | Subtotal R$ 849,40, desconto R$ 84,94, total R$ 764,46 (API idem). Confere os valores; não exercita resíduo, porque a soma dos 8 preços já é exata em JavaScript | [print](../evidencias/ui/CT-ARR-02.png) |
 
 ## Checkout ([checkout.feature](cenarios/checkout.feature))
 
