@@ -1,0 +1,22 @@
+{
+  "id": "CT-API-05-b",
+  "executadoEm": "2026-10-09T16:28:08.488Z",
+  "requisicao": {
+    "metodo": "GET",
+    "url": "https://verzel-store.qa-test-verzel-store.workers.dev/api/",
+    "cabecalhos": {
+      "Content-Type": "application/json"
+    },
+    "corpo": null
+  },
+  "resposta": {
+    "status": 404,
+    "contentType": "application/json; charset=utf-8",
+    "corpo": {
+      "erro": {
+        "codigo": "ROTA_NAO_ENCONTRADA",
+        "mensagem": "Rota não encontrada."
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ Todas as evidências ficam em [/evidencias](../evidencias/) e são referenciadas
 |---|---|
 | [BUG-01](bugs.md#bug-01) | ![CT-FRE-05](../evidencias/ui/CT-FRE-05.png) [CT-FRE-03.png](../evidencias/ui/CT-FRE-03.png) · [CT-CHK-06-confirmado.png](../evidencias/ui/CT-CHK-06-confirmado.png) · [CT-API-08-b.json](../evidencias/api/CT-API-08-b.json) · [CT-API-18.json](../evidencias/api/CT-API-18.json) |
 | [BUG-02](bugs.md#bug-02) | [CT-API-11-q6.json](../evidencias/api/CT-API-11-q6.json) · [CT-API-17.json](../evidencias/api/CT-API-17.json) · [CT-API-30-b.json](../evidencias/api/CT-API-30-b.json) · [CT-QTD-07-carrinho.png](../evidencias/ui/CT-QTD-07-carrinho.png) · [CT-QTD-07-confirmado.png](../evidencias/ui/CT-QTD-07-confirmado.png) |
-| [BUG-03](bugs.md#bug-03) | [CT-API-05.json](../evidencias/api/CT-API-05.json) |
+| [BUG-03](bugs.md#bug-03) | [CT-API-05.json](../evidencias/api/CT-API-05.json) · [CT-API-05-b.json](../evidencias/api/CT-API-05-b.json) |
 | [BUG-04](bugs.md#bug-04) | [CT-API-12-d.json](../evidencias/api/CT-API-12-d.json) |
 | [BUG-05](bugs.md#bug-05) | [CT-CAR-01-alteracao.png](../evidencias/ui/CT-CAR-01-alteracao.png) · [CT-CAR-01-checkout.png](../evidencias/ui/CT-CAR-01-checkout.png) · [CT-CAR-01-confirmado.png](../evidencias/ui/CT-CAR-01-confirmado.png) · [CT-CAR-02-checkout.png](../evidencias/ui/CT-CAR-02-checkout.png) |
 | [BUG-06](bugs.md#bug-06) | [CT-CHK-09-carrinho-cupom-expirado.png](../evidencias/ui/CT-CHK-09-carrinho-cupom-expirado.png) · [CT-CHK-09-a.png](../evidencias/ui/CT-CHK-09-a.png) · [CT-CHK-09-b.png](../evidencias/ui/CT-CHK-09-b.png) · `novaTentativa` em [resultados.json](../evidencias/ui/resultados.json) |

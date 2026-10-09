@@ -96,11 +96,15 @@ Também ocorre em `POST /api/carrinho/calcular` com `{"itens":[{"produtoId":"P00
 
 **Resultado esperado:** resposta JSON, como acontece em qualquer outra rota inexistente sob `/api`: `404 {"erro":{"codigo":"ROTA_NAO_ENCONTRADA", ...}}`.
 
-**Resultado obtido:** `200`, `Content-Type: text/html`, com o HTML da SPA. Para comparar, `GET /api/rota-inexistente` retorna corretamente `404 ROTA_NAO_ENCONTRADA` em JSON.
+**Resultado obtido:** `200`, `Content-Type: text/html`, com o HTML da SPA. Para comparar, `GET /api/rota-inexistente` e `GET /api/` (com a barra final) retornam corretamente `404 ROTA_NAO_ENCONTRADA` em JSON.
+
+**Análise (hipótese, sem acesso ao código):** como `/api/` responde em JSON e `/api` não, o roteamento parece encaminhar à API só os caminhos que começam com `/api/`; `/api` cai na regra da loja, que devolve o HTML para qualquer endereço desconhecido.
+
+**Sugestão:** tratar `/api` como `/api/`, respondendo `404 ROTA_NAO_ENCONTRADA` em JSON (ou, opcionalmente, um JSON de apresentação com os endpoints e o link da documentação).
 
 **Observação:** é o link de "API" informado no enunciado do teste. Entendo que `/api` é o prefixo base e não um endpoint (ver [ambiguidades](ambiguidades.md#a1)). O problema é a resposta fora do padrão, não a ausência de conteúdo.
 
-**Evidências:** [CT-API-05.json](../evidencias/api/CT-API-05.json), [CT-API-04.json](../evidencias/api/CT-API-04.json)
+**Evidências:** [CT-API-05.json](../evidencias/api/CT-API-05.json), [CT-API-05-b.json](../evidencias/api/CT-API-05-b.json) (`/api/`), [CT-API-04.json](../evidencias/api/CT-API-04.json)
 
 ---
 

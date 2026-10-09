@@ -28,7 +28,13 @@ test('CT-QTD-07 @CA10 carrinho com mais de 5 unidades não vira pedido com mais 
 
   // Pelo destino do link, e não pelo texto, para uma mudança de rótulo não esvaziar o teste.
   const finalizar = page.locator('a[href="/checkout"]').filter({ visible: true });
-  if ((await finalizar.count()) === 0) return; // correção possível: o carrinho bloqueia o checkout
+  if ((await finalizar.count()) === 0) {
+    // Correção possível: o carrinho bloqueia o checkout. Ele precisa mostrar o limite ou já ter ajustado a quantidade.
+    const quantidade = Number(await page.locator('output[aria-label="Quantidade de Camiseta Essencial"]').textContent());
+    const avisoLimite = await page.getByText(/Limite de 5 unidades/).isVisible();
+    expect(quantidade <= 5 || avisoLimite, 'carrinho bloqueado deve ajustar a quantidade ou avisar o limite').toBe(true);
+    return;
+  }
 
   await finalizar.first().click();
   await expect(page).toHaveURL(/\/checkout$/);
@@ -36,7 +42,15 @@ test('CT-QTD-07 @CA10 carrinho com mais de 5 unidades não vira pedido com mais 
   await page.getByLabel(/e-mail/i).fill('maria@exemplo.com');
   await page.getByLabel(/cep/i).fill('01310-100');
   const confirmar = page.getByRole('button', { name: 'Confirmar pedido' });
-  if (!(await confirmar.isEnabled())) return; // correção possível: o checkout bloqueia o envio
+  if (!(await confirmar.isEnabled())) {
+    // Correção possível: o checkout bloqueia o envio. Ele precisa explicar o motivo ou ter ajustado a quantidade.
+    const quantidades = (await page.locator('main li span:first-child').allTextContents())
+      .map((t) => Number(t.match(/^(\d+)x/)?.[1] ?? NaN)).filter((n) => !Number.isNaN(n));
+    const motivoVisivel = await page.getByRole('alert').or(page.getByText(/Limite de 5 unidades/)).first().isVisible();
+    expect(motivoVisivel || (quantidades.length > 0 && Math.max(...quantidades) <= 5),
+      'checkout bloqueado deve avisar o motivo ou ter ajustado a quantidade').toBe(true);
+    return;
+  }
 
   const respostaPedido = page.waitForResponse((r) => r.url().endsWith('/api/pedidos'));
   await confirmar.click();

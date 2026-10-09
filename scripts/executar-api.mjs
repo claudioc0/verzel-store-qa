@@ -18,6 +18,7 @@ const casos = [
   ['CT-API-03-c', 'GET', '/api/produtos/abc'],
   ['CT-API-04', 'GET', '/api/rota-inexistente'],
   ['CT-API-05', 'GET', '/api'],
+  ['CT-API-05-b', 'GET', '/api/'],
   ['CT-API-06-a', 'GET', '/api/carrinho/calcular'],
   ['CT-API-06-b', 'GET', '/api/pedidos'],
   ['CT-API-06-c', 'POST', '/api/produtos', {}],

@@ -35,9 +35,14 @@ Funcionalidade: API da Verzel Store
     Então a resposta tem status 404 e código "ROTA_NAO_ENCONTRADA"
 
   @CT-API-05
-  Cenário: Raiz da API
-    Quando faço GET em "/api"
+  Esquema do Cenário: Raiz da API, com e sem a barra final
+    Quando faço GET em "<rota>"
     Então a resposta é JSON (status 404 e código "ROTA_NAO_ENCONTRADA")
+
+    Exemplos:
+      | rota  |
+      | /api  |
+      | /api/ |
 
   @CT-API-06
   Esquema do Cenário: Método não permitido
