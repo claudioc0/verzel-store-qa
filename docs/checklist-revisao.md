@@ -4,7 +4,7 @@ Versão em Markdown da planilha [checklist-revisao.xlsx](checklist-revisao.xlsx)
 
 **O que é:** depois da execução assistida por script ([execucao.md](execucao.md)), cada bug foi reproduzido manualmente no navegador e no terminal, e os valores esperados de cada critério de aceite foram conferidos com calculadora contra a documentação. A coluna "Resultado observado" é o registro feito durante essa revisão.
 
-**Data da revisão:** 07/10/2026, 08/10/2026 · **Itens:** 25 · **Resultado:** 25 OK
+**Data da revisão:** 07/10/2026, 08/10/2026, 09/10/2026 · **Itens:** 25 · **Resultado:** 25 OK
 
 | ID | Categoria | Referência | O que foi validado | Como foi validado | Resultado observado | Status | Evidência |
 |---|---|---|---|---|---|---|---|
@@ -29,7 +29,7 @@ Versão em Markdown da planilha [checklist-revisao.xlsx](checklist-revisao.xlsx)
 | R19 | Critério | CA11 | Valores com 2 casas (verificação parcial) | Carrinho com 3× "Kit 3 Pares de Meias" + BEMVINDO10. Conferir: 3 × 29,90 e 10% disso. | Os valores se mantêm com 2 casas decimais | OK | [R19.jpg](../evidencias/manual/R19.jpg) |
 | R20 | Checkout | CT-CHK-01 | Pedido válido | Confirmar um pedido com Maria Silva / maria@exemplo.com / 01310-100. | O carrinho se encontra devidamente vazio após o pedido concluído | OK | [R20-carrinho.jpg](../evidencias/manual/R20-carrinho.jpg) · [R20-pedido.jpg](../evidencias/manual/R20-pedido.jpg) |
 | R21 | Checkout | CT-CHK-03 | Mensagens de validação | No checkout, enviar: nome "Maria", e-mail "maria.exemplo.com", CEP "1310-100". | Todos os campos do formulário são devidamente tratados na inserção de dados | OK | [R21.jpg](../evidencias/manual/R21.jpg) |
-| R22 | Repositório | README | Automação roda do zero | Em uma pasta nova: git clone do repositório, npm install, npx playwright install chromium, npm test. | 40 testes aprovados, dos quais 6 são falhas esperadas (test.fail), executados num clone em pasta nova | OK | [R22.jpg](../evidencias/manual/R22.jpg) |
+| R22 | Repositório | README | Automação roda do zero | Em uma pasta nova: git clone do repositório, npm install, npx playwright install chromium, npm test. | 40 testes aprovados, dos quais 6 são falhas esperadas (test.fail), executados num clone em pasta nova | OK | [R22-clone.png](../evidencias/manual/R22-clone.png) · [R22-execucao.png](../evidencias/manual/R22-execucao.png) |
 | R23 | Repositório | README / docs | Links funcionam no GitHub | Abrir o repositório no navegador e clicar em todos os links da tabela "Onde encontrar cada entrega" e da tabela de bugs. | Todos os links abrem o arquivo ou seção correta, para facilitar revisão posterior | OK | Verificação por leitura, sem print |
 | R24 | Repositório | evidencias.md | Prints dos bugs mostram o que o relato diz | Abrir os prints citados em docs/evidencias.md para cada bug e comparar com docs/bugs.md. | Os prints dos bugs condizem com os relatos | OK | Verificação por leitura, sem print |
 | R25 | Repositório | execucao.md | Totais do resumo | Contar as linhas por resultado em cada seção de docs/execucao.md e comparar com a tabela de resumo. | O total contabilizado no resumo reflete exatamente os dados encontrados nas execuções | OK | Verificação por leitura, sem print |
