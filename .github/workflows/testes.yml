@@ -1,0 +1,39 @@
+# Roda a suíte Playwright (API + UI) contra o ambiente publicado da Verzel Store.
+# Disparo só manual: os testes rodam num ambiente compartilhado, e os 6 test.fail() passam a
+# acusar mudança se algum bug for corrigido, então não faz sentido rodar a cada push.
+name: Testes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Instalar o Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Checar tipos
+        run: npm run typecheck
+
+      - name: Rodar os testes
+        run: npm test
+
+      - name: Publicar o relatório HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-playwright
+          path: playwright-report/
+          retention-days: 30
