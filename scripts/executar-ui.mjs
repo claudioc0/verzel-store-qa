@@ -246,6 +246,7 @@ await cenario('CT-CHK-02', async (p) => {
   await print(p, 'CT-CHK-02'); return { url: p.url() };
 });
 const invalidos = [
+  // O 3º caso ("Maria S") é dúvida para o PO e está contado no CT-API-26 (ver docs/ambiguidades.md, A3).
   ['', 'maria@exemplo.com', '01310-100'], ['Maria', 'maria@exemplo.com', '01310-100'], ['Maria S', 'maria@exemplo.com', '01310-100'],
   ['   ', 'maria@exemplo.com', '01310-100'], ['Maria Silva', '', '01310-100'], ['Maria Silva', 'maria.exemplo.com', '01310-100'],
   ['Maria Silva', 'maria@exemplo', '01310-100'], ['Maria Silva', 'maria @exemplo.com', '01310-100'], ['Maria Silva', 'maria@exemplo.com', ''],

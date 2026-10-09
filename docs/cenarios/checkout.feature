@@ -32,11 +32,12 @@ Funcionalidade: Checkout e confirmação do pedido
     Então vejo uma mensagem de erro no campo "<campo>"
     E o pedido não é confirmado
 
+    # "Maria S" (sobrenome abreviado) não está aqui: a documentação pede só "nome e sobrenome",
+    # então não há como dizer que deve ser recusado. Ver CT-API-26 e ambiguidades.md, A3.
     Exemplos:
       | nome          | email             | cep        | campo  |
       |               | maria@exemplo.com | 01310-100  | nome   |
       | Maria         | maria@exemplo.com | 01310-100  | nome   |
-      | Maria S       | maria@exemplo.com | 01310-100  | nome   |
       | "   "         | maria@exemplo.com | 01310-100  | nome   |
       | Maria Silva   |                   | 01310-100  | e-mail |
       | Maria Silva   | maria.exemplo.com | 01310-100  | e-mail |

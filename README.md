@@ -59,14 +59,15 @@ npm test
 | `npm run test:api` | Só os testes de API |
 | `npm run test:ui` | Só os testes de interface (headless) |
 | `npm run test:headed` | Testes de interface com o navegador visível |
-| `npm run report` | Abre o relatório HTML da última execução. O arquivo fica em `evidencias/automacao/relatorio/`, mas o GitHub o exibe como código-fonte: para vê-lo, clone o repositório e use este comando |
+| `npm run report` | Abre o relatório HTML da sua última execução (gravado em `playwright-report/`, fora do Git) |
+| `npm run report:entrega` | Abre o relatório da execução que acompanha a entrega, em `evidencias/automacao/relatorio/`. Rodar os testes **não** sobrescreve esse relatório. No GitHub ele aparece como código-fonte, por isso é preciso clonar o repositório para vê-lo |
 | `npm run evidencias:api` / `npm run evidencias:ui` | Regeram as evidências da execução manual |
 
 ### Sobre a automação
 - **40 testes**: 23 de API e 17 de interface, cobrindo CA01 a CA10, o checkout e o carrinho (inclusive os caminhos de erro da API), a consistência entre a tela e a API e a integridade dos preços (a API ignora valores enviados pelo cliente). As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
 - **Bugs conhecidos não quebram a suíte:** os 6 testes que esbarram nos BUG-01, BUG-02 e BUG-05 estão marcados com `test.fail()` e com a referência ao bug. Eles validam o comportamento **esperado** pela documentação e aparecem como "falha esperada". Cada um verifica o **resultado**, e não um jeito específico de corrigir: o CT-QTD-07, por exemplo, só exige que nenhum pedido seja confirmado com mais de 5 unidades, seja porque a interface bloqueia, ajusta a quantidade ou recebe erro da API. Assim, qualquer correção faz o teste passar, e o Playwright acusa a mudança, sinalizando que a marcação pode ser removida. Nos testes de API, só o status é verificado enquanto o bug existe; o código de erro documentado entra na asserção quando a marcação for retirada.
 - **Isolamento:** cada teste abre um contexto de navegador novo, e o carrinho fica no `sessionStorage` da aba, então os testes não interferem entre si. Os testes de API criam pedidos, mas, segundo a [documentação](https://verzel-store.qa-test-verzel-store.workers.dev/documentacao#ambiente), "a API não guarda nada entre uma chamada e outra" e os pedidos não são armazenados. Por isso não afetam outros candidatos.
-- **Padrões:** Page Object ([tests/support/carrinho.page.ts](tests/support/carrinho.page.ts)), seletores acessíveis (`getByRole`, `getByLabel`) e os atributos `data-valor` do resumo.
+- **Padrões:** Page Object ([tests/support/carrinho.page.ts](tests/support/carrinho.page.ts)), preferencialmente seletores acessíveis (`getByRole`, `getByLabel`), com alguns por id e classe onde a página não oferece alternativa (`#campo-cupom`, `.aviso-frete`) e os atributos `data-valor` do resumo.
 
 ## Ambiente de execução
 Windows 10 · Node 24 · Playwright 1.63 (Chromium) · execução em 07/10/2026.

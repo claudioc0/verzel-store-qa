@@ -156,14 +156,14 @@ Funcionalidade: API da Verzel Store
   Esquema do Cenário: Pedido com dados de cliente inválidos
     Quando faço POST em "/api/pedidos" com o cliente <cliente> e 1 "P001"
     Então a resposta tem status 422 e código "DADOS_INVALIDOS"
-    E "campos" lista o campo "<campo>"
+    E "campos" lista <campos>
 
     Exemplos:
-      | cliente                                                     | campo         |
-      | {"nome":"Maria","email":"maria@exemplo.com","cep":"01310-100"} | cliente.nome  |
-      | {"nome":"Maria Silva","email":"maria","cep":"01310-100"}       | cliente.email |
-      | {"nome":"Maria Silva","email":"maria@exemplo.com","cep":"123"} | cliente.cep   |
-      | ausente                                                        | cliente       |
+      | cliente                                                        | campos                                       |
+      | {"nome":"Maria","email":"maria@exemplo.com","cep":"01310-100"} | cliente.nome                                 |
+      | {"nome":"Maria Silva","email":"maria","cep":"01310-100"}       | cliente.email                                |
+      | {"nome":"Maria Silva","email":"maria@exemplo.com","cep":"123"} | cliente.cep                                  |
+      | ausente                                                        | cliente.nome, cliente.email e cliente.cep    |
 
   @CT-API-17 @CA10
   Cenário: Pedido acima do limite de quantidade
@@ -233,6 +233,7 @@ Funcionalidade: API da Verzel Store
   @CT-API-26
   Cenário: Nome com sobrenome abreviado
     Quando faço POST em "/api/pedidos" com nome "Maria S"
+    # A interface (checkout) foi verificada com o mesmo nome e recusa com a mesma mensagem
     Então registro o comportamento como dúvida para o PO (ver ambiguidades A3)
 
   @CT-API-27

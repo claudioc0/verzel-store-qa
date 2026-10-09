@@ -12,7 +12,8 @@ Funcionalidade: Cupom de desconto
   Cenário: Aplicar o cupom BEMVINDO10 com carrinho abaixo do frete grátis
     Dado que meu carrinho tem 1 unidade de "Camiseta Essencial" (R$ 59,90)
     Quando aplico o cupom "BEMVINDO10"
-    Então vejo uma mensagem de sucesso informando o desconto de 10%
+    Então vejo "Cupom BEMVINDO10 aplicado." com a opção "Remover cupom"
+    # A API devolve "Cupom aplicado: 10% de desconto nos produtos.", mas a interface não exibe esse texto
     E o desconto exibido é de "R$ 5,99"
     E o frete exibido é de "R$ 19,90"
     E o total exibido é de "R$ 73,81"
@@ -75,11 +76,16 @@ Funcionalidade: Cupom de desconto
       | " VERAO2026 " |
 
   @CT-CUP-07
-  Cenário: Tentar aplicar cupom vazio
+  Esquema do Cenário: Tentar aplicar cupom vazio
     Dado que meu carrinho tem 1 unidade de "Camiseta Essencial"
-    Quando clico em "Aplicar cupom" sem preencher o código
+    Quando preencho o código com <codigo> e clico em "Aplicar cupom"
     Então vejo a mensagem "Informe um cupom."
     E nenhum desconto é aplicado
+
+    Exemplos:
+      | codigo              |
+      | nada (campo vazio)  |
+      | "   " (só espaços)  |
 
   # Na API, "um cupom por vez" é garantido pelo formato: o campo cupom é um único texto, não uma lista.
   @CT-CUP-08 @CA05

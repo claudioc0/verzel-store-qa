@@ -6,7 +6,9 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [
     ['list'],
-    ['html', { outputFolder: 'evidencias/automacao/relatorio', open: 'never' }],
+    // Cada execução grava em playwright-report/ (fora do Git). O relatório da entrega fica preservado
+    // em evidencias/automacao/relatorio/ e só é atualizado de propósito, com npm run relatorio:entrega.
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
   use: {
     baseURL: 'https://verzel-store.qa-test-verzel-store.workers.dev',

@@ -18,7 +18,7 @@ Na comparação com "nome e sobrenome", a regra erra para os dois lados:
 
 | Lado | Entrada | Resultado | Evidência |
 |---|---|---|---|
-| Mais restritiva | "Maria S" (sobrenome abreviado) | Recusado: "Informe nome e sobrenome." | CT-CHK-03, CT-API-26 |
+| Mais restritiva | "Maria S" (sobrenome abreviado) | Recusado: "Informe nome e sobrenome." | CT-API-26 (API e interface) |
 | Mais permissiva | "Maria 12" (número como sobrenome) | Aceito: pedido criado | CT-API-31-b |
 | Mais permissiva | "Ma .." (pontuação como sobrenome) | Aceito: pedido criado | CT-API-31-c |
 | Coerente | "Maria S Silva" (parte curta no meio) | Aceito: a parte "S" é ignorada | CT-API-31-a |

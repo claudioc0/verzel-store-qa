@@ -12,7 +12,8 @@ test.describe('Carrinho quando o cálculo falha', () => {
 
     await expect(page.getByRole('alert')).toHaveText('Não foi possível calcular o carrinho.');
     await expect(carrinho.valor('total')).toBeHidden();
-    await expect(page.getByRole('link', { name: 'Finalizar compra' })).toBeHidden();
+    await expect(page.locator('a[href="/checkout"]')).toBeHidden();
+    await expect(page.getByRole('heading', { name: 'Camiseta Essencial' })).toBeVisible();
   });
 
   test('CT-CAR-01 falha depois de alterar o carrinho não leva a pedido com valor diferente do exibido', async ({ page }) => {
@@ -26,10 +27,19 @@ test.describe('Carrinho quando o cálculo falha', () => {
     await page.getByRole('button', { name: 'Aumentar quantidade de Camiseta Essencial' }).click();
     await expect(page.getByRole('alert')).toBeVisible();
 
-    const finalizar = page.getByRole('link', { name: 'Finalizar compra' });
-    if (!(await finalizar.isVisible())) return;
-    await finalizar.click();
+    // Cada caminho termina em uma asserção, para o teste nunca passar sem verificar nada.
+    const finalizar = page.locator('a[href="/checkout"]').filter({ visible: true });
+    if ((await finalizar.count()) === 0) {
+      // Correção possível: o carrinho bloqueia o checkout. Os valores antigos também não podem ficar na tela.
+      const total = carrinho.valor('total');
+      if (await total.isVisible()) await expect(total).not.toHaveText('R$ 79,80');
+      await expect(page.locator('output[aria-label="Quantidade de Camiseta Essencial"]')).toHaveText('2');
+      return;
+    }
+    await finalizar.first().click();
+    await expect(page).toHaveURL(/\/checkout$/);
     const totalExibido = (await carrinho.valor('total').textContent())?.trim();
+    expect(totalExibido, 'o checkout precisa exibir um total').toMatch(/^R\$ /);
 
     await page.unroute(CALCULO);
     await page.getByLabel(/nome/i).fill('Maria Silva');
