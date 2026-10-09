@@ -1,5 +1,7 @@
 # Teste técnico QA Júnior - Verzel Store
 
+[![Testes](https://github.com/claudioc0/verzel-store-qa/actions/workflows/testes.yml/badge.svg)](https://github.com/claudioc0/verzel-store-qa/actions/workflows/testes.yml)
+
 Validação da entrega **cupom de desconto + frete grátis** da [Verzel Store](https://verzel-store.qa-test-verzel-store.workers.dev/), feita a partir da [documentação da entrega](https://verzel-store.qa-test-verzel-store.workers.dev/documentacao) (critérios de aceite CA01 a CA11).
 
 ## Resultado em resumo
@@ -32,6 +34,7 @@ Também ficaram registradas as [limitações](docs/plano-de-testes.md#6-limitaç
 | Automação com Playwright | [tests/](tests/) |
 
 ```
+├── .github/         workflow do GitHub Actions (suíte Playwright, disparo manual)
 ├── docs/            plano, cenários .feature, execução, bugs, evidências, ambiguidades
 ├── evidencias/      ui/ (PNG + resultados.json) · api/ (JSON) · manual/ (prints da revisão manual) · automacao/ (relatório HTML)
 ├── scripts/         roteiros que geraram as evidências da execução
@@ -62,6 +65,8 @@ npm test
 | `npm run report` | Abre o relatório HTML da sua última execução (gravado em `playwright-report/`, fora do Git) |
 | `npm run report:entrega` | Abre o relatório da execução que acompanha a entrega, em `evidencias/automacao/relatorio/`. Rodar os testes **não** sobrescreve esse relatório. No GitHub ele aparece como código-fonte, por isso é preciso clonar o repositório para vê-lo |
 | `npm run evidencias:api` / `npm run evidencias:ui` | Regeram as evidências da execução manual |
+
+A suíte também roda no **GitHub Actions** ([workflow](.github/workflows/testes.yml), disparo manual em Actions → Testes → Run workflow). O resultado aparece no log da execução, e o relatório HTML fica disponível como anexo (`relatorio-playwright`) por 30 dias.
 
 ### Sobre a automação
 - **40 testes**: 23 de API e 17 de interface, cobrindo CA01 a CA10, o checkout e o carrinho (inclusive os caminhos de erro da API), a consistência entre a tela e a API e a integridade dos preços (a API ignora valores enviados pelo cliente). As IDs nos títulos (`CT-…`, `@CA…`) ligam cada teste ao cenário Gherkin.
